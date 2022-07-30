@@ -15,6 +15,7 @@ Unityで視線制御をしたいときに使うアセット
 1. 目を動かしたいキャラクターのAnimatorに目のボーンを設定する
 2. `EyeController`をアタッチする
 3. Settingsの目の可動域を設定する
+![image](https://user-images.githubusercontent.com/40651807/181917755-a9283057-5000-495f-9066-7ba249fdd4c3.png)
 
 ## 注意
 * 現在のバージョンではStart時にキャラクターがAやTポーズで正面を向いている必要があります。
