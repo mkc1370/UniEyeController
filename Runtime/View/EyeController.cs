@@ -18,11 +18,15 @@ namespace SimpleEyeController.View
     [RequireComponent(typeof(Animator))]
     public class EyeController : MonoBehaviour, ITimeControl
     {
+        [Header("現在は目のボーンとAnimatorのRotationの取得用")]
         public Animator animator;
         
         public EyeControllerSetting setting;
 
+        [Header("注視点の設定")]
         [SerializeField] protected EyeLookAt lookAt;
+        
+        [Header("眼球微細運動の設定")]
         [SerializeField] protected EyeMicroRotator microRotator;
 
         #if UNITY_EDITOR

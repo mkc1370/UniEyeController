@@ -6,10 +6,7 @@ namespace SimpleEyeController.Model.Setting
     [Serializable]
     public class EyeControllerSetting
     {
-        /// <summary>
-        /// 左右に動かす範囲と上下に動かす範囲をオイラー角で指定する
-        /// </summary>
-        [Header("左右に動かす範囲と上下に動かす範囲をオイラー角で指定する")]
+        [Header("目の可動域（左右, 上下）[オイラー角]")]
         public Vector2 eulerAnglesLimit = new Vector2(15, 10);
 
         [Header("アップデート方法")]

@@ -7,10 +7,12 @@ using Random = UnityEngine.Random;
 
 namespace SimpleEyeController.Model.Process
 {
+    /// <summary>
+    /// 眼球微細運動を再現する
+    /// </summary>
     [Serializable]
     public class EyeMicroRotator : IEyeProcess
     {
-        public bool enabled = true;
         public EyeMicroRotatorSetting setting;
         
         private float _eyeMoveTimer;
@@ -21,7 +23,7 @@ namespace SimpleEyeController.Model.Process
 
         public void Progress()
         {
-            if (!enabled) return;
+            if (!setting.enabled) return;
             
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)
