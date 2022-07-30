@@ -1,8 +1,10 @@
 using System;
-using SimpleEyeController.Model;
 using SimpleEyeController.Model.Process;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -23,6 +25,14 @@ namespace SimpleEyeController.View
         [SerializeField] protected EyeLookAt lookAt;
         [SerializeField] protected EyeMicroRotator microRotator;
 
+        #if UNITY_EDITOR
+        [ContextMenu(nameof(SelectEyeBones))]
+        private void SelectEyeBones()
+        {
+            Selection.activeObject = animator.GetBoneTransform(HumanBodyBones.LeftEye).gameObject;
+        }
+        #endif
+
         private void Start()
         {
             var eyeL = animator.GetBoneTransform(HumanBodyBones.LeftEye);
@@ -32,7 +42,7 @@ namespace SimpleEyeController.View
                 throw new Exception($"Both eyes must be assigned to Avatar.");
             }
 
-            var rotator = new DoubleEyeRotator(eyeL, eyeR, setting);
+            var rotator = new DoubleEyeRotator(animator.transform.rotation,eyeL, eyeR, setting);
             lookAt.Rotator = rotator;
             microRotator.Rotator = rotator;
         }

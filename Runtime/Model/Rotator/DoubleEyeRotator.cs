@@ -15,10 +15,10 @@ namespace SimpleEyeController.Model.Rotator
         /// <summary>
         /// 初期化
         /// </summary>
-        public DoubleEyeRotator(Transform eyeL, Transform eyeR, EyeControllerSetting setting)
+        public DoubleEyeRotator(Quaternion animatorRotation, Transform eyeL, Transform eyeR, EyeControllerSetting setting)
         {
-            _singleEyeRotatorL = new SingleEyeRotator(eyeL, setting, EyeType.Left);
-            _singleEyeRotatorR = new SingleEyeRotator(eyeR, setting, EyeType.Right);
+            _singleEyeRotatorL = new SingleEyeRotator(animatorRotation, eyeL, setting, EyeType.Left);
+            _singleEyeRotatorR = new SingleEyeRotator(animatorRotation, eyeR, setting, EyeType.Right);
         }
 
         /// <summary>

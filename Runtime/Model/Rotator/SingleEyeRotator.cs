@@ -18,10 +18,10 @@ namespace SimpleEyeController.Model.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeRotator(Transform eyeBone, EyeControllerSetting setting, EyeType eyeType)
+        public SingleEyeRotator(Quaternion animatorRotation, Transform eyeBone, EyeControllerSetting setting, EyeType eyeType)
         {
             _eyeBone = eyeBone;
-            _defaultRotation = eyeBone.rotation;
+            _defaultRotation = animatorRotation * eyeBone.rotation;
             _defaultLocalRotation = eyeBone.localRotation;
         
             _setting = setting;
@@ -39,8 +39,8 @@ namespace SimpleEyeController.Model.Rotator
             var localPosition = _eyeBone.InverseTransformPoint(worldPosition);
 
             // どれだけターゲットの方向を見るかの重み(これにより見るのをやめるときの動作をスムーズにできる)
-            var yaw = -Mathf.Atan2(localPosition.x, localPosition.z) * Mathf.Rad2Deg;
-            var pitch = -Mathf.Atan2(localPosition.y, localPosition.z) * Mathf.Rad2Deg;
+            var yaw = Mathf.Atan2(localPosition.x, localPosition.z) * Mathf.Rad2Deg;
+            var pitch = Mathf.Atan2(localPosition.y, localPosition.z) * Mathf.Rad2Deg;
 
             // 向くのをやめはじめる距離
             // 向くのを完全にやめる距離
