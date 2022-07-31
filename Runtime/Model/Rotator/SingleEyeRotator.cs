@@ -34,27 +34,63 @@ namespace SimpleEyeController.Model.Rotator
         /// <param name="worldPosition"></param>
         public void LookAt(Vector3 worldPosition)
         {
-            // 一度Y-Upに直してから方向を計算する
-            _eyeBone.localRotation = _defaultLocalRotation * Quaternion.Inverse(_defaultRotation);
-            var localPosition = _eyeBone.InverseTransformPoint(worldPosition);
+            LookAt(worldPosition, GetLookAtWeight(worldPosition));
+        }
 
-            // どれだけターゲットの方向を見るかの重み(これにより見るのをやめるときの動作をスムーズにできる)
+        /// <summary>
+        /// ターゲットの方向を向く
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <param name="weight"></param>
+        public void LookAt(Vector3 worldPosition, float weight)
+        {
+            var eulerAngles = GetEyeEulerAngles(worldPosition) * weight;
+
+            Rotate(eulerAngles);
+        }
+        
+        /// <summary>
+        /// 目の向くべき角度を計算する
+        /// ワールド座標から目の正面を+z・上を+yとする座標系に変換する
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
+        private Vector2 GetEyeEulerAngles(Vector3 worldPosition)
+        {
+            var localPosition = GetLocalPosition(worldPosition);
             var yaw = Mathf.Atan2(localPosition.x, localPosition.z) * Mathf.Rad2Deg;
             var pitch = Mathf.Atan2(localPosition.y, localPosition.z) * Mathf.Rad2Deg;
+            return new Vector2(yaw, pitch);
+        }
+        
+        private Vector3 GetLocalPosition(Vector3 worldPosition)
+        {
+            // 一度Y-Upに直してから方向を計算する
+            _eyeBone.localRotation = _defaultLocalRotation * Quaternion.Inverse(_defaultRotation);
+            return _eyeBone.InverseTransformPoint(worldPosition);
+        }
 
+        /// <summary>
+        /// ターゲットの方向を向いたときの視線の追従度合いを計算する
+        /// ターゲットまでの距離や角度に応じて計算する
+        /// これにより見るのをやめるときの動作をスムーズにできる
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
+        public float GetLookAtWeight(Vector3 worldPosition)
+        {
             // 向くのをやめはじめる距離
             // 向くのを完全にやめる距離
+            var localPosition = GetLocalPosition(worldPosition);
             var distanceWeight = 1 - Mathf.InverseLerp(0.5f, 0f, localPosition.magnitude);
 
             // 角度が大きすぎる場合は向くのをやめる
+            var eulerAngles = GetEyeEulerAngles(worldPosition);
             var limit = _setting.eulerAnglesLimit;
-            var yawWeight = 1 - Mathf.InverseLerp(limit.x, 80f, Mathf.Abs(yaw));
-            var pitchWeight = 1 - Mathf.InverseLerp(limit.y, 80f, Mathf.Abs(pitch));
+            var yawWeight = 1 - Mathf.InverseLerp(limit.x, 80f, Mathf.Abs(eulerAngles.x));
+            var pitchWeight = 1 - Mathf.InverseLerp(limit.y, 80f, Mathf.Abs(eulerAngles.y));
             
-            var weight = distanceWeight * yawWeight * pitchWeight;
-            var eulerAngles = new Vector2(yaw, pitch) * weight;
-
-            Rotate(eulerAngles);
+            return distanceWeight * yawWeight * pitchWeight;
         }
 
         /// <summary>

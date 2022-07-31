@@ -9,16 +9,16 @@ namespace SimpleEyeController.Model.Rotator
     /// </summary>
     public class DoubleEyeRotator
     {
-        private SingleEyeRotator _singleEyeRotatorL;
-        private SingleEyeRotator _singleEyeRotatorR;
+        private SingleEyeRotator _eyeL;
+        private SingleEyeRotator _eyeR;
 
         /// <summary>
         /// 初期化
         /// </summary>
         public DoubleEyeRotator(Transform eyeL, Transform eyeR, EyeControllerSetting setting)
         {
-            _singleEyeRotatorL = new SingleEyeRotator(eyeL, setting, EyeType.Left);
-            _singleEyeRotatorR = new SingleEyeRotator(eyeR, setting, EyeType.Right);
+            _eyeL = new SingleEyeRotator(eyeL, setting, EyeType.Left);
+            _eyeR = new SingleEyeRotator(eyeR, setting, EyeType.Right);
         }
 
         /// <summary>
@@ -27,20 +27,22 @@ namespace SimpleEyeController.Model.Rotator
         /// <param name="worldPosition">見る対象</param>
         public void LookAt(Vector3 worldPosition)
         {
-            _singleEyeRotatorL.LookAt(worldPosition);
-            _singleEyeRotatorR.LookAt(worldPosition);
+            // 目の追従度合いは左右の小さい方に合わせる
+            var weight = Mathf.Min(_eyeL.GetLookAtWeight(worldPosition), _eyeR.GetLookAtWeight(worldPosition));
+            _eyeL.LookAt(worldPosition, weight);
+            _eyeR.LookAt(worldPosition, weight);
         }
         
         public void AppendNormalizedRotate(Vector2 normalizedEulerAngles)
         {
-            _singleEyeRotatorL.AppendNormalizedRotate(normalizedEulerAngles);
-            _singleEyeRotatorR.AppendNormalizedRotate(normalizedEulerAngles);
+            _eyeL.AppendNormalizedRotate(normalizedEulerAngles);
+            _eyeR.AppendNormalizedRotate(normalizedEulerAngles);
         }
         
         public void NormalizedRotate(Vector2 normalizedEulerAngles)
         {
-            _singleEyeRotatorL.NormalizedRotate(normalizedEulerAngles);
-            _singleEyeRotatorR.NormalizedRotate(normalizedEulerAngles);
+            _eyeL.NormalizedRotate(normalizedEulerAngles);
+            _eyeR.NormalizedRotate(normalizedEulerAngles);
         }
 
         /// <summary>
@@ -48,14 +50,14 @@ namespace SimpleEyeController.Model.Rotator
         /// </summary>
         public void Rotate(Vector2 eulerAngles)
         {
-            _singleEyeRotatorL.Rotate(eulerAngles);
-            _singleEyeRotatorR.Rotate(eulerAngles);
+            _eyeL.Rotate(eulerAngles);
+            _eyeR.Rotate(eulerAngles);
         }
         
         public void AppendRotate(Vector2 eulerAngles)
         {
-            _singleEyeRotatorL.AppendRotate(eulerAngles);
-            _singleEyeRotatorR.AppendRotate(eulerAngles);
+            _eyeL.AppendRotate(eulerAngles);
+            _eyeR.AppendRotate(eulerAngles);
         }
     }
 }
