@@ -18,10 +18,10 @@ namespace SimpleEyeController.Model.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeRotator(Quaternion animatorRotation, Transform eyeBone, EyeControllerSetting setting, EyeType eyeType)
+        public SingleEyeRotator(Transform eyeBone, EyeControllerSetting setting, EyeType eyeType)
         {
             _eyeBone = eyeBone;
-            _defaultRotation = animatorRotation * eyeBone.rotation;
+            _defaultRotation = eyeBone.rotation;
             _defaultLocalRotation = eyeBone.localRotation;
         
             _setting = setting;

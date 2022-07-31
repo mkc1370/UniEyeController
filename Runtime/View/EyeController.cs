@@ -46,7 +46,7 @@ namespace SimpleEyeController.View
                 throw new Exception($"Both eyes must be assigned to Avatar.");
             }
 
-            var rotator = new DoubleEyeRotator(animator.transform.rotation,eyeL, eyeR, setting);
+            var rotator = new DoubleEyeRotator(eyeL, eyeR, setting);
             lookAt.Rotator = rotator;
             microRotator.Rotator = rotator;
         }
