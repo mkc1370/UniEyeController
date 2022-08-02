@@ -66,9 +66,18 @@ namespace SimpleEyeController.Model.Rotator
         
         private Vector3 GetLocalPosition(Vector3 worldPosition)
         {
-            // 一度Y-Upに直してから方向を計算する
-            _eyeBone.localRotation = _defaultLocalRotation * Quaternion.Inverse(_defaultRotation);
-            return _eyeBone.InverseTransformPoint(worldPosition);
+            // 目の正面方向を+zとするように回転させる
+            var rotation =
+                // 目のボーンの親の現在のrotation
+                _eyeBone.rotation * Quaternion.Inverse(_eyeBone.localRotation) *
+                // 目のボーンの親の初期状態のrotation
+                Quaternion.Inverse(_defaultRotation * Quaternion.Inverse(_defaultLocalRotation));
+            
+            // 変換行列
+            var matrix = Matrix4x4.TRS(_eyeBone.position, rotation, Vector3.one);
+            
+            // matrixの座標系での位置を取得する
+            return matrix.inverse.MultiplyPoint(worldPosition);
         }
 
         /// <summary>
