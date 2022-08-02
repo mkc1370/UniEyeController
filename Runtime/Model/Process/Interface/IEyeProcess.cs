@@ -1,4 +1,4 @@
-﻿namespace SimpleEyeController.Interface
+﻿namespace SimpleEyeController.Model.Process.Interface
 {
     public interface IEyeProcess
     {

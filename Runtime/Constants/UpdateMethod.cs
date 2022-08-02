@@ -1,4 +1,4 @@
-﻿namespace SimpleEyeController.Model.Setting
+﻿namespace SimpleEyeController.Constants
 {
     public enum UpdateMethod
     {

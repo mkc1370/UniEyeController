@@ -1,4 +1,4 @@
-﻿using SimpleEyeController.Interface;
+﻿using SimpleEyeController.Model.Process.Interface;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
 using UnityEngine;
@@ -38,7 +38,7 @@ namespace SimpleEyeController.Model.Process
                 _eyeMoveTimer = Random.Range(setting.eyeMoveStopTimeMin, setting.eyeMoveStopTimeMax);
             }
             
-            Rotator.AppendNormalizedRotate(_currentNormalizedEulerAngles);
+            Rotator.AppendNormalizedRotate(_currentNormalizedEulerAngles * setting.weight);
         }
     }
 }

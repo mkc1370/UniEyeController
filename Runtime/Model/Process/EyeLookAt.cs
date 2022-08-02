@@ -1,4 +1,4 @@
-﻿using SimpleEyeController.Interface;
+﻿using SimpleEyeController.Model.Process.Interface;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
 using UnityEngine;
@@ -22,11 +22,11 @@ namespace SimpleEyeController.Model.Process
             
             if (setting.useTarget)
             {
-                Rotator.LookAt(setting.target.position);
+                Rotator.LookAt(setting.target.position, setting.weight);
             }
             else
             {
-                Rotator.NormalizedRotate(new Vector2(setting.normalizedYaw, setting.normalizedPitch));
+                Rotator.NormalizedRotate(new Vector2(setting.normalizedYaw, setting.normalizedPitch) * setting.weight);
             }
         }
     }

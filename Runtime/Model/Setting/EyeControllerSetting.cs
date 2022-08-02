@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleEyeController.Constants;
 using UnityEngine;
 
 namespace SimpleEyeController.Model.Setting

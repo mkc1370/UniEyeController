@@ -1,4 +1,5 @@
-﻿using SimpleEyeController.Model.Setting;
+﻿using SimpleEyeController.Constants;
+using SimpleEyeController.Model.Setting;
 using UnityEngine;
 
 namespace SimpleEyeController.Model.Rotator
@@ -25,12 +26,13 @@ namespace SimpleEyeController.Model.Rotator
         /// ターゲットの方向を向く
         /// </summary>
         /// <param name="worldPosition">見る対象</param>
-        public void LookAt(Vector3 worldPosition)
+        /// <param name="weight"></param>
+        public void LookAt(Vector3 worldPosition, float weight = 1f)
         {
             // 目の追従度合いは左右の小さい方に合わせる
-            var weight = Mathf.Min(_eyeL.GetLookAtWeight(worldPosition), _eyeR.GetLookAtWeight(worldPosition));
-            _eyeL.LookAt(worldPosition, weight);
-            _eyeR.LookAt(worldPosition, weight);
+            var minWeight = Mathf.Min(_eyeL.GetLookAtWeight(worldPosition), _eyeR.GetLookAtWeight(worldPosition));
+            _eyeL.LookAt(worldPosition, minWeight * weight);
+            _eyeR.LookAt(worldPosition, minWeight * weight);
         }
         
         public void AppendNormalizedRotate(Vector2 normalizedEulerAngles)

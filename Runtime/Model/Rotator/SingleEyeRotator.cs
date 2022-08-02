@@ -1,4 +1,5 @@
-﻿using SimpleEyeController.Model.Setting;
+﻿using SimpleEyeController.Constants;
+using SimpleEyeController.Model.Setting;
 using UnityEngine;
 
 namespace SimpleEyeController.Model.Rotator
@@ -89,7 +90,7 @@ namespace SimpleEyeController.Model.Rotator
             var limit = _setting.eulerAnglesLimit;
             var yawWeight = 1 - Mathf.InverseLerp(limit.x, 80f, Mathf.Abs(eulerAngles.x));
             var pitchWeight = 1 - Mathf.InverseLerp(limit.y, 80f, Mathf.Abs(eulerAngles.y));
-            
+
             return distanceWeight * yawWeight * pitchWeight;
         }
 

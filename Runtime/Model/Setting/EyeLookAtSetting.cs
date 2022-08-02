@@ -6,6 +6,10 @@ namespace SimpleEyeController.Model.Setting
     [Serializable]
     public class EyeLookAtSetting
     {
+        [Header("視線制御の適用度")]
+        [Range(0f, 1f)]
+        public float weight = 1f;
+        
         [Header("ターゲットを見るか角度で指定するか")]
         public bool useTarget;
     

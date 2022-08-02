@@ -1,4 +1,5 @@
 using System;
+using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Extensions;
 using SimpleEyeController.Model.Process;
 using SimpleEyeController.Model.Rotator;
