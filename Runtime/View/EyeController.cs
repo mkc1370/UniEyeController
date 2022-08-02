@@ -18,8 +18,8 @@ namespace SimpleEyeController.View
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(EyeMicroRotator))]
     [RequireComponent(typeof(EyeLookAt))]
+    [RequireComponent(typeof(EyeMicroRotator))]
     public class EyeController : MonoBehaviour, ITimeControl
     {
         [Header("現在は目のボーンとAnimatorのRotationの取得用")]
