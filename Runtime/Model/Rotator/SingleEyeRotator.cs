@@ -33,19 +33,10 @@ namespace SimpleEyeController.Model.Rotator
         /// ターゲットの方向を向く
         /// </summary>
         /// <param name="worldPosition"></param>
-        public void LookAt(Vector3 worldPosition)
-        {
-            LookAt(worldPosition, GetLookAtWeight(worldPosition));
-        }
-
-        /// <summary>
-        /// ターゲットの方向を向く
-        /// </summary>
-        /// <param name="worldPosition"></param>
         /// <param name="weight"></param>
         public void LookAt(Vector3 worldPosition, float weight)
         {
-            var eulerAngles = GetEyeEulerAngles(worldPosition) * weight;
+            var eulerAngles = GetEyeEulerAngles(worldPosition) * GetLookAtWeight(worldPosition) * weight;
 
             Rotate(eulerAngles);
         }
@@ -96,9 +87,27 @@ namespace SimpleEyeController.Model.Rotator
 
             // 角度が大きすぎる場合は向くのをやめる
             var eulerAngles = GetEyeEulerAngles(worldPosition);
-            var limit = _setting.eulerAnglesLimit;
-            var yawWeight = 1 - Mathf.InverseLerp(limit.x, 80f, Mathf.Abs(eulerAngles.x));
-            var pitchWeight = 1 - Mathf.InverseLerp(limit.y, 80f, Mathf.Abs(eulerAngles.y));
+            var yawLimit = _setting.GetYawLimitMax();
+            float yawWeight;
+            if (eulerAngles.x > 0)
+            {
+                yawWeight = 1 - Mathf.InverseLerp(yawLimit, 90f, eulerAngles.x);
+            }
+            else
+            {
+                yawWeight = 1 - Mathf.InverseLerp(-yawLimit, -90f, eulerAngles.x);
+            }
+
+            var pitchLimit = _setting.PitchLimit();
+            float pitchWeight;
+            if (eulerAngles.y > 0)
+            {
+                pitchWeight = 1 - Mathf.InverseLerp(pitchLimit.x, 90f, eulerAngles.y);
+            }
+            else
+            {
+                pitchWeight = 1 - Mathf.InverseLerp(pitchLimit.y, -90f, eulerAngles.y);
+            }
 
             return distanceWeight * yawWeight * pitchWeight;
         }
@@ -109,9 +118,7 @@ namespace SimpleEyeController.Model.Rotator
         public void Rotate(Vector2 eulerAngles)
         {
             _currentEulerAngles = eulerAngles;
-            Apply();
-        }
-
+            Apply(); } 
         public void AppendRotate(Vector2 eulerAngles)
         {
             _currentEulerAngles += eulerAngles;
@@ -120,25 +127,23 @@ namespace SimpleEyeController.Model.Rotator
 
         public void AppendNormalizedRotate(Vector2 normalizedEulerAngles)
         {
-            AppendRotate(Vector2.Scale(_setting.eulerAnglesLimit, normalizedEulerAngles));
+            AppendRotate(_setting.GetEulerAnglesFromNormalized(_eyeType, normalizedEulerAngles));
         }
 
         public void NormalizedRotate(Vector2 normalizedEulerAngles)
         {
-            Rotate(Vector2.Scale(_setting.eulerAnglesLimit, normalizedEulerAngles));
+            Rotate(_setting.GetEulerAnglesFromNormalized(_eyeType, normalizedEulerAngles));
         }
 
         private void Apply()
         {
-            var limit = _setting.eulerAnglesLimit;
-            var adjustedYaw = Mathf.Clamp(_currentEulerAngles.x, -limit.x, limit.x);
-            var adjustedPitch = Mathf.Clamp(_currentEulerAngles.y, -limit.y, limit.y);
+            var eulerAngles = _setting.GetClampedEulerAngles(_eyeType, _currentEulerAngles);
             
             _eyeBone.localRotation =
                 _defaultLocalRotation *
                 Quaternion.Inverse(_defaultRotation) *
-                Quaternion.AngleAxis(adjustedYaw, Vector3.up) *
-                Quaternion.AngleAxis(adjustedPitch, Vector3.left) *
+                Quaternion.AngleAxis(eulerAngles.x, Vector3.up) *
+                Quaternion.AngleAxis(eulerAngles.y, Vector3.left) *
                 _defaultRotation;
         }
     }

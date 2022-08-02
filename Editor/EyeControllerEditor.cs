@@ -26,7 +26,7 @@ namespace SimpleEyeController.Editor
             _manualEyeL = serializedObject.FindProperty(nameof(EyeController.manualEyeL));
             _manualEyeR = serializedObject.FindProperty(nameof(EyeController.manualEyeR));
             _rangeSetting = serializedObject.FindProperty(
-                $"{nameof(EyeController.rangeSetting)}.{nameof(EyeController.rangeSetting.eulerAnglesLimit)}");
+                $"{nameof(EyeController.rangeSetting)}");
             
             var script = target as EyeController;
             if (script == null) return;
@@ -124,7 +124,7 @@ namespace SimpleEyeController.Editor
             GUILayout.BeginVertical(GUI.skin.box);
             EditorGUI.indentLevel++;
             {
-                EditorGUILayout.PropertyField(_rangeSetting, new GUIContent("（左右, 上下）"));
+                EditorGUILayout.PropertyField(_rangeSetting);
             }
             EditorGUI.indentLevel--;
             GUILayout.EndVertical();
