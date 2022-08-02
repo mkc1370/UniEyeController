@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace SimpleEyeController.View.Process
 {
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(EyeController))]
     public class EyeLookAt : MonoBehaviour, IEyeProcess
     {
         [Header("視線制御の適用度")]
@@ -25,8 +27,10 @@ namespace SimpleEyeController.View.Process
         [Header("目の角度（上下） [-1, 1]")]
         [Range(-1f, 1f)]
         public float normalizedPitch;
+
+        public int ExecutionOrder { get; set; } = 1;
         
-        public DoubleEyeRotator Rotator { private get; set; }
+        public DoubleEyeRotator Rotator { get; set; }
 
         // To show enabled state in inspector.
         private void Start()

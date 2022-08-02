@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Extensions;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
 using SimpleEyeController.View.Process;
+using SimpleEyeController.View.Process.Interface;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,8 +21,6 @@ namespace SimpleEyeController.View
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(EyeLookAt))]
-    [RequireComponent(typeof(EyeMicroRotator))]
     public class EyeController : MonoBehaviour, ITimeControl
     {
         [Header("現在は目のボーンとAnimatorのRotationの取得用")]
@@ -27,8 +28,7 @@ namespace SimpleEyeController.View
         
         public EyeControllerSetting setting;
 
-        private EyeLookAt _lookAt;
-        private EyeMicroRotator _microRotator;
+        private List<IEyeProcess> _processes = new List<IEyeProcess>();
 
         #if UNITY_EDITOR
         [ContextMenu(nameof(SelectEyeBones))]
@@ -50,14 +50,18 @@ namespace SimpleEyeController.View
             }
 
             var rotator = new DoubleEyeRotator(eyeL, eyeR, setting);
-            _lookAt.Rotator = rotator;
-            _microRotator.Rotator = rotator;
+            foreach (var process in _processes)
+            {
+                process.Rotator = rotator;
+            }
         }
 
         private void UpdateInternal()
         {
-            _lookAt.Progress();
-            _microRotator.Progress();
+            foreach (var process in _processes.OrderBy(x=>x.ExecutionOrder))
+            {
+                process.Progress();
+            }
         }
 
         private void Update()
@@ -104,15 +108,7 @@ namespace SimpleEyeController.View
                 animator = gameObject.GetOrAddComponent<Animator>();
             }
 
-            if (_lookAt == null)
-            {
-                _lookAt = gameObject.GetOrAddComponent<EyeLookAt>();
-            }
-
-            if (_microRotator == null)
-            {
-                _microRotator = gameObject.GetOrAddComponent<EyeMicroRotator>();
-            }
+            _processes = GetComponents<IEyeProcess>().ToList();
         }
 
         public void SetTime(double time)

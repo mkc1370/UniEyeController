@@ -8,6 +8,8 @@ namespace SimpleEyeController.View.Process
     /// <summary>
     /// 眼球微細運動を再現する
     /// </summary>
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(EyeController))]
     public class EyeMicroRotator : MonoBehaviour, IEyeProcess
     {
         [Header("眼球微細運動の適用度")]
@@ -23,10 +25,12 @@ namespace SimpleEyeController.View.Process
         
         [Header("眼球微細運動を止める時間の最大値")]
         public float eyeMoveStopTimeMax = 2.3f;
+
+        public int ExecutionOrder { get; set; } = 2;
+        public DoubleEyeRotator Rotator { get; set; }
         
         private float _eyeMoveTimer;
 
-        public DoubleEyeRotator Rotator { private get; set; }
 
         private Vector2 _currentNormalizedEulerAngles;
 
