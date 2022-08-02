@@ -15,7 +15,7 @@ namespace SimpleEyeController.View.Process
         public float weight = 1f;
         
         [Header("指定方法")]
-        public LookAtMethod method;
+        public LookAtMethod method = LookAtMethod.Rotation;
     
         [Header("見る対象（Transform）")]
         public Transform target;
