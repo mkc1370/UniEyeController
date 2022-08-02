@@ -27,10 +27,7 @@ namespace SimpleEyeController.View
         
         public EyeControllerSetting setting;
 
-        [Header("注視点の設定")]
         private EyeLookAt _lookAt;
-        
-        [Header("眼球微細運動の設定")]
         private EyeMicroRotator _microRotator;
 
         #if UNITY_EDITOR
