@@ -5,7 +5,6 @@ using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Extensions;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
-using SimpleEyeController.View.Process;
 using SimpleEyeController.View.Process.Interface;
 #if UNITY_EDITOR
 using UnityEditor;
