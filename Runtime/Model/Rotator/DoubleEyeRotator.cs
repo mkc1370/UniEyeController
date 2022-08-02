@@ -16,7 +16,7 @@ namespace SimpleEyeController.Model.Rotator
         /// <summary>
         /// 初期化
         /// </summary>
-        public DoubleEyeRotator(Transform eyeL, Transform eyeR, EyeControllerSetting setting)
+        public DoubleEyeRotator(Transform eyeL, Transform eyeR, EyeRangeSetting setting)
         {
             _eyeL = new SingleEyeRotator(eyeL, setting, EyeType.Left);
             _eyeR = new SingleEyeRotator(eyeR, setting, EyeType.Right);

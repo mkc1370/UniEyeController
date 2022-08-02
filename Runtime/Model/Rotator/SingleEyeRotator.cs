@@ -10,7 +10,7 @@ namespace SimpleEyeController.Model.Rotator
     /// </summary>
     public class SingleEyeRotator
     {
-        private EyeControllerSetting _setting;
+        private EyeRangeSetting _setting;
     
         private Transform _eyeBone;
         private Quaternion _defaultRotation;
@@ -19,7 +19,7 @@ namespace SimpleEyeController.Model.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeRotator(Transform eyeBone, EyeControllerSetting setting, EyeType eyeType)
+        public SingleEyeRotator(Transform eyeBone, EyeRangeSetting setting, EyeType eyeType)
         {
             _eyeBone = eyeBone;
             _defaultRotation = eyeBone.rotation;

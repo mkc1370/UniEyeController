@@ -22,10 +22,22 @@ namespace SimpleEyeController.View
     [RequireComponent(typeof(Animator))]
     public class EyeController : MonoBehaviour, ITimeControl
     {
+        [Header("アップデート方法")]
+        public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
+
+        [Header("目のボーンの指定方法")]
+        public EyeAssignMethod assignMethod = EyeAssignMethod.Animator;
+        
         [Header("現在は目のボーンとAnimatorのRotationの取得用")]
         public Animator animator;
+
+        [Header("手動で割り当てる場合の左目のボーン")]
+        public Transform manualEyeL;
         
-        public EyeControllerSetting setting;
+        [Header("手動で割り当てる場合の右目のボーン")]
+        public Transform manualEyeR;
+        
+        public EyeRangeSetting rangeSetting;
 
         private List<IEyeProcess> _processes = new List<IEyeProcess>();
 
@@ -41,17 +53,29 @@ namespace SimpleEyeController.View
         {
             GetRequiredComponents();
             
-            var eyeL = animator.GetBoneTransform(HumanBodyBones.LeftEye);
-            var eyeR = animator.GetBoneTransform(HumanBodyBones.RightEye);
-            if (eyeL == null || eyeR == null)
-            {
-                throw new Exception($"Both eyes must be assigned to Avatar.");
-            }
-
-            var rotator = new DoubleEyeRotator(eyeL, eyeR, setting);
+            GetEyeBones(out var eyeL, out var eyeR);
+            
+            var rotator = new DoubleEyeRotator(eyeL, eyeR, rangeSetting);
             foreach (var process in _processes)
             {
                 process.Rotator = rotator;
+            }
+        }
+        
+        private void GetEyeBones(out Transform eyeL, out Transform eyeR)
+        {
+            switch (assignMethod)
+            {
+                case EyeAssignMethod.Animator:
+                    eyeL = animator.GetBoneTransform(HumanBodyBones.LeftEye);
+                    eyeR = animator.GetBoneTransform(HumanBodyBones.RightEye);
+                    break;
+                case EyeAssignMethod.Transform:
+                    eyeL = manualEyeL;
+                    eyeR = manualEyeR;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -65,7 +89,7 @@ namespace SimpleEyeController.View
 
         private void Update()
         {
-            if (setting.updateMethod == UpdateMethod.Update)
+            if (updateMethod == UpdateMethod.Update)
             {
                 UpdateInternal();
             }
@@ -73,7 +97,7 @@ namespace SimpleEyeController.View
 
         private void LateUpdate()
         {
-            if (setting.updateMethod == UpdateMethod.LateUpdate)
+            if (updateMethod == UpdateMethod.LateUpdate)
             {
                 UpdateInternal();
             }
@@ -81,7 +105,7 @@ namespace SimpleEyeController.View
 
         private void FixedUpdate()
         {
-            if (setting.updateMethod == UpdateMethod.FixedUpdate)
+            if (updateMethod == UpdateMethod.FixedUpdate)
             {
                 UpdateInternal();
             }
@@ -89,7 +113,7 @@ namespace SimpleEyeController.View
 
         public void ManualUpdate()
         {
-            if (setting.updateMethod == UpdateMethod.Manual)
+            if (updateMethod == UpdateMethod.Manual)
             {
                 UpdateInternal();
             }
