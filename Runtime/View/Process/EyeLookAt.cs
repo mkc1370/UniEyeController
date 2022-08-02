@@ -17,8 +17,11 @@ namespace SimpleEyeController.View.Process
         [Header("指定方法")]
         public LookAtMethod method;
     
-        [Header("見る対象")]
+        [Header("見る対象（Transform）")]
         public Transform target;
+        
+        [Header("見る対象（ワールド座標）")]
+        public Vector3 worldPosition;
 
         [Header("目の角度（左右） [-1, 1]")]
         [Range(-1f, 1f)]
@@ -52,8 +55,6 @@ namespace SimpleEyeController.View.Process
                     }
                     Rotator.LookAt(target.position, weight);
                     break;
-                case LookAtMethod.Rotation:
-                    Rotator.NormalizedRotate(new Vector2(normalizedYaw, normalizedPitch) * weight); break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
                     if (mainCamera == null)
@@ -63,6 +64,12 @@ namespace SimpleEyeController.View.Process
                         return;
                     }
                     Rotator.LookAt(mainCamera.transform.position, weight);
+                    break;
+                case LookAtMethod.WorldPosition:
+                    Rotator.LookAt(worldPosition, weight);
+                    break;
+                case LookAtMethod.Rotation:
+                    Rotator.NormalizedRotate(new Vector2(normalizedYaw, normalizedPitch) * weight);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

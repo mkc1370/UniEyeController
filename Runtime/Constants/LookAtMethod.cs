@@ -3,7 +3,8 @@
     public enum LookAtMethod
     {
         Transform,
+        MainCamera,
+        WorldPosition,
         Rotation,
-        MainCamera
     }
 }
