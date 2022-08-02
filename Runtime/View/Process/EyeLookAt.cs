@@ -1,11 +1,11 @@
 ﻿using System;
 using SimpleEyeController.Constants;
-using SimpleEyeController.Model.Process.Interface;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
+using SimpleEyeController.View.Process.Interface;
 using UnityEngine;
 
-namespace SimpleEyeController.Model.Process
+namespace SimpleEyeController.View.Process
 {
     public class EyeLookAt : MonoBehaviour, IEyeProcess
     {

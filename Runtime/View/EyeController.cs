@@ -1,9 +1,9 @@
 using System;
 using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Extensions;
-using SimpleEyeController.Model.Process;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
+using SimpleEyeController.View.Process;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

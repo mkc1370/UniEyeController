@@ -1,10 +1,10 @@
-﻿using SimpleEyeController.Model.Process.Interface;
-using SimpleEyeController.Model.Rotator;
+﻿using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
+using SimpleEyeController.View.Process.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SimpleEyeController.Model.Process
+namespace SimpleEyeController.View.Process
 {
     /// <summary>
     /// 眼球微細運動を再現する
