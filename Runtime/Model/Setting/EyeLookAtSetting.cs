@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleEyeController.Constants;
 using UnityEngine;
 
 namespace SimpleEyeController.Model.Setting
@@ -10,8 +11,8 @@ namespace SimpleEyeController.Model.Setting
         [Range(0f, 1f)]
         public float weight = 1f;
         
-        [Header("ターゲットを見るか角度で指定するか")]
-        public bool useTarget;
+        [Header("指定方法")]
+        public LookAtMethod method;
     
         [Header("見る対象")]
         public Transform target;
