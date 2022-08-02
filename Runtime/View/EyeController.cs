@@ -18,26 +18,23 @@ namespace SimpleEyeController.View
     /// 回転軸やローカルの回転がめちゃくちゃでもいい感じに視線制御するサンプル
     /// Start()時に顔が正面に向いている必要があります(TスタンスやAスタンスであれば大丈夫です)
     /// </summary>
+    [ExecuteAlways]
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Animator))]
     public class EyeController : MonoBehaviour, ITimeControl
     {
-        [Header("アップデート方法")]
         public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
-
-        [Header("目のボーンの指定方法")]
+        
         public EyeAssignMethod assignMethod = EyeAssignMethod.Animator;
         
-        [Header("現在は目のボーンとAnimatorのRotationの取得用")]
         public Animator animator;
-
-        [Header("手動で割り当てる場合の左目のボーン")]
-        public Transform manualEyeL;
         
-        [Header("手動で割り当てる場合の右目のボーン")]
+        public Transform manualEyeL;
         public Transform manualEyeR;
         
         public EyeRangeSetting rangeSetting;
+
+        public Transform CurrentEyeL { get; private set; }
+        public Transform CurrentEyeR { get; private set; }
 
         private List<IEyeProcess> _processes = new List<IEyeProcess>();
 
@@ -52,8 +49,19 @@ namespace SimpleEyeController.View
         private void Start()
         {
             GetRequiredComponents();
-            
+            ChangeEyeBones();
+        }
+
+        private void OnEnable()
+        {
+            ChangeEyeBones();
+        }
+
+        public void ChangeEyeBones()
+        {
             GetEyeBones(out var eyeL, out var eyeR);
+            CurrentEyeL = eyeL;
+            CurrentEyeR = eyeR;
             
             var rotator = new DoubleEyeRotator(eyeL, eyeR, rangeSetting);
             foreach (var process in _processes)
@@ -81,6 +89,8 @@ namespace SimpleEyeController.View
 
         private void UpdateInternal()
         {
+            //TODO : エディターでも動くようにする
+            if (!Application.isPlaying) return;
             foreach (var process in _processes.OrderBy(x=>x.ExecutionOrder))
             {
                 process.Progress();

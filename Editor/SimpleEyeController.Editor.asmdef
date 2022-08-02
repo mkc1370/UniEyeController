@@ -2,7 +2,9 @@
     "name": "SimpleEyeController.Editor",
     "rootNamespace": "SimpleEyeController.Editor",
     "references": [
-        "GUID:8c8e56552d97ba545a1e1c2416f2d88d"
+        "GUID:8c8e56552d97ba545a1e1c2416f2d88d",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
     ],
     "includePlatforms": [
         "Editor"
