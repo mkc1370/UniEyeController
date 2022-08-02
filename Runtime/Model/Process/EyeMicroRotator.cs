@@ -1,5 +1,4 @@
-﻿using System;
-using SimpleEyeController.Interface;
+﻿using SimpleEyeController.Interface;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
 using UnityEngine;
@@ -10,8 +9,7 @@ namespace SimpleEyeController.Model.Process
     /// <summary>
     /// 眼球微細運動を再現する
     /// </summary>
-    [Serializable]
-    public class EyeMicroRotator : IEyeProcess
+    public class EyeMicroRotator : MonoBehaviour, IEyeProcess
     {
         public EyeMicroRotatorSetting setting;
         
@@ -21,9 +19,14 @@ namespace SimpleEyeController.Model.Process
 
         private Vector2 _currentNormalizedEulerAngles;
 
+        // To show enabled state in inspector.
+        private void Start()
+        {
+        }
+
         public void Progress()
         {
-            if (!setting.enabled) return;
+            if (!enabled) return;
             
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)

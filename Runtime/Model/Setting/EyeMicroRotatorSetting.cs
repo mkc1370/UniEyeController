@@ -6,9 +6,6 @@ namespace SimpleEyeController.Model.Setting
     [Serializable]
     public class EyeMicroRotatorSetting
     {
-        [Header("機能の有効化")]
-        public bool enabled = true;
-        
         [Header("目の可動域の何倍の範囲で眼球微細運動をするか")]
         [Range(0f, 1f)]
         public float eyeMicroMoveMultiplier = 0.1f;

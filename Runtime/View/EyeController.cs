@@ -1,4 +1,5 @@
 using System;
+using SimpleEyeController.Model.Extensions;
 using SimpleEyeController.Model.Process;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
@@ -16,6 +17,8 @@ namespace SimpleEyeController.View
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(EyeMicroRotator))]
+    [RequireComponent(typeof(EyeLookAt))]
     public class EyeController : MonoBehaviour, ITimeControl
     {
         [Header("現在は目のボーンとAnimatorのRotationの取得用")]
@@ -24,10 +27,10 @@ namespace SimpleEyeController.View
         public EyeControllerSetting setting;
 
         [Header("注視点の設定")]
-        [SerializeField] protected EyeLookAt lookAt;
+        private EyeLookAt _lookAt;
         
         [Header("眼球微細運動の設定")]
-        [SerializeField] protected EyeMicroRotator microRotator;
+        private EyeMicroRotator _microRotator;
 
         #if UNITY_EDITOR
         [ContextMenu(nameof(SelectEyeBones))]
@@ -39,6 +42,8 @@ namespace SimpleEyeController.View
 
         private void Start()
         {
+            GetRequiredComponents();
+            
             var eyeL = animator.GetBoneTransform(HumanBodyBones.LeftEye);
             var eyeR = animator.GetBoneTransform(HumanBodyBones.RightEye);
             if (eyeL == null || eyeR == null)
@@ -47,14 +52,14 @@ namespace SimpleEyeController.View
             }
 
             var rotator = new DoubleEyeRotator(eyeL, eyeR, setting);
-            lookAt.Rotator = rotator;
-            microRotator.Rotator = rotator;
+            _lookAt.Rotator = rotator;
+            _microRotator.Rotator = rotator;
         }
-        
+
         private void UpdateInternal()
         {
-            lookAt.Progress();
-            microRotator.Progress();
+            _lookAt.Progress();
+            _microRotator.Progress();
         }
 
         private void Update()
@@ -91,7 +96,25 @@ namespace SimpleEyeController.View
 
         private void Reset()
         {
-            animator = GetComponent<Animator>();
+            GetRequiredComponents();
+        }
+
+        private void GetRequiredComponents()
+        {
+            if (animator == null)
+            {
+                animator = gameObject.GetOrAddComponent<Animator>();
+            }
+
+            if (_lookAt == null)
+            {
+                _lookAt = gameObject.GetOrAddComponent<EyeLookAt>();
+            }
+
+            if (_microRotator == null)
+            {
+                _microRotator = gameObject.GetOrAddComponent<EyeMicroRotator>();
+            }
         }
 
         public void SetTime(double time)

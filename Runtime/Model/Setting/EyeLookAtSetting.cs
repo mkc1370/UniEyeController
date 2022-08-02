@@ -6,9 +6,6 @@ namespace SimpleEyeController.Model.Setting
     [Serializable]
     public class EyeLookAtSetting
     {
-        [Header("機能の有効化")]
-        public bool enabled = true;
-        
         [Header("ターゲットを見るか角度で指定するか")]
         public bool useTarget;
     
