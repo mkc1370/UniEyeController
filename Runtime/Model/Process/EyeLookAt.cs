@@ -2,6 +2,7 @@
 using SimpleEyeController.Interface;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
+using UnityEngine;
 
 namespace SimpleEyeController.Model.Process
 {
@@ -22,7 +23,7 @@ namespace SimpleEyeController.Model.Process
             }
             else
             {
-                Rotator.Rotate(setting.eulerAngles);
+                Rotator.NormalizedRotate(new Vector2(setting.normalizedYaw, setting.normalizedPitch));
             }
         }
     }
