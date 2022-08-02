@@ -12,6 +12,7 @@ namespace SimpleEyeController.Model.Setting
     {
         private const float MinEyeEulerAngles = 0.0f;
         private const float MaxEyeEulerAngles = 90.0f;
+        
         /// <summary>
         /// 水平方向の鼻に近い側 [オイラー角]
         /// </summary>
