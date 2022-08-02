@@ -9,7 +9,23 @@ namespace SimpleEyeController.View.Process
 {
     public class EyeLookAt : MonoBehaviour, IEyeProcess
     {
-        public EyeLookAtSetting setting;
+        [Header("視線制御の適用度")]
+        [Range(0f, 1f)]
+        public float weight = 1f;
+        
+        [Header("指定方法")]
+        public LookAtMethod method;
+    
+        [Header("見る対象")]
+        public Transform target;
+
+        [Header("目の角度（左右） [-1, 1]")]
+        [Range(-1f, 1f)]
+        public float normalizedYaw;
+        
+        [Header("目の角度（上下） [-1, 1]")]
+        [Range(-1f, 1f)]
+        public float normalizedPitch;
         
         public DoubleEyeRotator Rotator { private get; set; }
 
@@ -22,19 +38,19 @@ namespace SimpleEyeController.View.Process
         {
             if (!enabled) return;
 
-            switch (setting.method)
+            switch (method)
             {
                 case LookAtMethod.Transform:
-                    if (setting.target == null)
+                    if (target == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
                         Rotator.Rotate(Vector2.zero);
                         return;
                     }
-                    Rotator.LookAt(setting.target.position, setting.weight);
+                    Rotator.LookAt(target.position, weight);
                     break;
                 case LookAtMethod.Rotation:
-                    Rotator.NormalizedRotate(new Vector2(setting.normalizedYaw, setting.normalizedPitch) * setting.weight); break;
+                    Rotator.NormalizedRotate(new Vector2(normalizedYaw, normalizedPitch) * weight); break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
                     if (mainCamera == null)
@@ -43,7 +59,7 @@ namespace SimpleEyeController.View.Process
                         Rotator.Rotate(Vector2.zero);
                         return;
                     }
-                    Rotator.LookAt(mainCamera.transform.position, setting.weight);
+                    Rotator.LookAt(mainCamera.transform.position, weight);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
