@@ -1,7 +1,6 @@
 ﻿using System;
 using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Rotator;
-using SimpleEyeController.Model.Setting;
 using SimpleEyeController.View.Process.Interface;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
 ﻿using SimpleEyeController.Model.Rotator;
-using SimpleEyeController.Model.Setting;
 using SimpleEyeController.View.Process.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
