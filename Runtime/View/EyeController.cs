@@ -6,9 +6,6 @@ using SimpleEyeController.Model.Extensions;
 using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.Model.Setting;
 using SimpleEyeController.View.Process.Interface;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -37,14 +34,6 @@ namespace SimpleEyeController.View
         public Transform CurrentEyeR { get; private set; }
 
         private List<IEyeProcess> _processes = new List<IEyeProcess>();
-
-        #if UNITY_EDITOR
-        [ContextMenu(nameof(SelectEyeBones))]
-        private void SelectEyeBones()
-        {
-            Selection.activeObject = animator.GetBoneTransform(HumanBodyBones.LeftEye).gameObject;
-        }
-        #endif
 
         private void Start()
         {
