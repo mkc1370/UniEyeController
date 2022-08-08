@@ -2,6 +2,7 @@
 {
     public enum LookAtMethod
     {
+        Direction,
         Transform,
         MainCamera,
         WorldPosition,

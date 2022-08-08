@@ -11,6 +11,6 @@ namespace SimpleEyeController.View.Process.Interface
         int ExecutionOrder { get; set; }
 
         DoubleEyeRotator Rotator { get; set; }
-        void Progress();
+        void Progress(double time);
     }
 }

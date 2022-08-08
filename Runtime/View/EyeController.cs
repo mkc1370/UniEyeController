@@ -82,7 +82,7 @@ namespace SimpleEyeController.View
             if (!Application.isPlaying) return;
             foreach (var process in _processes.OrderBy(x=>x.ExecutionOrder))
             {
-                process.Progress();
+                process.Progress(Time.time);
             }
         }
 

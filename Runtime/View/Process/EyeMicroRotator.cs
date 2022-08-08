@@ -39,7 +39,7 @@ namespace SimpleEyeController.View.Process
         {
         }
 
-        public void Progress()
+        public void Progress(double time)
         {
             if (!enabled) return;
             

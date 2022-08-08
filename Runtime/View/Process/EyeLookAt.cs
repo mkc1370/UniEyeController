@@ -1,6 +1,7 @@
 ﻿using System;
 using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Rotator;
+using SimpleEyeController.Model.Status;
 using SimpleEyeController.View.Process.Interface;
 using UnityEngine;
 
@@ -10,26 +11,7 @@ namespace SimpleEyeController.View.Process
     [RequireComponent(typeof(EyeController))]
     public class EyeLookAt : MonoBehaviour, IEyeProcess
     {
-        [Header("視線制御の適用度")]
-        [Range(0f, 1f)]
-        public float weight = 1f;
-        
-        [Header("指定方法")]
-        public LookAtMethod method = LookAtMethod.Rotation;
-    
-        [Header("見る対象（Transform）")]
-        public Transform target;
-        
-        [Header("見る対象（ワールド座標）")]
-        public Vector3 worldPosition;
-
-        [Header("目の角度（左右） [-1, 1]")]
-        [Range(-1f, 1f)]
-        public float normalizedYaw;
-        
-        [Header("目の角度（上下） [-1, 1]")]
-        [Range(-1f, 1f)]
-        public float normalizedPitch;
+        public EyeLookAtStatus status;
 
         public int ExecutionOrder { get; set; } = 1;
         
@@ -40,20 +22,20 @@ namespace SimpleEyeController.View.Process
         {
         }
 
-        public void Progress()
+        public void Progress(double time)
         {
             if (!enabled) return;
 
-            switch (method)
+            switch (status.method)
             {
                 case LookAtMethod.Transform:
-                    if (target == null)
+                    if (status.target == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
                         Rotator.Rotate(Vector2.zero);
                         return;
                     }
-                    Rotator.LookAt(target.position, weight);
+                    Rotator.LookAt(status.target.position, status.weight);
                     break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
@@ -63,13 +45,37 @@ namespace SimpleEyeController.View.Process
                         Rotator.Rotate(Vector2.zero);
                         return;
                     }
-                    Rotator.LookAt(mainCamera.transform.position, weight);
+                    Rotator.LookAt(mainCamera.transform.position, status.weight);
                     break;
                 case LookAtMethod.WorldPosition:
-                    Rotator.LookAt(worldPosition, weight);
+                    Rotator.LookAt(status.worldPosition, status.weight);
                     break;
                 case LookAtMethod.Rotation:
-                    Rotator.NormalizedRotate(new Vector2(normalizedYaw, normalizedPitch) * weight);
+                    Rotator.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch) * status.weight);
+                    break;
+                case LookAtMethod.Direction:
+                    Vector2 direction;
+                    switch (status.direction)
+                    {
+                        case EyeLookAtDirection.Front:
+                            direction = Vector2.zero;
+                            break;
+                        case EyeLookAtDirection.Left:
+                            direction = Vector2.left;
+                            break;
+                        case EyeLookAtDirection.Right:
+                            direction = Vector2.right;
+                            break;
+                        case EyeLookAtDirection.Up:
+                            direction = Vector2.up;
+                            break;
+                        case EyeLookAtDirection.Down:
+                            direction = Vector2.down;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    Rotator.NormalizedRotate(direction);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
