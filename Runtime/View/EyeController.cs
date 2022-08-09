@@ -37,6 +37,8 @@ namespace SimpleEyeController.View
 
         private List<IEyeProcess> _processes = new List<IEyeProcess>();
 
+        private bool CanExecute => Application.isPlaying || executeAlways;
+
         private void OnEnable()
         {
             Init();
@@ -50,7 +52,7 @@ namespace SimpleEyeController.View
 
         public void ChangeEyeBones()
         {
-            if (!executeAlways) return;
+            if (!CanExecute) return;
             GetEyeDefaultStatusBones(out var eyeL, out var eyeR);
             _currentEyeL = eyeL;
             _currentEyeR = eyeR;
@@ -164,7 +166,7 @@ namespace SimpleEyeController.View
 
         private void UpdateInternal()
         {
-            if (!executeAlways) return;
+            if (!CanExecute) return;
             foreach (var process in _processes.OrderBy(x=>x.ExecutionOrder))
             {
                 process.Progress(Time.time);
