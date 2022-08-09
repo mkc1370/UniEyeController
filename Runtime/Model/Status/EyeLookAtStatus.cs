@@ -7,28 +7,17 @@ namespace SimpleEyeController.Model.Status
     [Serializable]
     public struct EyeLookAtStatus
     {
-        [Header("視線制御の適用度")]
-        [Range(0f, 1f)] public float weight;
-
-        [Header("指定方法")]
-        public LookAtMethod method;
-    
-        [Header("見る対象（Transform）")]
-        public Transform target;
+        [Range(0f, 1f)]
+        public float weight;
         
-        [Header("見る対象（ワールド座標）")]
+        public EyeLookAtDirection direction;
+        public LookAtMethod method;
+        public Transform target;
         public Vector3 worldPosition;
-
-        [Header("目の角度（左右） [-1, 1]")]
         [Range(-1f, 1f)]
         public float normalizedYaw;
-        
-        [Header("目の角度（上下） [-1, 1]")]
         [Range(-1f, 1f)]
         public float normalizedPitch;
-        
-        [Header("目の方向")]
-        public EyeLookAtDirection direction;
 
         public static EyeLookAtStatus Default =>
             new EyeLookAtStatus()
