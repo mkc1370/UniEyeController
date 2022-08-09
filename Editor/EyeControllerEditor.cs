@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace SimpleEyeController.Editor
 {
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(EyeController))]
     public class EyeControllerEditor : UnityEditor.Editor
     {
