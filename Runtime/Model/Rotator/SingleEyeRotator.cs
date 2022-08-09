@@ -1,4 +1,5 @@
-﻿using SimpleEyeController.Constants;
+﻿using System;
+using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Setting;
 using SimpleEyeController.Model.Status;
 using UnityEngine;
@@ -35,11 +36,11 @@ namespace SimpleEyeController.Model.Rotator
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <param name="weight"></param>
-        public void LookAt(Vector3 worldPosition, float weight)
+        public void LookAt(Vector3 worldPosition, float weight, RotationApplyMethod method)
         {
-            var eulerAngles = GetEyeEulerAngles(worldPosition) * GetLookAtWeight(worldPosition) * weight;
+            var eulerAngles = GetEyeEulerAngles(worldPosition) * GetLookAtWeight(worldPosition);
 
-            Rotate(eulerAngles);
+            Rotate(eulerAngles, weight, method);
         }
         
         /// <summary>
@@ -116,24 +117,26 @@ namespace SimpleEyeController.Model.Rotator
         /// <summary>
         /// 目を回転させる
         /// </summary>
-        public void Rotate(Vector2 eulerAngles)
+        public void Rotate(Vector2 eulerAngles, float weight, RotationApplyMethod method)
         {
-            _currentEulerAngles = eulerAngles;
-            Apply(); } 
-        public void AppendRotate(Vector2 eulerAngles)
-        {
-            _currentEulerAngles += eulerAngles;
+            switch (method)
+            {
+                case RotationApplyMethod.Direct:
+                    _currentEulerAngles = eulerAngles * weight;
+                    break;
+                case RotationApplyMethod.Append:
+                    _currentEulerAngles += eulerAngles * weight;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(method), method, null);
+            }
+
             Apply();
         }
 
-        public void AppendNormalizedRotate(Vector2 normalizedEulerAngles)
+        public void NormalizedRotate(Vector2 normalizedEulerAngles, float weight, RotationApplyMethod method)
         {
-            AppendRotate(_setting.GetEulerAnglesFromNormalized(_eyeType, normalizedEulerAngles));
-        }
-
-        public void NormalizedRotate(Vector2 normalizedEulerAngles)
-        {
-            Rotate(_setting.GetEulerAnglesFromNormalized(_eyeType, normalizedEulerAngles));
+            Rotate(_setting.GetEulerAnglesFromNormalized(_eyeType, normalizedEulerAngles), weight, method);
         }
 
         private void Apply()

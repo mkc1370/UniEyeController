@@ -7,7 +7,7 @@ namespace SimpleEyeController.Timeline.EyeLookAtTimeline
 {
     public class EyeLookAtClip : PlayableAsset, ITimelineClipAsset
     {
-        public EyeLookAtStatus status;
+        public EyeLookAtStatus status = EyeLookAtStatus.Default;
 
         public ClipCaps clipCaps =>
             ClipCaps.ClipIn |

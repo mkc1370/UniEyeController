@@ -1,4 +1,5 @@
-﻿using SimpleEyeController.Model.Rotator;
+﻿using SimpleEyeController.Constants;
+using SimpleEyeController.Model.Rotator;
 using SimpleEyeController.View.Process.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -33,7 +34,7 @@ namespace SimpleEyeController.View.Process
         {
         }
 
-        public void Progress(double time)
+        public void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
             
@@ -47,7 +48,7 @@ namespace SimpleEyeController.View.Process
                 _eyeMoveTimer = Random.Range(eyeMoveStopTimeMin, eyeMoveStopTimeMax);
             }
             
-            Rotator.AppendNormalizedRotate(_currentNormalizedEulerAngles * weight);
+            Rotator.NormalizedRotate(_currentNormalizedEulerAngles, weight, RotationApplyMethod.Append);
         }
     }
 }

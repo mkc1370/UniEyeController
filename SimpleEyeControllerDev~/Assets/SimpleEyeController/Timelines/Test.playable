@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status:
     weight: 1
+    direction: 2
     method: 4
     target: {fileID: 0}
     worldPosition: {x: 0, y: 0, z: 0}
     normalizedYaw: 0
     normalizedPitch: 0
-    direction: 2
 --- !u!114 &-1110019679056561941
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
     m_Duration: 2.686901832775523
     m_TimeScale: 1
     m_ParentTrack: {fileID: -1110019679056561941}
-    m_EaseInDuration: 0
+    m_EaseInDuration: 1
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
     m_BlendOutDuration: -1
@@ -177,12 +177,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status:
     weight: 1
+    direction: 1
     method: 0
     target: {fileID: 0}
     worldPosition: {x: 0, y: 0, z: 0}
     normalizedYaw: 0
     normalizedPitch: 0
-    direction: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

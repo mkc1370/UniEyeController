@@ -22,36 +22,50 @@ namespace SimpleEyeController.View.Process
         {
         }
 
-        public void Progress(double time)
+        public void BeforeProgressTimeline()
+        {
+            Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
+        }
+
+        public void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
 
+            if (!controlFromTimeline)
+            {
+                Debug.Log("Foo");
+            }
+            
+            var rotationApplyMethod = controlFromTimeline ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
+            
             switch (status.method)
             {
                 case LookAtMethod.Transform:
                     if (status.target == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
-                        Rotator.Rotate(Vector2.zero);
+                        Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
                         return;
                     }
-                    Rotator.LookAt(status.target.position, status.weight);
+
+                    Rotator.LookAt(status.target.position, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
                     if (mainCamera == null)
                     {
                         Debug.LogError($"MainCamera is not found.");
-                        Rotator.Rotate(Vector2.zero);
+                        Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
                         return;
                     }
-                    Rotator.LookAt(mainCamera.transform.position, status.weight);
+
+                    Rotator.LookAt(mainCamera.transform.position, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.WorldPosition:
-                    Rotator.LookAt(status.worldPosition, status.weight);
+                    Rotator.LookAt(status.worldPosition, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Rotation:
-                    Rotator.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch) * status.weight);
+                    Rotator.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch), status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Direction:
                     Vector2 direction;
@@ -75,7 +89,8 @@ namespace SimpleEyeController.View.Process
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                    Rotator.NormalizedRotate(direction);
+
+                    Rotator.NormalizedRotate(direction, status.weight, rotationApplyMethod);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

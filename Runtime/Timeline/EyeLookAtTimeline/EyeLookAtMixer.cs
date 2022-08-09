@@ -15,6 +15,8 @@ namespace SimpleEyeController.Timeline.EyeLookAtTimeline
         {
             _target = playerData as EyeLookAt;
             if (_target == null) return;
+                
+            _target.BeforeProgressTimeline();
 
             for (var i = 0; i < Clips.Length; i++)
             {
@@ -26,6 +28,8 @@ namespace SimpleEyeController.Timeline.EyeLookAtTimeline
                 if (weight > 0)
                 {
                     _target.status = asset.status;
+                    _target.status.weight *= weight;
+                    _target.Progress(playable.GetTime(), true);
                 }
             }
         }

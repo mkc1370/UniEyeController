@@ -55,7 +55,7 @@ namespace SimpleEyeController.Editor
             EditorGUI.indentLevel++;
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
+                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する（Timeline再生時には設定に関係なく実行されます）"));
                 if (EditorGUI.EndChangeCheck())
                 {
                     script.Init();

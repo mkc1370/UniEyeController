@@ -28,39 +28,36 @@ namespace SimpleEyeController.Model.Rotator
         /// </summary>
         /// <param name="worldPosition">見る対象</param>
         /// <param name="weight"></param>
-        public void LookAt(Vector3 worldPosition, float weight = 1f)
+        /// <param name="method"></param>
+        public void LookAt(Vector3 worldPosition, float weight, RotationApplyMethod method)
         {
             // 目の追従度合いは左右の小さい方に合わせる
             var minWeight = Mathf.Min(_eyeL.GetLookAtWeight(worldPosition), _eyeR.GetLookAtWeight(worldPosition));
-            _eyeL.LookAt(worldPosition, minWeight * weight);
-            _eyeR.LookAt(worldPosition, minWeight * weight);
+            _eyeL.LookAt(worldPosition, minWeight * weight, method);
+            _eyeR.LookAt(worldPosition, minWeight * weight, method);
         }
         
-        public void AppendNormalizedRotate(Vector2 normalizedEulerAngles)
+        /// <summary>
+        /// 目を回転させる （[-1, 1]の範囲）
+        /// (Yaw, Pitch)
+        /// </summary>
+        /// <param name="normalizedEulerAngles"></param>
+        /// <param name="weight"></param>
+        /// <param name="method"></param>
+        public void NormalizedRotate(Vector2 normalizedEulerAngles, float weight, RotationApplyMethod method)
         {
-            _eyeL.AppendNormalizedRotate(normalizedEulerAngles);
-            _eyeR.AppendNormalizedRotate(normalizedEulerAngles);
-        }
-        
-        public void NormalizedRotate(Vector2 normalizedEulerAngles)
-        {
-            _eyeL.NormalizedRotate(normalizedEulerAngles);
-            _eyeR.NormalizedRotate(normalizedEulerAngles);
+            _eyeL.NormalizedRotate(normalizedEulerAngles, weight, method);
+            _eyeR.NormalizedRotate(normalizedEulerAngles, weight, method);
         }
 
         /// <summary>
-        /// 目を回転させる
+        /// 目を回転させる （オイラー角）
+        /// (Yaw, Pitch)
         /// </summary>
-        public void Rotate(Vector2 eulerAngles)
+        public void Rotate(Vector2 eulerAngles, float weight, RotationApplyMethod method)
         {
-            _eyeL.Rotate(eulerAngles);
-            _eyeR.Rotate(eulerAngles);
-        }
-        
-        public void AppendRotate(Vector2 eulerAngles)
-        {
-            _eyeL.AppendRotate(eulerAngles);
-            _eyeR.AppendRotate(eulerAngles);
+            _eyeL.Rotate(eulerAngles, weight, method);
+            _eyeR.Rotate(eulerAngles, weight, method);
         }
     }
 }
