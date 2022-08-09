@@ -89,26 +89,24 @@ namespace SimpleEyeController.Model.Rotator
 
             // 角度が大きすぎる場合は向くのをやめる
             var eulerAngles = GetEyeEulerAngles(worldPosition);
-            var yawLimit = _setting.GetYawLimitMax();
             float yawWeight;
             if (eulerAngles.x > 0)
             {
-                yawWeight = 1 - Mathf.InverseLerp(yawLimit, 90f, eulerAngles.x);
+                yawWeight = 1 - Mathf.InverseLerp(80f, 90f, eulerAngles.x);
             }
             else
             {
-                yawWeight = 1 - Mathf.InverseLerp(-yawLimit, -90f, eulerAngles.x);
+                yawWeight = 1 - Mathf.InverseLerp(-80f, -90f, eulerAngles.x);
             }
 
-            var pitchLimit = _setting.PitchLimit();
             float pitchWeight;
             if (eulerAngles.y > 0)
             {
-                pitchWeight = 1 - Mathf.InverseLerp(pitchLimit.x, 90f, eulerAngles.y);
+                pitchWeight = 1 - Mathf.InverseLerp(80f, 90f, eulerAngles.y);
             }
             else
             {
-                pitchWeight = 1 - Mathf.InverseLerp(-pitchLimit.y, -90f, eulerAngles.y);
+                pitchWeight = 1 - Mathf.InverseLerp(-80f, -90f, eulerAngles.y);
             }
 
             return distanceWeight * yawWeight * pitchWeight;
