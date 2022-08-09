@@ -11,7 +11,7 @@ namespace SimpleEyeController.View.Process
     [RequireComponent(typeof(EyeController))]
     public class EyeLookAt : MonoBehaviour, IEyeProcess
     {
-        public EyeLookAtStatus status;
+        public EyeLookAtStatus status = EyeLookAtStatus.Default;
 
         public int ExecutionOrder { get; set; } = 1;
         
