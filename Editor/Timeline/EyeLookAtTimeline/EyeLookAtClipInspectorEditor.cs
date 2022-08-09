@@ -30,7 +30,7 @@ namespace SimpleEyeController.Editor.Timeline.EyeLookAtTimeline
 
             serializedObject.Update();
 
-            _statusEditor.Draw();
+            _statusEditor.Draw(true);
 
             serializedObject.ApplyModifiedProperties();
         }

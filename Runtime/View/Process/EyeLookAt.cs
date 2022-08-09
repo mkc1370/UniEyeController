@@ -30,25 +30,20 @@ namespace SimpleEyeController.View.Process
         public void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
-
-            if (!controlFromTimeline)
-            {
-                Debug.Log("Foo");
-            }
             
             var rotationApplyMethod = controlFromTimeline ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
             
             switch (status.method)
             {
                 case LookAtMethod.Transform:
-                    if (status.target == null)
+                    if (status.targetTransform == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
                         Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
                         return;
                     }
 
-                    Rotator.LookAt(status.target.position, status.weight, rotationApplyMethod);
+                    Rotator.LookAt(status.targetTransform.position, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;

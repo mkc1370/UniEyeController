@@ -12,7 +12,8 @@ namespace SimpleEyeController.Model.Status
         
         public EyeLookAtDirection direction;
         public LookAtMethod method;
-        public Transform target;
+        public Transform targetTransform;
+        public ExposedReference<Transform> targetTransformTimeline;
         public Vector3 worldPosition;
         [Range(-1f, 1f)]
         public float normalizedYaw;
@@ -24,7 +25,7 @@ namespace SimpleEyeController.Model.Status
             {
                 weight = 1f,
                 method = LookAtMethod.Rotation,
-                target = null,
+                targetTransform = null,
                 worldPosition = Vector3.zero,
                 normalizedYaw = 0f,
                 normalizedPitch = 0f
@@ -37,9 +38,9 @@ namespace SimpleEyeController.Model.Status
                 case LookAtMethod.Direction:
                     return $"D : {direction}";
                 case LookAtMethod.Transform:
-                    if (target != null)
+                    if (targetTransform != null)
                     {
-                        return $"T : {target.name}";
+                        return $"T : {targetTransform.name}";
                     }
                     else
                     {
@@ -63,7 +64,7 @@ namespace SimpleEyeController.Model.Status
                 switch (method)
                 {
                     case LookAtMethod.Transform:
-                        if (target == null)
+                        if (targetTransformTimeline.exposedName == null)
                         {
                             return "Target Transform is null";
                         }

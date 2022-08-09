@@ -31,7 +31,7 @@ namespace SimpleEyeController.Editor
 
             serializedObject.Update();
 
-            _statusEditor.Draw();
+            _statusEditor.Draw(false);
 
             serializedObject.ApplyModifiedProperties();
         }

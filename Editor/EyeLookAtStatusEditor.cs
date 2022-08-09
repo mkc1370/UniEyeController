@@ -11,7 +11,8 @@ namespace SimpleEyeController.Editor
     {
         private SerializedProperty _weight;
         private SerializedProperty _method;
-        private SerializedProperty _target;
+        private SerializedProperty _targetTransform;
+        private SerializedProperty _targetTransformTimeline;
         private SerializedProperty _worldPosition;
         private SerializedProperty _normalizedYaw;
         private SerializedProperty _normalizedPitch;
@@ -21,14 +22,15 @@ namespace SimpleEyeController.Editor
         {
             _weight = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.weight)}");
             _method = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.method)}");
-            _target = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.target)}");
+            _targetTransform = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.targetTransform)}");
+            _targetTransformTimeline = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.targetTransformTimeline)}");
             _worldPosition = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.worldPosition)}");
             _normalizedYaw = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.normalizedYaw)}");
             _normalizedPitch = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.normalizedPitch)}");
             _direction = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.direction)}");
         }
 
-        public void Draw()
+        public void Draw(bool isTimeline)
         {
             EditorGUILayout.PropertyField(_weight, new GUIContent("視線制御の適用度"));
             EditorGUILayout.Space();
@@ -40,15 +42,33 @@ namespace SimpleEyeController.Editor
                     EditorGUILayout.PropertyField(_direction, new GUIContent("見る方向"));
                     break;
                 case LookAtMethod.Transform:
-                    var errorMessages = new List<string>();
-                    if (_target.objectReferenceValue == null)
+                    if (isTimeline)
                     {
-                        errorMessages.Add($"ターゲットが設定されていません");
+                        var errorMessages = new List<string>();
+                        if (_targetTransform.objectReferenceValue == null)
+                        {
+                            errorMessages.Add($"ターゲットが設定されていません");
+                        }
+
+                        BeginErrorColor(errorMessages.Count > 0);
+                        EditorGUILayout.PropertyField(_targetTransform, new GUIContent("対象"));
+                        EndErrorColor();
+                        DrawErrorMessages(errorMessages);
                     }
-                    BeginErrorColor(errorMessages.Count > 0);
-                    EditorGUILayout.PropertyField(_target);
-                    EndErrorColor();
-                    DrawErrorMessages(errorMessages);
+                    else
+                    {
+                        var errorMessages = new List<string>();
+                        if (_targetTransformTimeline.exposedReferenceValue == null)
+                        {
+                            errorMessages.Add($"ターゲットが設定されていません");
+                        }
+
+                        BeginErrorColor(errorMessages.Count > 0);
+                        EditorGUILayout.PropertyField(_targetTransformTimeline, new GUIContent("対象"));
+                        EndErrorColor();
+                        DrawErrorMessages(errorMessages);
+                    }
+
                     break;
                 case LookAtMethod.MainCamera:
                     break;

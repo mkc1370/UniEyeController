@@ -27,6 +27,8 @@ namespace SimpleEyeController.Timeline.EyeLookAtTimeline
                 var weight = playable.GetInputWeight(i);
                 if (weight > 0)
                 {
+                    asset.status.targetTransform =
+                        asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
                     _target.status = asset.status;
                     _target.status.weight *= weight;
                     _target.Progress(playable.GetTime(), true);
