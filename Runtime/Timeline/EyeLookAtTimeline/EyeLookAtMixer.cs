@@ -11,12 +11,19 @@ namespace SimpleEyeController.Timeline.EyeLookAtTimeline
         
         private EyeLookAt _target;
 
+        public override void OnPlayableDestroy(Playable playable)
+        {
+            if (_target == null) return;
+                
+            _target.ResetEyeRotation();
+        }
+
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             _target = playerData as EyeLookAt;
             if (_target == null) return;
                 
-            _target.BeforeProgressTimeline();
+            _target.ResetEyeRotation();
 
             for (var i = 0; i < Clips.Length; i++)
             {

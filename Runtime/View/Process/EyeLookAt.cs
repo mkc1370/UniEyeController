@@ -22,7 +22,7 @@ namespace SimpleEyeController.View.Process
         {
         }
 
-        public void BeforeProgressTimeline()
+        public void ResetEyeRotation()
         {
             Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
