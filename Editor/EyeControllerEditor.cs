@@ -54,7 +54,12 @@ namespace SimpleEyeController.Editor
             GUILayout.BeginVertical(GUI.skin.box);
             EditorGUI.indentLevel++;
             {
+                EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    script.Init();
+                }
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(_updateMethod, new GUIContent("視線の更新タイミング"));
             }

@@ -39,6 +39,11 @@ namespace SimpleEyeController.View
 
         private void OnEnable()
         {
+            Init();
+        }
+
+        public void Init()
+        {
             GetRequiredComponents();
             ChangeEyeBones();
         }
