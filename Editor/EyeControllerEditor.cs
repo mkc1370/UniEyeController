@@ -10,6 +10,7 @@ namespace SimpleEyeController.Editor
     [CustomEditor(typeof(EyeController))]
     public class EyeControllerEditor : UnityEditor.Editor
     {
+        private SerializedProperty _executeAlways;
         private SerializedProperty _updateMethod;
         private SerializedProperty _assignMethod;
         private SerializedProperty _animator;
@@ -21,6 +22,7 @@ namespace SimpleEyeController.Editor
 
         private void OnEnable()
         {
+            _executeAlways = serializedObject.FindProperty(nameof(EyeController.executeAlways));
             _updateMethod = serializedObject.FindProperty(nameof(EyeController.updateMethod));
             _assignMethod = serializedObject.FindProperty(nameof(EyeController.assignMethod));
             _animator = serializedObject.FindProperty(nameof(EyeController.animator));
@@ -52,6 +54,8 @@ namespace SimpleEyeController.Editor
             GUILayout.BeginVertical(GUI.skin.box);
             EditorGUI.indentLevel++;
             {
+                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
+                EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(_updateMethod, new GUIContent("視線の更新タイミング"));
             }
             EditorGUI.indentLevel--;

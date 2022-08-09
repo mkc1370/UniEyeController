@@ -12,14 +12,12 @@ using UnityEngine.Timeline;
 
 namespace SimpleEyeController.View
 {
-    /// <summary>
-    /// 回転軸やローカルの回転がめちゃくちゃでもいい感じに視線制御するサンプル
-    /// Start()時に顔が正面に向いている必要があります(TスタンスやAスタンスであれば大丈夫です)
-    /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
     public class EyeController : MonoBehaviour, ITimeControl
     {
+        public bool executeAlways;
+        
         public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
         
         public EyeAssignMethod assignMethod = EyeAssignMethod.Animator;
@@ -39,20 +37,15 @@ namespace SimpleEyeController.View
 
         private List<IEyeProcess> _processes = new List<IEyeProcess>();
 
-        private void Start()
+        private void OnEnable()
         {
             GetRequiredComponents();
             ChangeEyeBones();
         }
 
-        private void OnEnable()
-        {
-            ChangeEyeBones();
-        }
-
         public void ChangeEyeBones()
         {
-            if (!Application.isPlaying) return;
+            if (!executeAlways) return;
             GetEyeDefaultStatusBones(out var eyeL, out var eyeR);
             _currentEyeL = eyeL;
             _currentEyeR = eyeR;
@@ -99,7 +92,7 @@ namespace SimpleEyeController.View
                         EyeType.Right
                     );
 
-                    Destroy(clonedParent.gameObject);
+                    DestroyImmediate(clonedParent.gameObject);
                     break;
                 // case EyeAssignMethod.Transform:
                 //     eyeL = manualEyeL;
@@ -166,8 +159,7 @@ namespace SimpleEyeController.View
 
         private void UpdateInternal()
         {
-            //TODO : エディターでも動くようにする
-            if (!Application.isPlaying) return;
+            if (!executeAlways) return;
             foreach (var process in _processes.OrderBy(x=>x.ExecutionOrder))
             {
                 process.Progress(Time.time);
