@@ -108,7 +108,7 @@ namespace SimpleEyeController.Model.Rotator
             }
             else
             {
-                pitchWeight = 1 - Mathf.InverseLerp(pitchLimit.y, -90f, eulerAngles.y);
+                pitchWeight = 1 - Mathf.InverseLerp(-pitchLimit.y, -90f, eulerAngles.y);
             }
 
             return distanceWeight * yawWeight * pitchWeight;
