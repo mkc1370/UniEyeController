@@ -24,12 +24,16 @@ namespace SimpleEyeController.View.Process
 
         public void ResetEyeRotation()
         {
+            if (!enabled) return;
+            if (Rotator == null) return;
+            
             Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
         public void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
+            if (Rotator == null) return;
             
             var rotationApplyMethod = controlFromTimeline ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
             
