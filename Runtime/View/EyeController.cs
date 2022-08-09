@@ -20,9 +20,11 @@ namespace SimpleEyeController.View
         
         public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
         
-        public EyeAssignMethod assignMethod = EyeAssignMethod.Animator;
+        public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
         public Animator animator;
+
+        public GameObject prefabForGenericAvatar;
         
         public Transform manualEyeL;
         public Transform manualEyeR;
@@ -67,8 +69,21 @@ namespace SimpleEyeController.View
         {
             switch (assignMethod)
             {
-                case EyeAssignMethod.Animator:
+                case EyeAssignMethod.Humanoid:
                     // TransformとAnimatorのみのクローンを作成して、デフォルトの目の回転を取得する
+                    if (animator == null)
+                    {
+                        Debug.LogError("Animatorが設定されていません");
+                        eyeL = eyeR = null;
+                        return;
+                    }
+
+                    if (!animator.isHuman)
+                    {
+                        Debug.LogError("AnimatorがHumanoidではありません");
+                        eyeL = eyeR = null;
+                        return;
+                    }
                     var clonedParent = CreateTransformTreeClone(animator.transform);
                     var clonedAnimator = clonedParent.gameObject.AddComponent<Animator>();
                     clonedAnimator.avatar = animator.avatar;
@@ -100,10 +115,20 @@ namespace SimpleEyeController.View
 
                     DestroyImmediate(clonedParent.gameObject);
                     break;
-                // case EyeAssignMethod.Transform:
-                //     eyeL = manualEyeL;
-                //     eyeR = manualEyeR;
-                //     break;
+                case EyeAssignMethod.Generic:
+                    var eyeLPath = manualEyeL.GetFullPath(transform);
+                    var eyeRPath = manualEyeR.GetFullPath(transform);
+                    eyeL = new EyeDefaultStatus(
+                        manualEyeL,
+                        prefabForGenericAvatar.transform.Find(eyeLPath),
+                        EyeType.Left
+                    );
+                    eyeR = new EyeDefaultStatus(
+                        manualEyeR,
+                        prefabForGenericAvatar.transform.Find(eyeRPath),
+                        EyeType.Right
+                    );
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

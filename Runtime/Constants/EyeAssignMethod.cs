@@ -5,7 +5,7 @@
     /// </summary>
     public enum EyeAssignMethod
     {
-        Animator,
-        // Transform
+        Humanoid,
+        Generic
     }
 }

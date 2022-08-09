@@ -13,5 +13,18 @@ namespace SimpleEyeController.Model.Extensions
             }
             return component;
         }
+
+        public static string GetFullPath(this Transform transform, Transform root = null)
+        {
+            var path = transform.name;
+            var parent = transform.parent;
+            while (parent != null && parent != root)
+            {
+                path = $"{parent.name}/{path}";
+                parent = parent.parent;
+            }
+
+            return path;
+        }
     }
 }

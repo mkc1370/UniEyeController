@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SimpleEyeController.Constants;
 using SimpleEyeController.View;
 using UnityEditor;
@@ -14,6 +15,7 @@ namespace SimpleEyeController.Editor
         private SerializedProperty _updateMethod;
         private SerializedProperty _assignMethod;
         private SerializedProperty _animator;
+        private SerializedProperty _prefabForGenericAvatar;
         private SerializedProperty _manualEyeL;
         private SerializedProperty _manualEyeR;
         private SerializedProperty _rangeSetting;
@@ -26,6 +28,7 @@ namespace SimpleEyeController.Editor
             _updateMethod = serializedObject.FindProperty(nameof(EyeController.updateMethod));
             _assignMethod = serializedObject.FindProperty(nameof(EyeController.assignMethod));
             _animator = serializedObject.FindProperty(nameof(EyeController.animator));
+            _prefabForGenericAvatar = serializedObject.FindProperty(nameof(EyeController.prefabForGenericAvatar));
             _manualEyeL = serializedObject.FindProperty(nameof(EyeController.manualEyeL));
             _manualEyeR = serializedObject.FindProperty(nameof(EyeController.manualEyeR));
             _rangeSetting = serializedObject.FindProperty(
@@ -80,34 +83,65 @@ namespace SimpleEyeController.Editor
 
                 switch ((EyeAssignMethod)_assignMethod.enumValueIndex)
                 {
-                    case EyeAssignMethod.Animator:
-                        BeingErrorColor(_animator.objectReferenceValue == null);
+                    case EyeAssignMethod.Humanoid:
+                        var animator = (Animator)_animator.objectReferenceValue;
+                        BeginErrorColor(animator == null || !animator.isHuman);
                         EditorGUILayout.PropertyField(_animator);
                         EndErrorColor();
-                        if (_animator.objectReferenceValue == null)
+                        if (animator == null)
                         {
                             errorMessages.Add("Animatorが設定されていません");
                         }
+                        if(animator != null && !animator.isHuman)
+                        {
+                            errorMessages.Add("AnimatorがHumanoidではありません");
+                        }
+
+                        EditorGUILayout.HelpBox("全てのmuscleが0の状態を基準として目の初期状態を設定します。", MessageType.Info);
 
                         break;
-                    // case EyeAssignMethod.Transform:
-                    //     BeingErrorColor(_manualEyeL.objectReferenceValue == null);
-                    //     EditorGUILayout.PropertyField(_manualEyeL, new GUIContent("左目"));
-                    //     EndErrorColor();
-                    //     if (_manualEyeL.objectReferenceValue == null)
-                    //     {
-                    //         errorMessages.Add("左目のTransformが設定されていません");
-                    //     }
-                    //
-                    //     BeingErrorColor(_manualEyeR.objectReferenceValue == null);
-                    //     EditorGUILayout.PropertyField(_manualEyeR, new GUIContent("右目"));
-                    //     EndErrorColor();
-                    //     if (_manualEyeR.objectReferenceValue == null)
-                    //     {
-                    //         errorMessages.Add("右目のTransformが設定されていません");
-                    //     }
-                    //
-                    //     break;
+                    case EyeAssignMethod.Generic:
+                        BeginErrorColor(_prefabForGenericAvatar.objectReferenceValue == null);
+                        EditorGUILayout.PropertyField(_prefabForGenericAvatar, new GUIContent("基準となるPrefab"));
+                        EndErrorColor();
+                        if (_prefabForGenericAvatar.objectReferenceValue == null)
+                        {
+                            errorMessages.Add("基準となるPrefabが指定されていません");
+                        }
+
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Space(EditorGUIUtility.singleLineHeight * EditorGUI.indentLevel);
+                        if (GUILayout.Button("自動で検索する"))
+                        {
+                            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(script.gameObject);
+                            _prefabForGenericAvatar.objectReferenceValue = prefab;
+                        }
+                        GUILayout.EndHorizontal();
+
+                        EditorGUILayout.Space();
+
+                        BeginErrorColor(_manualEyeL.objectReferenceValue == null);
+                        EditorGUILayout.PropertyField(_manualEyeL, new GUIContent("左目"));
+                        EndErrorColor();
+                        if (_manualEyeL.objectReferenceValue == null)
+                        {
+                            errorMessages.Add("左目のTransformが設定されていません");
+                        }
+
+                        BeginErrorColor(_manualEyeR.objectReferenceValue == null);
+                        EditorGUILayout.PropertyField(_manualEyeR, new GUIContent("右目"));
+                        EndErrorColor();
+                        if (_manualEyeR.objectReferenceValue == null)
+                        {
+                            errorMessages.Add("右目のTransformが設定されていません");
+                        }
+
+                        var message =
+                            $"基準となるPrefabを基準として目の初期状態を決定します。{Environment.NewLine}" +
+                            $"目までのパス（GameObject名）が異なっていると正しく動作しません。";
+                        EditorGUILayout.HelpBox(message, MessageType.Info);
+
+                        break;
                 }
 
                 EditorGUILayout.Space();
@@ -157,7 +191,7 @@ namespace SimpleEyeController.Editor
             serializedObject.ApplyModifiedProperties();
         }
         
-        private void BeingErrorColor(bool isError)
+        private void BeginErrorColor(bool isError)
         {
             if (isError)
             {
