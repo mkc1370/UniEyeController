@@ -32,9 +32,9 @@ namespace SimpleEyeController.Model.Rotator
         public void LookAt(Vector3 worldPosition, float weight, RotationApplyMethod method)
         {
             // 目の追従度合いは左右の小さい方に合わせる
-            var minWeight = Mathf.Min(_eyeL.GetLookAtWeight(worldPosition), _eyeR.GetLookAtWeight(worldPosition));
-            _eyeL.LookAt(worldPosition, minWeight * weight, method);
-            _eyeR.LookAt(worldPosition, minWeight * weight, method);
+            var adjustedWeight = Mathf.Min(_eyeL.GetLookAtWeight(worldPosition), _eyeR.GetLookAtWeight(worldPosition)) * weight;
+            _eyeL.LookAt(worldPosition, adjustedWeight, method);
+            _eyeR.LookAt(worldPosition, adjustedWeight, method);
         }
         
         /// <summary>
