@@ -80,24 +80,24 @@ namespace SimpleEyeController.Editor
                         }
 
                         break;
-                    case EyeAssignMethod.Transform:
-                        BeingErrorColor(_manualEyeL.objectReferenceValue == null);
-                        EditorGUILayout.PropertyField(_manualEyeL, new GUIContent("左目"));
-                        EndErrorColor();
-                        if (_manualEyeL.objectReferenceValue == null)
-                        {
-                            errorMessages.Add("左目のTransformが設定されていません");
-                        }
-
-                        BeingErrorColor(_manualEyeR.objectReferenceValue == null);
-                        EditorGUILayout.PropertyField(_manualEyeR, new GUIContent("右目"));
-                        EndErrorColor();
-                        if (_manualEyeR.objectReferenceValue == null)
-                        {
-                            errorMessages.Add("右目のTransformが設定されていません");
-                        }
-
-                        break;
+                    // case EyeAssignMethod.Transform:
+                    //     BeingErrorColor(_manualEyeL.objectReferenceValue == null);
+                    //     EditorGUILayout.PropertyField(_manualEyeL, new GUIContent("左目"));
+                    //     EndErrorColor();
+                    //     if (_manualEyeL.objectReferenceValue == null)
+                    //     {
+                    //         errorMessages.Add("左目のTransformが設定されていません");
+                    //     }
+                    //
+                    //     BeingErrorColor(_manualEyeR.objectReferenceValue == null);
+                    //     EditorGUILayout.PropertyField(_manualEyeR, new GUIContent("右目"));
+                    //     EndErrorColor();
+                    //     if (_manualEyeR.objectReferenceValue == null)
+                    //     {
+                    //         errorMessages.Add("右目のTransformが設定されていません");
+                    //     }
+                    //
+                    //     break;
                 }
 
                 EditorGUILayout.Space();

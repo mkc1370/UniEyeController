@@ -1,5 +1,6 @@
 ﻿using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Setting;
+using SimpleEyeController.Model.Status;
 using UnityEngine;
 
 namespace SimpleEyeController.Model.Rotator
@@ -19,14 +20,14 @@ namespace SimpleEyeController.Model.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeRotator(Transform eyeBone, EyeRangeSetting setting, EyeType eyeType)
+        public SingleEyeRotator(EyeDefaultStatus defaultStatus, EyeRangeSetting setting)
         {
-            _eyeBone = eyeBone;
-            _defaultRotation = eyeBone.rotation;
-            _defaultLocalRotation = eyeBone.localRotation;
+            _eyeBone = defaultStatus.Bone;
+            _defaultRotation = defaultStatus.Rotation;
+            _defaultLocalRotation = defaultStatus.LocalRotation;
         
             _setting = setting;
-            _eyeType = eyeType;
+            _eyeType = defaultStatus.EyeType;
         }
 
         /// <summary>

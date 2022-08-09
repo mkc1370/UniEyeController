@@ -1,5 +1,6 @@
 ﻿using SimpleEyeController.Constants;
 using SimpleEyeController.Model.Setting;
+using SimpleEyeController.Model.Status;
 using UnityEngine;
 
 namespace SimpleEyeController.Model.Rotator
@@ -16,10 +17,10 @@ namespace SimpleEyeController.Model.Rotator
         /// <summary>
         /// 初期化
         /// </summary>
-        public DoubleEyeRotator(Transform eyeL, Transform eyeR, EyeRangeSetting setting)
+        public DoubleEyeRotator(EyeDefaultStatus eyeL, EyeDefaultStatus eyeR, EyeRangeSetting setting)
         {
-            _eyeL = new SingleEyeRotator(eyeL, setting, EyeType.Left);
-            _eyeR = new SingleEyeRotator(eyeR, setting, EyeType.Right);
+            _eyeL = new SingleEyeRotator(eyeL, setting);
+            _eyeR = new SingleEyeRotator(eyeR, setting);
         }
 
         /// <summary>

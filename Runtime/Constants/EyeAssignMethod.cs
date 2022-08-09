@@ -6,6 +6,6 @@
     public enum EyeAssignMethod
     {
         Animator,
-        Transform
+        // Transform
     }
 }
