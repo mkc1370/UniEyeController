@@ -45,19 +45,6 @@ namespace SimpleEyeController.Editor
                     if (isTimeline)
                     {
                         var errorMessages = new List<string>();
-                        if (_targetTransform.objectReferenceValue == null)
-                        {
-                            errorMessages.Add($"ターゲットが設定されていません");
-                        }
-
-                        BeginErrorColor(errorMessages.Count > 0);
-                        EditorGUILayout.PropertyField(_targetTransform, new GUIContent("対象"));
-                        EndErrorColor();
-                        DrawErrorMessages(errorMessages);
-                    }
-                    else
-                    {
-                        var errorMessages = new List<string>();
                         if (_targetTransformTimeline.exposedReferenceValue == null)
                         {
                             errorMessages.Add($"ターゲットが設定されていません");
@@ -65,6 +52,19 @@ namespace SimpleEyeController.Editor
 
                         BeginErrorColor(errorMessages.Count > 0);
                         EditorGUILayout.PropertyField(_targetTransformTimeline, new GUIContent("対象"));
+                        EndErrorColor();
+                        DrawErrorMessages(errorMessages);
+                    }
+                    else
+                    {
+                        var errorMessages = new List<string>();
+                        if (_targetTransform.objectReferenceValue == null)
+                        {
+                            errorMessages.Add($"ターゲットが設定されていません");
+                        }
+
+                        BeginErrorColor(errorMessages.Count > 0);
+                        EditorGUILayout.PropertyField(_targetTransform, new GUIContent("対象"));
                         EndErrorColor();
                         DrawErrorMessages(errorMessages);
                     }
