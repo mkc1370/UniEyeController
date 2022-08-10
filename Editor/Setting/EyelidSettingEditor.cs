@@ -24,9 +24,8 @@ namespace UniEyeController.Editor.Setting
 
         public void Draw()
         {
-            EditorGUILayout.LabelField("まぶたの設定");
+            EditorGUILayout.LabelField("まぶたの設定", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
-            EditorGUI.indentLevel++;
             {
                 EditorGUILayout.PropertyField(_eyelidType, new GUIContent("まぶたの指定方法"));
                 switch ((EyelidType)_eyelidType.enumValueIndex)
@@ -52,7 +51,6 @@ namespace UniEyeController.Editor.Setting
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            EditorGUI.indentLevel--;
             GUILayout.EndVertical();
         }
     }

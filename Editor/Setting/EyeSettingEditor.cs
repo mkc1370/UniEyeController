@@ -22,9 +22,8 @@ namespace UniEyeController.Editor.Setting
 
         public void Draw()
         {
-            EditorGUILayout.LabelField("目の可動域の設定");
+            EditorGUILayout.LabelField("目の可動域の設定", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
-            EditorGUI.indentLevel++;
             {
                 EditorGUILayout.PropertyField(_horizontalInside, new GUIContent("水平（鼻の反対側） [オイラー角]"));
                 EditorGUILayout.PropertyField(_horizontalInsideMultiplier, new GUIContent("水平（鼻側）※"));
@@ -36,7 +35,6 @@ namespace UniEyeController.Editor.Setting
                     $"この数値は0.85から1の範囲にするのがおすすめです。";
                 EditorGUILayout.HelpBox(message, MessageType.Info);
             }
-            EditorGUI.indentLevel--;
             GUILayout.EndVertical();
         }
     }

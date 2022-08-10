@@ -54,11 +54,10 @@ namespace UniEyeController.Editor
             serializedObject.Update();
             
             EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.LabelField("目のボーンの設定");
+
+            EditorGUILayout.LabelField("目のボーンの設定", EditorStyles.boldLabel);
             EditorGUI.BeginDisabledGroup(Application.isPlaying);
             GUILayout.BeginVertical(GUI.skin.box);
-            EditorGUI.indentLevel++;
             {
                 var errorMessages = new List<string>();
                 EditorGUI.BeginChangeCheck();
@@ -144,7 +143,6 @@ namespace UniEyeController.Editor
                     }
                 }
             }
-            EditorGUI.indentLevel--;
             GUILayout.EndVertical();
             EditorGUI.EndDisabledGroup();
             EditorGUILayout.Space();
