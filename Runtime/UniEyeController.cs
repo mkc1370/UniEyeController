@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UniEyeController.Core.Constants;
 using UniEyeController.Core.Extensions;
-using UniEyeController.Core.Interface;
 using UniEyeController.Core.Rotator;
 using UniEyeController.Core.Setting;
 using UniEyeController.Core.Status;
@@ -16,9 +15,6 @@ namespace UniEyeController
     [DisallowMultipleComponent]
     public class UniEyeController : MonoBehaviour, ITimeControl
     {
-        public bool executeAlways;
-        
-        public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
         
         public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
@@ -37,9 +33,7 @@ namespace UniEyeController
         private EyeDefaultStatus _currentEyeL;
         private EyeDefaultStatus _currentEyeR;
 
-        private List<IEyeProcess> _processes = new List<IEyeProcess>();
-
-        private bool CanExecute => Application.isPlaying || executeAlways;
+        private List<EyeProcess.EyeProcessBase> _processes = new List<EyeProcess.EyeProcessBase>();
 
         private void Start()
         {
@@ -188,10 +182,15 @@ namespace UniEyeController
             return clone.transform;
         }
 
-        private void UpdateInternal()
+        private void UpdateInternal(UpdateMethod updateMethod)
         {
-            if (!CanExecute) return;
-            foreach (var process in _processes.OrderBy(x=>x.ExecutionOrder))
+            var processes =
+                _processes
+                    .Where(x => x.updateMethod == updateMethod)
+                    .Where(x => x.CanExecute)
+                    .OrderBy(x => x.executionOrder);
+            
+            foreach (var process in processes)
             {
                 process.Progress(Time.time, false);
             }
@@ -199,34 +198,22 @@ namespace UniEyeController
 
         private void Update()
         {
-            if (updateMethod == UpdateMethod.Update)
-            {
-                UpdateInternal();
-            }
+            UpdateInternal(UpdateMethod.Update);
         }
 
         private void LateUpdate()
         {
-            if (updateMethod == UpdateMethod.LateUpdate)
-            {
-                UpdateInternal();
-            }
+            UpdateInternal(UpdateMethod.LateUpdate);
         }
 
         private void FixedUpdate()
         {
-            if (updateMethod == UpdateMethod.FixedUpdate)
-            {
-                UpdateInternal();
-            }
+            UpdateInternal(UpdateMethod.FixedUpdate);
         }
 
         public void ManualUpdate()
         {
-            if (updateMethod == UpdateMethod.Manual)
-            {
-                UpdateInternal();
-            }
+            UpdateInternal(UpdateMethod.Manual);
         }
 
         private void Reset()
@@ -241,7 +228,7 @@ namespace UniEyeController
                 animator = gameObject.GetOrAddComponent<Animator>();
             }
 
-            _processes = GetComponents<IEyeProcess>().ToList();
+            _processes = GetComponents<EyeProcess.EyeProcessBase>().ToList();
         }
 
         public void SetTime(double time)

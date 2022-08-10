@@ -1,16 +1,19 @@
 ﻿using UniEyeController.EyeProcess;
 using UnityEditor;
+using UnityEngine;
 
-namespace UniEyeController.Editor
+namespace UniEyeController.Editor.EyeProcess
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UniEyeLookAt))]
-    public class EyeLookAtEditor : UnityEditor.Editor
+    public class EyeLookAtEditor : EyeProcessBaseEditor
     {
         private EyeLookAtStatusEditor _statusEditor;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            
             _statusEditor = new EyeLookAtStatusEditor();
             _statusEditor.Init(serializedObject, nameof(UniEyeLookAt.status));
 
@@ -26,12 +29,19 @@ namespace UniEyeController.Editor
 
         public override void OnInspectorGUI()
         {
+            base.OnInspectorGUI();
+            
             var script = target as UniEyeLookAt;
             if (script == null) return;
 
             serializedObject.Update();
 
-            _statusEditor.Draw(false);
+            EditorGUILayout.LabelField("注視点の設定", EditorStyles.boldLabel);
+            GUILayout.BeginVertical(GUI.skin.box);
+            {
+                _statusEditor.Draw(false);
+            }
+            GUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }

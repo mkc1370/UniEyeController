@@ -1,6 +1,4 @@
 ﻿using UniEyeController.Core.Constants;
-using UniEyeController.Core.Interface;
-using UniEyeController.Core.Rotator;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,8 +9,13 @@ namespace UniEyeController.EyeProcess
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UniEyeController))]
-    public class UniEyeMicroMove : MonoBehaviour, IEyeProcess
+    public class UniEyeMicroMove : EyeProcessBase
     {
+        private void Reset()
+        {
+            executionOrder = 2;
+        }
+
         [Range(0f, 1f)]
         public float weight = 1f;
         
@@ -20,9 +23,6 @@ namespace UniEyeController.EyeProcess
         public float eyeMicroMoveMultiplier = 0.1f;
         public float eyeMoveStopTimeMin = 0.5f;
         public float eyeMoveStopTimeMax = 2.3f;
-
-        public int ExecutionOrder { get; set; } = 2;
-        public DoubleEyeRotator Rotator { get; set; }
         
         private float _eyeMoveTimer;
 
@@ -34,7 +34,7 @@ namespace UniEyeController.EyeProcess
         {
         }
 
-        public void Progress(double time, bool controlFromTimeline)
+        public override void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
             

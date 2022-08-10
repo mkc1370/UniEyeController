@@ -10,8 +10,6 @@ namespace UniEyeController.Editor
     [CustomEditor(typeof(UniEyeController))]
     public class UniEyeControllerBehaviourEditor : UnityEditor.Editor
     {
-        private SerializedProperty _executeAlways;
-        private SerializedProperty _updateMethod;
         private SerializedProperty _assignMethod;
         private SerializedProperty _animator;
         private SerializedProperty _prefabForGenericAvatar;
@@ -23,15 +21,12 @@ namespace UniEyeController.Editor
 
         private void OnEnable()
         {
-            _executeAlways = serializedObject.FindProperty(nameof(UniEyeController.executeAlways));
-            _updateMethod = serializedObject.FindProperty(nameof(UniEyeController.updateMethod));
             _assignMethod = serializedObject.FindProperty(nameof(UniEyeController.assignMethod));
             _animator = serializedObject.FindProperty(nameof(UniEyeController.animator));
             _prefabForGenericAvatar = serializedObject.FindProperty(nameof(UniEyeController.prefabForGenericAvatar));
             _manualEyeL = serializedObject.FindProperty(nameof(UniEyeController.manualEyeL));
             _manualEyeR = serializedObject.FindProperty(nameof(UniEyeController.manualEyeR));
-            _rangeSetting = serializedObject.FindProperty(
-                $"{nameof(UniEyeController.rangeSetting)}");
+            _rangeSetting = serializedObject.FindProperty($"{nameof(UniEyeController.rangeSetting)}");
             
             var script = target as UniEyeController;
             if (script == null) return;
@@ -52,23 +47,6 @@ namespace UniEyeController.Editor
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.LabelField("一般設定");
-            GUILayout.BeginVertical(GUI.skin.box);
-            EditorGUI.indentLevel++;
-            {
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する（Timeline再生時には設定に関係なく実行されます）"));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    script.Init();
-                }
-                EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("視線の更新タイミング"));
-            }
-            EditorGUI.indentLevel--;
-            GUILayout.EndVertical();
-            EditorGUILayout.Space();
-
             EditorGUILayout.LabelField("目のボーンの設定");
             EditorGUI.BeginDisabledGroup(Application.isPlaying);
             GUILayout.BeginVertical(GUI.skin.box);

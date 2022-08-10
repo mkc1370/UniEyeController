@@ -1,7 +1,5 @@
 ﻿using System;
 using UniEyeController.Core.Constants;
-using UniEyeController.Core.Interface;
-using UniEyeController.Core.Rotator;
 using UniEyeController.Core.Status;
 using UnityEngine;
 
@@ -9,13 +7,14 @@ namespace UniEyeController.EyeProcess
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UniEyeController))]
-    public class UniEyeLookAt : MonoBehaviour, IEyeProcess
+    public class UniEyeLookAt : EyeProcessBase
     {
-        public EyeLookAtStatus status = EyeLookAtStatus.Default;
+        private void Reset()
+        {
+            executionOrder = 1;
+        }
 
-        public int ExecutionOrder { get; set; } = 1;
-        
-        public DoubleEyeRotator Rotator { get; set; }
+        public EyeLookAtStatus status = EyeLookAtStatus.Default;
 
         // To show enabled state in inspector.
         private void Start()
@@ -30,7 +29,7 @@ namespace UniEyeController.EyeProcess
             Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
-        public void Progress(double time, bool controlFromTimeline)
+        public override void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
             if (Rotator == null) return;

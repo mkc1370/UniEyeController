@@ -32,14 +32,14 @@ namespace UniEyeController.Editor
 
         public void Draw(bool isTimeline)
         {
-            EditorGUILayout.PropertyField(_weight, new GUIContent("視線制御の適用度"));
+            EditorGUILayout.PropertyField(_weight, new GUIContent("適用度"));
             EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(_method, new GUIContent("見る対象"));
-            EditorGUILayout.Space();
+            EditorGUILayout.PropertyField(_method, new GUIContent("注視点の指定方法"));
+            EditorGUI.indentLevel++;
             switch ((LookAtMethod)_method.enumValueIndex)
             {
                 case LookAtMethod.Direction:
-                    EditorGUILayout.PropertyField(_direction, new GUIContent("見る方向"));
+                    EditorGUILayout.PropertyField(_direction, new GUIContent("方向"));
                     break;
                 case LookAtMethod.Transform:
                     if (isTimeline)
@@ -82,6 +82,8 @@ namespace UniEyeController.Editor
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            EditorGUI.indentLevel--;
         }
 
         private void BeginErrorColor(bool isError)
