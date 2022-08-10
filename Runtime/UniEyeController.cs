@@ -41,7 +41,7 @@ namespace UniEyeController
 
         private bool CanExecute => Application.isPlaying || executeAlways;
 
-        private void OnEnable()
+        private void Start()
         {
             Init();
         }
