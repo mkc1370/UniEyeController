@@ -22,8 +22,18 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
         {
             _target = playerData as UniEyeLookAt;
             if (_target == null) return;
-                
-            _target.ResetEyeRotation();
+            
+            // 1個でもWeightが0より大きいものがあれば一度目の回転をリセットする
+            // タイムラインは回転を加算していく形になるため
+            var inputCount = playable.GetInputCount();
+            for (var i = 0; i < inputCount; i++)
+            {
+                if (playable.GetInputWeight(i) > 0)
+                {
+                    _target.ResetEyeRotation();
+                    break;
+                }
+            }
 
             for (var i = 0; i < Clips.Length; i++)
             {
