@@ -1,11 +1,11 @@
 ﻿using System;
-using SimpleEyeController.Constants;
-using SimpleEyeController.Timeline.EyeLookAtTimeline;
+using UniEyeController.Constants;
+using UniEyeController.Timeline.EyeLookAtTimeline;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace SimpleEyeController.Editor.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Editor.Timeline.EyeLookAtTimeline
 {
     [CustomTimelineEditor(typeof(EyeLookAtClip))]
     public class EyeLookAtClipEditor : ClipEditor

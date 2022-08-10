@@ -1,6 +1,6 @@
 {
-    "name": "SimpleEyeController.Editor",
-    "rootNamespace": "SimpleEyeController.Editor",
+    "name": "UniEyeController.Editor",
+    "rootNamespace": "UniEyeController.Editor",
     "references": [
         "GUID:8c8e56552d97ba545a1e1c2416f2d88d",
         "GUID:27619889b8ba8c24980f49ee34dbb44a",

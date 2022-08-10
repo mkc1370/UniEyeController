@@ -1,9 +1,9 @@
-﻿using SimpleEyeController.Constants;
-using SimpleEyeController.Model.Setting;
-using SimpleEyeController.Model.Status;
+﻿using UniEyeController.Constants;
+using UniEyeController.Model.Setting;
+using UniEyeController.Model.Status;
 using UnityEngine;
 
-namespace SimpleEyeController.Model.Rotator
+namespace UniEyeController.Model.Rotator
 {
     /// <summary>
     /// 両目の視線制御

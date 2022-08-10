@@ -1,6 +1,6 @@
 # 開発初期段階のため、リリース時には仕様が大きく変わる可能性があります
 
-# SimpleEyeController
+# UniEyeController
 Unityで視線制御をしたいときに使うアセット
 
 ## 特徴
@@ -12,7 +12,7 @@ Unityで視線制御をしたいときに使うアセット
 ### UPM (Git URL)
 1. Unity Package Managerを開く
 2. Add Package from Git URLを選択
-3. `https://github.com/mkc1370/SimpleEyeController.git`を追加
+3. `https://github.com/mkc1370/UniEyeController.git`を追加
 
 ## 使い方 
 1. 目を動かしたいキャラクターのAnimatorに目のボーンを設定する

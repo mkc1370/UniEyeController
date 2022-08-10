@@ -1,8 +1,8 @@
-﻿using SimpleEyeController.View.Process;
+﻿using UniEyeController.View.Process;
 using UnityEditor;
 using UnityEngine;
 
-namespace SimpleEyeController.Editor
+namespace UniEyeController.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EyeMicroMove))]

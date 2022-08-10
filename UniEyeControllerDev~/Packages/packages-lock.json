@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.mkc1370.null-chan": {
+      "version": "https://github.com/mkc1370/NullChan.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2ffa3902fb94ccd25c3a4c11ca41725e465a3db2"
+    },
     "com.mkc1370.simple-eye-controller": {
       "version": "file:../../",
       "depth": 0,

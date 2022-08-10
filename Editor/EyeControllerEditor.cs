@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using SimpleEyeController.Constants;
-using SimpleEyeController.View;
+using UniEyeController.Constants;
+using UniEyeController.View;
 using UnityEditor;
 using UnityEngine;
 
-namespace SimpleEyeController.Editor
+namespace UniEyeController.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EyeController))]

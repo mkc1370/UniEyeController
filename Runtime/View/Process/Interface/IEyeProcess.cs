@@ -1,6 +1,6 @@
-﻿using SimpleEyeController.Model.Rotator;
+﻿using UniEyeController.Model.Rotator;
 
-namespace SimpleEyeController.View.Process.Interface
+namespace UniEyeController.View.Process.Interface
 {
     public interface IEyeProcess
     {

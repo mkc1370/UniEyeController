@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Playables;
 
-namespace SimpleEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.EyeLookAtTimeline
 {
     public class EyeLookAtBehaviour : PlayableBehaviour
     {

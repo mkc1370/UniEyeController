@@ -1,9 +1,9 @@
-﻿using SimpleEyeController.Model.Status;
+﻿using UniEyeController.Model.Status;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace SimpleEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.EyeLookAtTimeline
 {
     public class EyeLookAtClip : PlayableAsset, ITimelineClipAsset
     {

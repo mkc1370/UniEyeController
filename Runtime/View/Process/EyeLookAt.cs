@@ -1,11 +1,11 @@
 ﻿using System;
-using SimpleEyeController.Constants;
-using SimpleEyeController.Model.Rotator;
-using SimpleEyeController.Model.Status;
-using SimpleEyeController.View.Process.Interface;
+using UniEyeController.Constants;
+using UniEyeController.Model.Rotator;
+using UniEyeController.Model.Status;
+using UniEyeController.View.Process.Interface;
 using UnityEngine;
 
-namespace SimpleEyeController.View.Process
+namespace UniEyeController.View.Process
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(EyeController))]

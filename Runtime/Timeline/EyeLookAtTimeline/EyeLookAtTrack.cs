@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using SimpleEyeController.View.Process;
+using UniEyeController.View.Process;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace SimpleEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.EyeLookAtTimeline
 {
     [TrackClipType(typeof(EyeLookAtClip))]
     [TrackBindingType(typeof(EyeLookAt))]

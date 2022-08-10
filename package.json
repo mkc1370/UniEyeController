@@ -1,8 +1,8 @@
 {
-  "displayName": "SimpleEyeController",
+  "displayName": "UniEyeController",
   "author": "mkc1370",
   "name": "com.mkc1370.simple-eye-controller",
-  "repository": "github:mkc1370/SimpleEyeController",
+  "repository": "github:mkc1370/UniEyeController",
   "unity": "2020.3",
   "unityRelease": "34f1",
   "version": "0.1.0",

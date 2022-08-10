@@ -1,7 +1,7 @@
-﻿using SimpleEyeController.Timeline.EyeLookAtTimeline;
+﻿using UniEyeController.Timeline.EyeLookAtTimeline;
 using UnityEditor;
 
-namespace SimpleEyeController.Editor.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Editor.Timeline.EyeLookAtTimeline
 {
     [CustomEditor(typeof(EyeLookAtClip))]
     public class EyeLookAtClipClipInspectorEditor : UnityEditor.Editor
