@@ -69,6 +69,10 @@ namespace UniEyeController.EyeProcess
                     yield return null;
                 }
                 
+                // 完全に閉じる
+                Blink(1);
+                yield return null;
+                
                 var openTime = timeToOpenEyelid;
                 while (openTime > 0)
                 {
@@ -79,6 +83,10 @@ namespace UniEyeController.EyeProcess
                     openTime -= Time.deltaTime;
                     yield return null;
                 }
+                
+                // 完全に開く
+                Blink(0);
+                yield return null;
             }
         }
 
