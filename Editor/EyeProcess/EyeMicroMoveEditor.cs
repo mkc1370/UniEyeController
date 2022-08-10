@@ -37,8 +37,11 @@ namespace UniEyeController.Editor.EyeProcess
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(_eyeMicroMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(_eyeMoveStopTimeMin, new GUIContent("動きを止める時間の最小値"));
-                EditorGUILayout.PropertyField(_eyeMoveStopTimeMax, new GUIContent("動きを止める時間の最大値"));
+                EditorGUILayout.LabelField("眼球の動きを止める時間 [s]");
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_eyeMoveStopTimeMin, new GUIContent("最短"));
+                EditorGUILayout.PropertyField(_eyeMoveStopTimeMax, new GUIContent("最長"));
+                EditorGUI.indentLevel--;
             }
             GUILayout.EndVertical();
 
