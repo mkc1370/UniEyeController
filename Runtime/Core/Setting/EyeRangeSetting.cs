@@ -37,11 +37,6 @@ namespace UniEyeController.Core.Setting
         [Range(MinEyeEulerAngles, MaxEyeEulerAngles)]
         public float verticalDown = 8f;
 
-        public float GetYawLimitMax()
-        {
-            return Mathf.Max(horizontalInside, horizontalOutside);
-        }
-
         public Vector2 GetYawLimit(EyeType eyeType)
         {
             var yawLimit = new Vector2();

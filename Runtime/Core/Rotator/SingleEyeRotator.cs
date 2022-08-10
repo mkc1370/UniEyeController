@@ -21,7 +21,7 @@ namespace UniEyeController.Core.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeRotator(EyeDefaultStatus defaultStatus, EyeRangeSetting setting)
+        public SingleEyeRotator(SingleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
         {
             _eyeBone = defaultStatus.Bone;
             _defaultRotation = defaultStatus.Rotation;
@@ -36,6 +36,7 @@ namespace UniEyeController.Core.Rotator
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <param name="weight"></param>
+        /// <param name="method"></param>
         public void LookAt(Vector3 worldPosition, float weight, RotationApplyMethod method)
         {
             var eulerAngles = GetEyeEulerAngles(worldPosition) * GetLookAtWeight(worldPosition);

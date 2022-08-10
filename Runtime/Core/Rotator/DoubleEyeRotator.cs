@@ -17,10 +17,10 @@ namespace UniEyeController.Core.Rotator
         /// <summary>
         /// 初期化
         /// </summary>
-        public DoubleEyeRotator(EyeDefaultStatus eyeL, EyeDefaultStatus eyeR, EyeRangeSetting setting)
+        public DoubleEyeRotator(DoubleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
         {
-            _eyeL = new SingleEyeRotator(eyeL, setting);
-            _eyeR = new SingleEyeRotator(eyeR, setting);
+            _eyeL = new SingleEyeRotator(defaultStatus.EyeL, setting);
+            _eyeR = new SingleEyeRotator(defaultStatus.EyeR, setting);
         }
 
         /// <summary>
