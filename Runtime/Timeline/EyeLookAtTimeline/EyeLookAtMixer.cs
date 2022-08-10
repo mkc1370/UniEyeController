@@ -9,7 +9,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
         public EyeLookAtTrack Track { get; set; }
         public TimelineClip[] Clips { get; set; }
         
-        private UniEyeLookAt _target;
+        private UniUniEyeLookAt _target;
 
         public override void OnPlayableDestroy(Playable playable)
         {
@@ -20,7 +20,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as UniEyeLookAt;
+            _target = playerData as UniUniEyeLookAt;
             if (_target == null) return;
             
             // 1個でもWeightが0より大きいものがあれば一度目の回転をリセットする

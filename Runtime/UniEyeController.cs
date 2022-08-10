@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniEyeController.Core;
 using UniEyeController.Core.Constants;
 using UniEyeController.Core.Extensions;
 using UniEyeController.Core.Rotator;
 using UniEyeController.Core.Setting;
 using UniEyeController.Core.Status;
+using UniEyeController.EyeProcess;
 using UnityEngine;
-using UnityEngine.Timeline;
 
 namespace UniEyeController
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class UniEyeController : MonoBehaviour, ITimeControl
+    public class UniEyeController : MonoBehaviour
     {
         public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
@@ -25,13 +26,14 @@ namespace UniEyeController
         public Transform manualEyeR;
         
         public EyeRangeSetting rangeSetting;
+        public EyelidSetting eyelidSetting;
 
         public Transform CurrentEyeL => _defaultStatus.EyeL.Bone;
         public Transform CurrentEyeR => _defaultStatus.EyeR.Bone;
 
         private DoubleEyeDefaultStatus _defaultStatus;
 
-        private List<EyeProcess.EyeProcessBase> _processes = new List<EyeProcess.EyeProcessBase>();
+        private List<UniEyeProcessBase> _processes = new List<UniEyeProcessBase>();
 
         private void Start()
         {
@@ -48,10 +50,12 @@ namespace UniEyeController
         {
             _defaultStatus = GetEyeDefaultStatusBones();
             
-            var rotator = new DoubleEyeRotator(_defaultStatus, rangeSetting);
+            var eyeController = new DoubleEyeController(_defaultStatus, rangeSetting);
+            var eyelidController = new EyelidController(eyelidSetting);
             foreach (var process in _processes)
             {
-                process.Rotator = rotator;
+                process.EyeController = eyeController;
+                process.EyelidController = eyelidController;
             }
         }
 
@@ -89,6 +93,15 @@ namespace UniEyeController
 
         private void Update()
         {
+            // 一度Updateのタイミングで回転を0にする
+            foreach (var process in _processes)
+            {
+                if (process.CanExecute)
+                {
+                    process.EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
+                }
+            }
+            
             UpdateInternal(UpdateMethod.Update);
         }
 
@@ -119,22 +132,7 @@ namespace UniEyeController
                 animator = gameObject.GetOrAddComponent<Animator>();
             }
 
-            _processes = GetComponents<EyeProcess.EyeProcessBase>().ToList();
-        }
-
-        public void SetTime(double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnControlTimeStart()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnControlTimeStop()
-        {
-            throw new NotImplementedException();
+            _processes = GetComponents<UniEyeProcessBase>().ToList();
         }
     }
 }

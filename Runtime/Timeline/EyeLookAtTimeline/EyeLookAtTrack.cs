@@ -7,7 +7,7 @@ using UnityEngine.Timeline;
 namespace UniEyeController.Timeline.EyeLookAtTimeline
 {
     [TrackClipType(typeof(EyeLookAtClip))]
-    [TrackBindingType(typeof(UniEyeLookAt))]
+    [TrackBindingType(typeof(UniUniEyeLookAt))]
     public class EyeLookAtTrack : TrackAsset
     {
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

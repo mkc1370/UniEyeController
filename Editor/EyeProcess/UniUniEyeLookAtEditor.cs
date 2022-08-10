@@ -5,8 +5,8 @@ using UnityEngine;
 namespace UniEyeController.Editor.EyeProcess
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniEyeLookAt))]
-    public class EyeLookAtEditor : EyeProcessBaseEditor
+    [CustomEditor(typeof(UniUniEyeLookAt))]
+    public class UniUniEyeLookAtEditor : UniEyeProcessBaseEditor
     {
         private EyeLookAtStatusEditor _statusEditor;
 
@@ -15,15 +15,15 @@ namespace UniEyeController.Editor.EyeProcess
             base.OnEnable();
             
             _statusEditor = new EyeLookAtStatusEditor();
-            _statusEditor.Init(serializedObject, nameof(UniEyeLookAt.status));
+            _statusEditor.Init(serializedObject, nameof(UniUniEyeLookAt.status));
 
-            var script = target as UniEyeLookAt;
+            var script = target as UniUniEyeLookAt;
             if (script == null) return;
         }
 
         private void OnDisable()
         {
-            var script = target as UniEyeLookAt;
+            var script = target as UniUniEyeLookAt;
             if (script == null) return;
         }
 
@@ -31,7 +31,7 @@ namespace UniEyeController.Editor.EyeProcess
         {
             base.OnInspectorGUI();
             
-            var script = target as UniEyeLookAt;
+            var script = target as UniUniEyeLookAt;
             if (script == null) return;
 
             serializedObject.Update();

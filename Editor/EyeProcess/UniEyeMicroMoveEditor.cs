@@ -5,11 +5,11 @@ using UnityEngine;
 namespace UniEyeController.Editor.EyeProcess
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniEyeMicroMove))]
-    public class EyeMicroMoveEditor : EyeProcessBaseEditor
+    [CustomEditor(typeof(UniUniEyeMicroMove))]
+    public class UniEyeMicroMoveEditor : UniEyeProcessBaseEditor
     {
         private SerializedProperty _weight;
-        private SerializedProperty _eyeMicroMoveMultiplier;
+        private SerializedProperty _eyeMoveMultiplier;
         private SerializedProperty _eyeMoveStopTimeMin;
         private SerializedProperty _eyeMoveStopTimeMax;
         
@@ -17,10 +17,10 @@ namespace UniEyeController.Editor.EyeProcess
         {
             base.OnEnable();
             
-            _weight = serializedObject.FindProperty(nameof(UniEyeMicroMove.weight));
-            _eyeMicroMoveMultiplier = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMicroMoveMultiplier));
-            _eyeMoveStopTimeMin = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveStopTimeMin));
-            _eyeMoveStopTimeMax = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveStopTimeMax));
+            _weight = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.weight));
+            _eyeMoveMultiplier = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.eyeMoveMultiplier));
+            _eyeMoveStopTimeMin = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.eyeMoveStopTimeMin));
+            _eyeMoveStopTimeMax = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.eyeMoveStopTimeMax));
         }
 
         public override void OnInspectorGUI()
@@ -32,10 +32,9 @@ namespace UniEyeController.Editor.EyeProcess
             EditorGUILayout.LabelField("眼球微細運動の設定", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
             {
-
                 EditorGUILayout.PropertyField(_weight, new GUIContent("適用度"));
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(_eyeMicroMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
+                EditorGUILayout.PropertyField(_eyeMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("眼球の動きを止める時間 [s]");
                 EditorGUI.indentLevel++;

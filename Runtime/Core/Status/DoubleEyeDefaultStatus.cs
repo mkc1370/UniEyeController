@@ -112,7 +112,7 @@ namespace UniEyeController.Core.Status
         {
             foreach (Transform originalChild in originalParent)
             {
-                var clone = CreateTransformClone(originalChild, true);
+                var clone = CreateTransformClone(originalChild);
                 clone.transform.SetParent(clonedParent);
                 CreateCloneRecursive(originalChild, clone);
             }

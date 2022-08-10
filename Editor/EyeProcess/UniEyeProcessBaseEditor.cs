@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    [CustomEditor(typeof(EyeProcessBase))]
-    public abstract class EyeProcessBaseEditor : UnityEditor.Editor
+    [CustomEditor(typeof(UniEyeProcessBase))]
+    public abstract class UniEyeProcessBaseEditor : UnityEditor.Editor
     {
         private SerializedProperty _executeAlways;
         private SerializedProperty _updateMethod;
@@ -15,9 +15,9 @@ namespace UniEyeController.Editor.EyeProcess
 
         protected virtual void OnEnable()
         {
-            _executeAlways = serializedObject.FindProperty(nameof(EyeProcessBase.executeAlways));
-            _updateMethod = serializedObject.FindProperty(nameof(EyeProcessBase.updateMethod));
-            _executionOrder = serializedObject.FindProperty(nameof(EyeProcessBase.executionOrder));
+            _executeAlways = serializedObject.FindProperty(nameof(UniEyeProcessBase.executeAlways));
+            _updateMethod = serializedObject.FindProperty(nameof(UniEyeProcessBase.updateMethod));
+            _executionOrder = serializedObject.FindProperty(nameof(UniEyeProcessBase.executionOrder));
         }
 
         public override void OnInspectorGUI()
@@ -27,7 +27,7 @@ namespace UniEyeController.Editor.EyeProcess
             EditorGUILayout.LabelField("実行タイミング", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
             {
-                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("視線の更新タイミング"));
+                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("実行方法"));
 
                 EditorGUI.indentLevel++;
                 _footerFoldout = EditorGUILayout.Foldout(_footerFoldout, "詳細設定");

@@ -10,7 +10,7 @@ namespace UniEyeController.Core.Rotator
     /// 片目の視線制御
     /// 初期化時に顔が正面に向いている必要があります(TスタンスやAスタンスであれば大丈夫です)
     /// </summary>
-    public class SingleEyeRotator
+    public class SingleEyeController
     {
         private EyeRangeSetting _setting;
     
@@ -21,7 +21,7 @@ namespace UniEyeController.Core.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeRotator(SingleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
+        public SingleEyeController(SingleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
         {
             _eyeBone = defaultStatus.Bone;
             _defaultRotation = defaultStatus.Rotation;

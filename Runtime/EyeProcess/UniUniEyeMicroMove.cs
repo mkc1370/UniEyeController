@@ -9,7 +9,7 @@ namespace UniEyeController.EyeProcess
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UniEyeController))]
-    public class UniEyeMicroMove : EyeProcessBase
+    public class UniUniEyeMicroMove : UniEyeProcessBase
     {
         private void Reset()
         {
@@ -20,7 +20,7 @@ namespace UniEyeController.EyeProcess
         public float weight = 1f;
         
         [Range(0f, 1f)]
-        public float eyeMicroMoveMultiplier = 0.1f;
+        public float eyeMoveMultiplier = 0.1f;
         
         [Range(0f, 5f)]
         public float eyeMoveStopTimeMin = 0.5f;
@@ -32,11 +32,6 @@ namespace UniEyeController.EyeProcess
 
         private Vector2 _currentNormalizedEulerAngles;
 
-        // To show enabled state in inspector.
-        private void Start()
-        {
-        }
-
         public override void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
@@ -46,12 +41,12 @@ namespace UniEyeController.EyeProcess
             {
                 var x = Random.Range(-1, 1);
                 var y = Random.Range(-1, 1);
-                _currentNormalizedEulerAngles = new Vector2(x, y) * eyeMicroMoveMultiplier;
+                _currentNormalizedEulerAngles = new Vector2(x, y) * eyeMoveMultiplier;
                 
                 _eyeMoveTimer = Random.Range(eyeMoveStopTimeMin, eyeMoveStopTimeMax);
             }
             
-            Rotator.NormalizedRotate(_currentNormalizedEulerAngles, weight, RotationApplyMethod.Append);
+            EyeController.NormalizedRotate(_currentNormalizedEulerAngles, weight, RotationApplyMethod.Append);
         }
     }
 }

@@ -9,18 +9,18 @@ namespace UniEyeController.Core.Rotator
     /// 両目の視線制御
     /// 初期化時に顔が正面に向いている必要があります(TスタンスやAスタンスであれば大丈夫です)
     /// </summary>
-    public class DoubleEyeRotator
+    public class DoubleEyeController
     {
-        private SingleEyeRotator _eyeL;
-        private SingleEyeRotator _eyeR;
+        private SingleEyeController _eyeL;
+        private SingleEyeController _eyeR;
 
         /// <summary>
         /// 初期化
         /// </summary>
-        public DoubleEyeRotator(DoubleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
+        public DoubleEyeController(DoubleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
         {
-            _eyeL = new SingleEyeRotator(defaultStatus.EyeL, setting);
-            _eyeR = new SingleEyeRotator(defaultStatus.EyeR, setting);
+            _eyeL = new SingleEyeController(defaultStatus.EyeL, setting);
+            _eyeR = new SingleEyeController(defaultStatus.EyeR, setting);
         }
 
         /// <summary>

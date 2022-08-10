@@ -1,4 +1,5 @@
-﻿using UniEyeController.Core.Constants;
+﻿using UniEyeController.Core;
+using UniEyeController.Core.Constants;
 using UniEyeController.Core.Rotator;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace UniEyeController.EyeProcess
     /// <summary>
     /// 目のモーションを制御する抽象クラス
     /// </summary>
-    public abstract class EyeProcessBase : MonoBehaviour
+    public abstract class UniEyeProcessBase : MonoBehaviour
     {
         public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
         
@@ -21,8 +22,14 @@ namespace UniEyeController.EyeProcess
         /// </summary>
         public int executionOrder;
 
-        public DoubleEyeRotator Rotator;
+        public DoubleEyeController EyeController;
+        public EyelidController EyelidController;
 
         public abstract void Progress(double time, bool controlFromTimeline);
+
+        // To show enabled state in inspector.
+        private void Start()
+        {
+        }
     }
 }

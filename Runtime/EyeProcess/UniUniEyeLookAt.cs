@@ -7,7 +7,7 @@ namespace UniEyeController.EyeProcess
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UniEyeController))]
-    public class UniEyeLookAt : EyeProcessBase
+    public class UniUniEyeLookAt : UniEyeProcessBase
     {
         private void Reset()
         {
@@ -16,23 +16,18 @@ namespace UniEyeController.EyeProcess
 
         public EyeLookAtStatus status = EyeLookAtStatus.Default;
 
-        // To show enabled state in inspector.
-        private void Start()
-        {
-        }
-
         public void ResetEyeRotation()
         {
             if (!enabled) return;
-            if (Rotator == null) return;
+            if (EyeController == null) return;
             
-            Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
+            EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
         public override void Progress(double time, bool controlFromTimeline)
         {
             if (!enabled) return;
-            if (Rotator == null) return;
+            if (EyeController == null) return;
             
             var rotationApplyMethod = controlFromTimeline ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
             
@@ -42,28 +37,28 @@ namespace UniEyeController.EyeProcess
                     if (status.targetTransform == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
-                        Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
                         return;
                     }
 
-                    Rotator.LookAt(status.targetTransform.position, status.weight, rotationApplyMethod);
+                    EyeController.LookAt(status.targetTransform.position, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
                     if (mainCamera == null)
                     {
                         Debug.LogError($"MainCamera is not found.");
-                        Rotator.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
                         return;
                     }
 
-                    Rotator.LookAt(mainCamera.transform.position, status.weight, rotationApplyMethod);
+                    EyeController.LookAt(mainCamera.transform.position, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.WorldPosition:
-                    Rotator.LookAt(status.worldPosition, status.weight, rotationApplyMethod);
+                    EyeController.LookAt(status.worldPosition, status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Rotation:
-                    Rotator.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch), status.weight, rotationApplyMethod);
+                    EyeController.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch), status.weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Direction:
                     Vector2 direction;
@@ -88,7 +83,7 @@ namespace UniEyeController.EyeProcess
                             throw new ArgumentOutOfRangeException();
                     }
 
-                    Rotator.NormalizedRotate(direction, status.weight, rotationApplyMethod);
+                    EyeController.NormalizedRotate(direction, status.weight, rotationApplyMethod);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
