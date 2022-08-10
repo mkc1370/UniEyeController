@@ -21,7 +21,10 @@ namespace UniEyeController.EyeProcess
         
         [Range(0f, 1f)]
         public float eyeMicroMoveMultiplier = 0.1f;
+        
+        [Range(0f, 5f)]
         public float eyeMoveStopTimeMin = 0.5f;
+        [Range(0f, 5f)]
         public float eyeMoveStopTimeMax = 2.3f;
         
         private float _eyeMoveTimer;
