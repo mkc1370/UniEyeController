@@ -1,29 +1,30 @@
-﻿using UniEyeController.EyeProcess;
+﻿using UniEyeController.Editor.Status;
+using UniEyeController.EyeProcess;
 using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniUniEyeLookAt))]
-    public class UniUniEyeLookAtEditor : UniEyeProcessBaseEditor
+    [CustomEditor(typeof(UniEyeLookAt))]
+    public class UniEyeLookAtEditor : UniEyeProcessBaseEditor
     {
         private EyeLookAtStatusEditor _statusEditor;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            
-            _statusEditor = new EyeLookAtStatusEditor();
-            _statusEditor.Init(serializedObject, nameof(UniUniEyeLookAt.status));
 
-            var script = target as UniUniEyeLookAt;
+            var status = serializedObject.FindProperty(nameof(UniEyeLookAt.status));
+            _statusEditor = new EyeLookAtStatusEditor(status);
+
+            var script = target as UniEyeLookAt;
             if (script == null) return;
         }
 
         private void OnDisable()
         {
-            var script = target as UniUniEyeLookAt;
+            var script = target as UniEyeLookAt;
             if (script == null) return;
         }
 
@@ -31,7 +32,7 @@ namespace UniEyeController.Editor.EyeProcess
         {
             base.OnInspectorGUI();
             
-            var script = target as UniUniEyeLookAt;
+            var script = target as UniEyeLookAt;
             if (script == null) return;
 
             serializedObject.Update();

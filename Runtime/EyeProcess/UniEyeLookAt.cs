@@ -7,7 +7,7 @@ namespace UniEyeController.EyeProcess
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UniEyeController))]
-    public class UniUniEyeLookAt : UniEyeProcessBase
+    public class UniEyeLookAt : UniEyeProcessBase
     {
         private void Reset()
         {

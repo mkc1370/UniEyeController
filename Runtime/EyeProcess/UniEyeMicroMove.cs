@@ -9,7 +9,7 @@ namespace UniEyeController.EyeProcess
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UniEyeController))]
-    public class UniUniEyeMicroMove : UniEyeProcessBase
+    public class UniEyeMicroMove : UniEyeProcessBase
     {
         private void Reset()
         {

@@ -5,7 +5,7 @@ using UniEyeController.Core.Status;
 using UnityEditor;
 using UnityEngine;
 
-namespace UniEyeController.Editor
+namespace UniEyeController.Editor.Status
 {
     public class EyeLookAtStatusEditor
     {
@@ -18,16 +18,16 @@ namespace UniEyeController.Editor
         private SerializedProperty _normalizedPitch;
         private SerializedProperty _direction;
         
-        public void Init(SerializedObject serializedObject, string statusName)
+        public EyeLookAtStatusEditor(SerializedProperty property)
         {
-            _weight = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.weight)}");
-            _method = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.method)}");
-            _targetTransform = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.targetTransform)}");
-            _targetTransformTimeline = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.targetTransformTimeline)}");
-            _worldPosition = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.worldPosition)}");
-            _normalizedYaw = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.normalizedYaw)}");
-            _normalizedPitch = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.normalizedPitch)}");
-            _direction = serializedObject.FindProperty($"{statusName}.{nameof(EyeLookAtStatus.direction)}");
+            _weight = property.FindPropertyRelative(nameof(EyeLookAtStatus.weight));
+            _method = property.FindPropertyRelative(nameof(EyeLookAtStatus.method));
+            _targetTransform = property.FindPropertyRelative(nameof(EyeLookAtStatus.targetTransform));
+            _targetTransformTimeline = property.FindPropertyRelative(nameof(EyeLookAtStatus.targetTransformTimeline));
+            _worldPosition = property.FindPropertyRelative(nameof(EyeLookAtStatus.worldPosition));
+            _normalizedYaw = property.FindPropertyRelative(nameof(EyeLookAtStatus.normalizedYaw));
+            _normalizedPitch = property.FindPropertyRelative(nameof(EyeLookAtStatus.normalizedPitch));
+            _direction = property.FindPropertyRelative(nameof(EyeLookAtStatus.direction));
         }
 
         public void Draw(bool isTimeline)

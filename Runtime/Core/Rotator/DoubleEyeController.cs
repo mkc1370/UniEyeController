@@ -17,7 +17,7 @@ namespace UniEyeController.Core.Rotator
         /// <summary>
         /// 初期化
         /// </summary>
-        public DoubleEyeController(DoubleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
+        public DoubleEyeController(DoubleEyeDefaultStatus defaultStatus, EyeSetting setting)
         {
             _eyeL = new SingleEyeController(defaultStatus.EyeL, setting);
             _eyeR = new SingleEyeController(defaultStatus.EyeR, setting);

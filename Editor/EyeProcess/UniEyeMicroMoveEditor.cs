@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Editor.EyeProcess
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniUniEyeMicroMove))]
+    [CustomEditor(typeof(UniEyeMicroMove))]
     public class UniEyeMicroMoveEditor : UniEyeProcessBaseEditor
     {
         private SerializedProperty _weight;
@@ -17,10 +17,10 @@ namespace UniEyeController.Editor.EyeProcess
         {
             base.OnEnable();
             
-            _weight = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.weight));
-            _eyeMoveMultiplier = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.eyeMoveMultiplier));
-            _eyeMoveStopTimeMin = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.eyeMoveStopTimeMin));
-            _eyeMoveStopTimeMax = serializedObject.FindProperty(nameof(UniUniEyeMicroMove.eyeMoveStopTimeMax));
+            _weight = serializedObject.FindProperty(nameof(UniEyeMicroMove.weight));
+            _eyeMoveMultiplier = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveMultiplier));
+            _eyeMoveStopTimeMin = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveStopTimeMin));
+            _eyeMoveStopTimeMax = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveStopTimeMax));
         }
 
         public override void OnInspectorGUI()

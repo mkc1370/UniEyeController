@@ -25,7 +25,7 @@ namespace UniEyeController
         public Transform manualEyeL;
         public Transform manualEyeR;
         
-        public EyeRangeSetting rangeSetting;
+        public EyeSetting setting;
         public EyelidSetting eyelidSetting;
 
         public Transform CurrentEyeL => _defaultStatus.EyeL.Bone;
@@ -50,7 +50,7 @@ namespace UniEyeController
         {
             _defaultStatus = GetEyeDefaultStatusBones();
             
-            var eyeController = new DoubleEyeController(_defaultStatus, rangeSetting);
+            var eyeController = new DoubleEyeController(_defaultStatus, setting);
             var eyelidController = new EyelidController(eyelidSetting);
             foreach (var process in _processes)
             {

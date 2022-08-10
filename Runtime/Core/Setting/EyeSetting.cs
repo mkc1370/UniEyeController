@@ -8,16 +8,21 @@ namespace UniEyeController.Core.Setting
     /// 目の可動域の設定
     /// </summary>
     [Serializable]
-    public class EyeRangeSetting
+    public class EyeSetting
     {
         private const float MinEyeEulerAngles = 0.0f;
         private const float MaxEyeEulerAngles = 90.0f;
-        
+
         /// <summary>
         /// 水平方向の鼻に近い側 [オイラー角]
         /// </summary>
-        [Range(MinEyeEulerAngles, MaxEyeEulerAngles)]
-        public float horizontalInside = 16f;
+        public float HorizontalInside => horizontalOutside * horizontalInsideMultiplier;
+        
+        /// <summary>
+        /// 水平方向の鼻から遠い側の何倍動かすか
+        /// </summary>
+        [Range(0f, 1f)]
+        public float horizontalInsideMultiplier = 0.85f;
         
         /// <summary>
         /// 水平方向の鼻から遠い側 [オイラー角]
@@ -44,10 +49,10 @@ namespace UniEyeController.Core.Setting
             {
                 case EyeType.Left:
                     yawLimit.x = -horizontalOutside;
-                    yawLimit.y = horizontalInside;
+                    yawLimit.y = HorizontalInside;
                     break;
                 case EyeType.Right:
-                    yawLimit.x = -horizontalInside;
+                    yawLimit.x = -HorizontalInside;
                     yawLimit.y = horizontalOutside;
                     break;
                 default:

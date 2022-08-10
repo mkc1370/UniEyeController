@@ -12,7 +12,7 @@ namespace UniEyeController.Core.Rotator
     /// </summary>
     public class SingleEyeController
     {
-        private EyeRangeSetting _setting;
+        private EyeSetting _setting;
     
         private Transform _eyeBone;
         private Quaternion _defaultRotation;
@@ -21,7 +21,7 @@ namespace UniEyeController.Core.Rotator
         private Vector2 _currentEulerAngles;
         private EyeType _eyeType;
 
-        public SingleEyeController(SingleEyeDefaultStatus defaultStatus, EyeRangeSetting setting)
+        public SingleEyeController(SingleEyeDefaultStatus defaultStatus, EyeSetting setting)
         {
             _eyeBone = defaultStatus.Bone;
             _defaultRotation = defaultStatus.Rotation;

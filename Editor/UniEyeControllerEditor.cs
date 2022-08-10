@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniEyeController.Core.Constants;
+using UniEyeController.Editor.Setting;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ namespace UniEyeController.Editor
         private SerializedProperty _prefabForGenericAvatar;
         private SerializedProperty _manualEyeL;
         private SerializedProperty _manualEyeR;
-        private SerializedProperty _rangeSetting;
 
+        private EyeSettingEditor _eyeSettingEditor;
         private EyelidSettingEditor _eyelidSettingEditor;
         
         private bool _debugFoldout;
@@ -28,8 +29,11 @@ namespace UniEyeController.Editor
             _prefabForGenericAvatar = serializedObject.FindProperty(nameof(UniEyeController.prefabForGenericAvatar));
             _manualEyeL = serializedObject.FindProperty(nameof(UniEyeController.manualEyeL));
             _manualEyeR = serializedObject.FindProperty(nameof(UniEyeController.manualEyeR));
-            _rangeSetting = serializedObject.FindProperty($"{nameof(UniEyeController.rangeSetting)}");
-            var eyelidSetting = serializedObject.FindProperty($"{nameof(UniEyeController.eyelidSetting)}");
+            
+            var eyeSetting = serializedObject.FindProperty(nameof(UniEyeController.setting));
+            _eyeSettingEditor = new EyeSettingEditor(eyeSetting);
+            
+            var eyelidSetting = serializedObject.FindProperty(nameof(UniEyeController.eyelidSetting));
             _eyelidSettingEditor = new EyelidSettingEditor(eyelidSetting);
             
             var script = target as UniEyeController;
@@ -145,25 +149,11 @@ namespace UniEyeController.Editor
             EditorGUI.EndDisabledGroup();
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("可動域の設定");
-            GUILayout.BeginVertical(GUI.skin.box);
-            EditorGUI.indentLevel++;
-            {
-                EditorGUILayout.PropertyField(_rangeSetting);
-            }
-            EditorGUI.indentLevel--;
-            GUILayout.EndVertical();
+            _eyeSettingEditor.Draw();
             EditorGUILayout.Space();
             
-            EditorGUILayout.LabelField("まぶたの設定");
-            GUILayout.BeginVertical(GUI.skin.box);
-            EditorGUI.indentLevel++;
-            {
-                _eyelidSettingEditor.Draw();
-            }
-            EditorGUI.indentLevel--;
-            GUILayout.EndVertical();
-            
+            _eyelidSettingEditor.Draw();
+            EditorGUILayout.Space();
 
             _debugFoldout = EditorGUILayout.Foldout(_debugFoldout, "デバッグ用");
             if (_debugFoldout)

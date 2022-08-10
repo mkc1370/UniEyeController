@@ -1,4 +1,5 @@
-﻿using UniEyeController.Timeline.EyeLookAtTimeline;
+﻿using UniEyeController.Editor.Status;
+using UniEyeController.Timeline.EyeLookAtTimeline;
 using UnityEditor;
 
 namespace UniEyeController.Editor.Timeline.EyeLookAtTimeline
@@ -10,8 +11,8 @@ namespace UniEyeController.Editor.Timeline.EyeLookAtTimeline
 
         private void OnEnable()
         {
-            _statusEditor = new EyeLookAtStatusEditor();
-            _statusEditor.Init(serializedObject, nameof(EyeLookAtClip.status));
+            var status = serializedObject.FindProperty(nameof(EyeLookAtClip.status));
+            _statusEditor = new EyeLookAtStatusEditor(status);
 
             var script = target as EyeLookAtClip;
             if (script == null) return;
