@@ -12,6 +12,7 @@ namespace UniEyeController.Editor.EyeProcess
         private SerializedProperty _executionOrder;
 
         private bool _footerFoldout;
+        private bool _footerFoldoutDetail;
 
         protected virtual void OnEnable()
         {
@@ -24,25 +25,17 @@ namespace UniEyeController.Editor.EyeProcess
         {
             serializedObject.Update();
 
-            EditorGUILayout.LabelField("実行タイミング", EditorStyles.boldLabel);
-            GUILayout.BeginVertical(GUI.skin.box);
+            _footerFoldout = EditorGUILayout.Foldout(_footerFoldout, "実行方法");
+            if (_footerFoldout)
             {
-                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("実行方法"));
-
-                EditorGUI.indentLevel++;
-                _footerFoldout = EditorGUILayout.Foldout(_footerFoldout, "詳細設定");
-                EditorGUI.indentLevel++;
-                if (_footerFoldout)
-                {
-                    EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
-                    EditorGUILayout.PropertyField(_executionOrder, new GUIContent("実行順（小さい順に実行）"));
-                    EditorGUILayout.HelpBox("Timeline再生時には設定に関係なく実行されます", MessageType.Info);
-                }
-
-                EditorGUI.indentLevel--;
-                EditorGUI.indentLevel--;
+                GUILayout.BeginVertical(GUI.skin.box);
+                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("実行タイミング"));
+                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
+                EditorGUILayout.PropertyField(_executionOrder, new GUIContent("実行順（小さい順に実行）"));
+                EditorGUILayout.HelpBox("Timeline再生時には設定に関係なく実行されます", MessageType.Info);
+                GUILayout.EndVertical();
             }
-            GUILayout.EndVertical();
+
             EditorGUILayout.Space();
 
             serializedObject.ApplyModifiedProperties();
