@@ -1,8 +1,8 @@
-﻿using SimpleEyeController.View.Process;
+﻿using UniEyeController.View.Process;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace SimpleEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.EyeLookAtTimeline
 {
     public class EyeLookAtMixer : PlayableBehaviour
     {

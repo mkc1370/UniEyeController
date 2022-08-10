@@ -1,8 +1,8 @@
 ﻿using System;
-using SimpleEyeController.Constants;
+using UniEyeController.Constants;
 using UnityEngine;
 
-namespace SimpleEyeController.Model.Setting
+namespace UniEyeController.Model.Setting
 {
     /// <summary>
     /// 目の可動域の設定

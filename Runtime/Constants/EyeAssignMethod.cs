@@ -1,4 +1,4 @@
-﻿namespace SimpleEyeController.Constants
+﻿namespace UniEyeController.Constants
 {
     /// <summary>
     /// 目のボーンの指定方法

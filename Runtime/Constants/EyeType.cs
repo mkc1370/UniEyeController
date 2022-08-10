@@ -1,4 +1,4 @@
-﻿namespace SimpleEyeController.Constants
+﻿namespace UniEyeController.Constants
 {
     public enum EyeType
     {

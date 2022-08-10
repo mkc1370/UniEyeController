@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SimpleEyeController.Constants;
-using SimpleEyeController.Model.Extensions;
-using SimpleEyeController.Model.Rotator;
-using SimpleEyeController.Model.Setting;
-using SimpleEyeController.Model.Status;
-using SimpleEyeController.View.Process.Interface;
+using UniEyeController.Constants;
+using UniEyeController.Model.Extensions;
+using UniEyeController.Model.Rotator;
+using UniEyeController.Model.Setting;
+using UniEyeController.Model.Status;
+using UniEyeController.View.Process.Interface;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace SimpleEyeController.View
+namespace UniEyeController.View
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]

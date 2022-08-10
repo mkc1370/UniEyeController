@@ -1,7 +1,7 @@
-﻿using SimpleEyeController.View.Process;
+﻿using UniEyeController.View.Process;
 using UnityEditor;
 
-namespace SimpleEyeController.Editor
+namespace UniEyeController.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EyeLookAt))]

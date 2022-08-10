@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using SimpleEyeController.Constants;
-using SimpleEyeController.Model.Status;
+using UniEyeController.Constants;
+using UniEyeController.Model.Status;
 using UnityEditor;
 using UnityEngine;
 
-namespace SimpleEyeController.Editor
+namespace UniEyeController.Editor
 {
     public class EyeLookAtStatusEditor
     {
