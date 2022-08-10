@@ -67,28 +67,40 @@ namespace UniEyeController.Core.Setting
             return new Vector2(-verticalDown, verticalUp);
         }
 
-        private float GetClampedYaw(EyeType eyeType, float yaw)
-        {
-            var maxYaw = Mathf.Max(horizontalInside, horizontalOutside);
-            var normalizedYaw = Mathf.Clamp(yaw, -maxYaw, maxYaw) / maxYaw;
-            return GetYawFromNormalized(eyeType, normalizedYaw);
-        }
-        
-        private float GetClampedPitch(float pitch)
-        {
-            var pitchLimit = PitchLimit();
-            var clampedPitch =
-                Mathf.Clamp(pitch, pitchLimit.x, 0) +
-                Mathf.Clamp(pitch, 0, pitchLimit.y);
-            return clampedPitch;
-        }
-
         public Vector2 GetClampedEulerAngles(EyeType eyeType ,Vector2 eulerAngles)
         {
-            return new Vector2(
-                GetClampedYaw(eyeType, eulerAngles.x),
-                GetClampedPitch(eulerAngles.y)
-            );
+            // YawとPitchがそれぞれ[-1, 1]の範囲に収まるようにClampする
+            var normalizedEulerAngles =
+                new Vector2(
+                    GetNormalizedYaw(eyeType, eulerAngles.x),
+                    GetNormalizedPitch(eulerAngles.y)
+                );
+            
+            // 単位円の中に収めるようにする
+            var normalizedEulerAnglesSize1 =
+                normalizedEulerAngles.magnitude > 1.0f
+                    ? normalizedEulerAngles.normalized
+                    : normalizedEulerAngles;
+
+            return GetEulerAnglesFromNormalized(eyeType, normalizedEulerAnglesSize1);
+        }
+        
+        private float GetNormalizedYaw(EyeType eyeType, float yaw)
+        {
+            var yawLimit = GetYawLimit(eyeType);
+            var normalizedYaw =
+                -Mathf.InverseLerp(0, yawLimit.x, yaw) +
+                Mathf.InverseLerp(0, yawLimit.y, yaw);
+            return normalizedYaw;
+        }
+        
+        private float GetNormalizedPitch(float pitch)
+        {
+            var pitchLimit = PitchLimit();
+            var normalizedPitch =
+                -Mathf.InverseLerp(0, pitchLimit.x, pitch) +
+                Mathf.InverseLerp(0, pitchLimit.y, pitch);
+            return normalizedPitch;
         }
 
         public float GetYawFromNormalized(EyeType eyeType, float normalizedYaw)
