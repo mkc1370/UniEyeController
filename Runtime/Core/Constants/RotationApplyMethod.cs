@@ -1,4 +1,4 @@
-﻿namespace UniEyeController.Constants
+﻿namespace UniEyeController.Core.Constants
 {
     /// <summary>
     /// 回転の適用方法

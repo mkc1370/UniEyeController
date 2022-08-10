@@ -1,4 +1,4 @@
-﻿namespace UniEyeController.Constants
+﻿namespace UniEyeController.Core.Constants
 {
     /// <summary>
     /// 注視する方向

@@ -1,15 +1,15 @@
 ﻿using System;
-using UniEyeController.Constants;
-using UniEyeController.Model.Rotator;
-using UniEyeController.Model.Status;
-using UniEyeController.View.Process.Interface;
+using UniEyeController.Core.Constants;
+using UniEyeController.Core.Interface;
+using UniEyeController.Core.Rotator;
+using UniEyeController.Core.Status;
 using UnityEngine;
 
-namespace UniEyeController.View.Process
+namespace UniEyeController.EyeProcess
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(EyeController))]
-    public class EyeLookAt : MonoBehaviour, IEyeProcess
+    [RequireComponent(typeof(UniEyeController))]
+    public class UniEyeLookAt : MonoBehaviour, IEyeProcess
     {
         public EyeLookAtStatus status = EyeLookAtStatus.Default;
 

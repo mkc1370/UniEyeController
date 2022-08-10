@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniEyeController.Constants;
-using UniEyeController.View;
+using UniEyeController.Core.Constants;
 using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController.Editor
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(EyeController))]
-    public class EyeControllerEditor : UnityEditor.Editor
+    [CustomEditor(typeof(UniEyeController))]
+    public class UniEyeControllerBehaviourEditor : UnityEditor.Editor
     {
         private SerializedProperty _executeAlways;
         private SerializedProperty _updateMethod;
@@ -24,29 +23,29 @@ namespace UniEyeController.Editor
 
         private void OnEnable()
         {
-            _executeAlways = serializedObject.FindProperty(nameof(EyeController.executeAlways));
-            _updateMethod = serializedObject.FindProperty(nameof(EyeController.updateMethod));
-            _assignMethod = serializedObject.FindProperty(nameof(EyeController.assignMethod));
-            _animator = serializedObject.FindProperty(nameof(EyeController.animator));
-            _prefabForGenericAvatar = serializedObject.FindProperty(nameof(EyeController.prefabForGenericAvatar));
-            _manualEyeL = serializedObject.FindProperty(nameof(EyeController.manualEyeL));
-            _manualEyeR = serializedObject.FindProperty(nameof(EyeController.manualEyeR));
+            _executeAlways = serializedObject.FindProperty(nameof(UniEyeController.executeAlways));
+            _updateMethod = serializedObject.FindProperty(nameof(UniEyeController.updateMethod));
+            _assignMethod = serializedObject.FindProperty(nameof(UniEyeController.assignMethod));
+            _animator = serializedObject.FindProperty(nameof(UniEyeController.animator));
+            _prefabForGenericAvatar = serializedObject.FindProperty(nameof(UniEyeController.prefabForGenericAvatar));
+            _manualEyeL = serializedObject.FindProperty(nameof(UniEyeController.manualEyeL));
+            _manualEyeR = serializedObject.FindProperty(nameof(UniEyeController.manualEyeR));
             _rangeSetting = serializedObject.FindProperty(
-                $"{nameof(EyeController.rangeSetting)}");
+                $"{nameof(UniEyeController.rangeSetting)}");
             
-            var script = target as EyeController;
+            var script = target as UniEyeController;
             if (script == null) return;
         }
 
         private void OnDisable()
         {
-            var script = target as EyeController;
+            var script = target as UniEyeController;
             if (script == null) return;
         }
 
         public override void OnInspectorGUI()
         {
-            var script = target as EyeController;
+            var script = target as UniEyeController;
             if (script == null) return;
             
             serializedObject.Update();

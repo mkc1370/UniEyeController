@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UniEyeController.Constants;
-using UniEyeController.Model.Extensions;
-using UniEyeController.Model.Rotator;
-using UniEyeController.Model.Setting;
-using UniEyeController.Model.Status;
-using UniEyeController.View.Process.Interface;
+using UniEyeController.Core.Constants;
+using UniEyeController.Core.Extensions;
+using UniEyeController.Core.Interface;
+using UniEyeController.Core.Rotator;
+using UniEyeController.Core.Setting;
+using UniEyeController.Core.Status;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace UniEyeController.View
+namespace UniEyeController
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class EyeController : MonoBehaviour, ITimeControl
+    public class UniEyeController : MonoBehaviour, ITimeControl
     {
         public bool executeAlways;
         

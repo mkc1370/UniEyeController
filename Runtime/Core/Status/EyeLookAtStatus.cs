@@ -1,8 +1,8 @@
 ﻿using System;
-using UniEyeController.Constants;
+using UniEyeController.Core.Constants;
 using UnityEngine;
 
-namespace UniEyeController.Model.Status
+namespace UniEyeController.Core.Status
 {
     [Serializable]
     public struct EyeLookAtStatus

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniEyeController.Constants;
-using UniEyeController.Model.Status;
+using UniEyeController.Core.Constants;
+using UniEyeController.Core.Status;
 using UnityEditor;
 using UnityEngine;
 

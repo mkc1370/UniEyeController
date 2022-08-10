@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UniEyeController.Model.Extensions
+namespace UniEyeController.Core.Extensions
 {
     public static class UnityExtensions
     {

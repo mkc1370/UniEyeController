@@ -1,17 +1,17 @@
-﻿using UniEyeController.Constants;
-using UniEyeController.Model.Rotator;
-using UniEyeController.View.Process.Interface;
+﻿using UniEyeController.Core.Constants;
+using UniEyeController.Core.Interface;
+using UniEyeController.Core.Rotator;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace UniEyeController.View.Process
+namespace UniEyeController.EyeProcess
 {
     /// <summary>
     /// 眼球微細運動を再現する
     /// </summary>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(EyeController))]
-    public class EyeMicroMove : MonoBehaviour, IEyeProcess
+    [RequireComponent(typeof(UniEyeController))]
+    public class UniEyeMicroMove : MonoBehaviour, IEyeProcess
     {
         [Range(0f, 1f)]
         public float weight = 1f;

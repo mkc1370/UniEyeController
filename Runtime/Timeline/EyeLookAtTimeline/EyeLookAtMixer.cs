@@ -1,4 +1,4 @@
-﻿using UniEyeController.View.Process;
+﻿using UniEyeController.EyeProcess;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -9,7 +9,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
         public EyeLookAtTrack Track { get; set; }
         public TimelineClip[] Clips { get; set; }
         
-        private EyeLookAt _target;
+        private UniEyeLookAt _target;
 
         public override void OnPlayableDestroy(Playable playable)
         {
@@ -20,7 +20,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as EyeLookAt;
+            _target = playerData as UniEyeLookAt;
             if (_target == null) return;
                 
             _target.ResetEyeRotation();

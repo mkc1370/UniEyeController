@@ -1,4 +1,4 @@
-﻿using UniEyeController.Model.Status;
+﻿using UniEyeController.Core.Status;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;

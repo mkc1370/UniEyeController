@@ -1,7 +1,7 @@
-﻿using UniEyeController.Constants;
+﻿using UniEyeController.Core.Constants;
 using UnityEngine;
 
-namespace UniEyeController.Model.Status
+namespace UniEyeController.Core.Status
 {
     /// <summary>
     /// TやAスタンスでの目の状態

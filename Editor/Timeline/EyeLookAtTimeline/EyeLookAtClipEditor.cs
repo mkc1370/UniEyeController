@@ -1,5 +1,5 @@
 ﻿using System;
-using UniEyeController.Constants;
+using UniEyeController.Core.Constants;
 using UniEyeController.Timeline.EyeLookAtTimeline;
 using UnityEditor.Timeline;
 using UnityEngine;
