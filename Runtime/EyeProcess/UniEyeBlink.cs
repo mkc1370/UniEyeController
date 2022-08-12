@@ -6,13 +6,9 @@ using Random = UnityEngine.Random;
 
 namespace UniEyeController.EyeProcess
 {
+    [Serializable]
     public class UniEyeBlink : UniEyeProcessBase
     {
-        private void Reset()
-        {
-            executionOrder = 3;
-        }
-
         [Range(0f, 1f)]
         public float weight = 1f;
         
@@ -43,7 +39,7 @@ namespace UniEyeController.EyeProcess
         
         private void Start()
         {
-            StartCoroutine(EyeBlinkLoop());
+            // StartCoroutine(EyeBlinkLoop());
         }
         
         public override void Progress(double time, bool controlFromTimeline)

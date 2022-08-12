@@ -1,4 +1,5 @@
-﻿using UniEyeController.Core.Constants;
+﻿using System;
+using UniEyeController.Core.Constants;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,15 +8,9 @@ namespace UniEyeController.EyeProcess
     /// <summary>
     /// 眼球微細運動を再現する
     /// </summary>
-    [DisallowMultipleComponent]
-    [RequireComponent(typeof(UniEyeController))]
+    [Serializable]
     public class UniEyeMicroMove : UniEyeProcessBase
     {
-        private void Reset()
-        {
-            executionOrder = 2;
-        }
-
         [Range(0f, 1f)]
         public float weight = 1f;
         

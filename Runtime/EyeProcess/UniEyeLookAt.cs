@@ -5,15 +5,9 @@ using UnityEngine;
 
 namespace UniEyeController.EyeProcess
 {
-    [DisallowMultipleComponent]
-    [RequireComponent(typeof(UniEyeController))]
+    [Serializable]
     public class UniEyeLookAt : UniEyeProcessBase
     {
-        private void Reset()
-        {
-            executionOrder = 1;
-        }
-
         public EyeLookAtStatus status = EyeLookAtStatus.Default;
 
         public void ResetEyeRotation()

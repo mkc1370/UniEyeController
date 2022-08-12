@@ -5,46 +5,28 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniEyeLookAt))]
     public class UniEyeLookAtEditor : UniEyeProcessBaseEditor
     {
         private EyeLookAtStatusEditor _statusEditor;
 
-        protected override void OnEnable()
+        protected override void GetProperties(SerializedProperty property)
         {
-            base.OnEnable();
-
-            var status = serializedObject.FindProperty(nameof(UniEyeLookAt.status));
+            var status = property.FindPropertyRelative(nameof(UniEyeLookAt.status));
             _statusEditor = new EyeLookAtStatusEditor(status);
-
-            var script = target as UniEyeLookAt;
-            if (script == null) return;
         }
 
-        private void OnDisable()
+        protected override void DrawProperties()
         {
-            var script = target as UniEyeLookAt;
-            if (script == null) return;
-        }
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            
-            var script = target as UniEyeLookAt;
-            if (script == null) return;
-
-            serializedObject.Update();
-
             EditorGUILayout.LabelField("注視点の設定", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
             {
                 _statusEditor.Draw(false);
             }
             GUILayout.EndVertical();
+        }
 
-            serializedObject.ApplyModifiedProperties();
+        public UniEyeLookAtEditor(SerializedProperty property) : base(property)
+        {
         }
     }
 }

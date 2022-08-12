@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniEyeController.Core.Constants;
+using UniEyeController.Editor.EyeProcess;
 using UniEyeController.Editor.Setting;
 using UnityEditor;
 using UnityEngine;
@@ -11,6 +12,9 @@ namespace UniEyeController.Editor
     [CustomEditor(typeof(UniEyeController))]
     public class UniEyeControllerEditor : UnityEditor.Editor
     {
+        private SerializedProperty _updateMethod;
+        private SerializedProperty _executeAlways;
+        
         private SerializedProperty _assignMethod;
         private SerializedProperty _animator;
         private SerializedProperty _prefabForGenericAvatar;
@@ -22,8 +26,13 @@ namespace UniEyeController.Editor
         
         private bool _debugFoldout;
 
+        private List<UniEyeProcessBaseEditor> _processEditors = new List<UniEyeProcessBaseEditor>();
+
         private void OnEnable()
         {
+            _updateMethod = serializedObject.FindProperty(nameof(UniEyeController.updateMethod));
+            _executeAlways = serializedObject.FindProperty(nameof(UniEyeController.executeAlways));
+            
             _assignMethod = serializedObject.FindProperty(nameof(UniEyeController.assignMethod));
             _animator = serializedObject.FindProperty(nameof(UniEyeController.animator));
             _prefabForGenericAvatar = serializedObject.FindProperty(nameof(UniEyeController.prefabForGenericAvatar));
@@ -35,6 +44,13 @@ namespace UniEyeController.Editor
             
             var eyelidSetting = serializedObject.FindProperty(nameof(UniEyeController.eyelidSetting));
             _eyelidSettingEditor = new EyelidSettingEditor(eyelidSetting);
+            
+            var lookAt = serializedObject.FindProperty(nameof(UniEyeController.lookAt));
+            var microMove = serializedObject.FindProperty(nameof(UniEyeController.microMove));
+            var blink = serializedObject.FindProperty(nameof(UniEyeController.blink));
+            _processEditors.Add(new UniEyeLookAtEditor(lookAt));
+            _processEditors.Add(new UniEyeMicroMoveEditor(microMove));
+            _processEditors.Add(new UniEyeBlinkEditor(blink));
             
             var script = target as UniEyeController;
             if (script == null) return;
@@ -54,6 +70,17 @@ namespace UniEyeController.Editor
             serializedObject.Update();
             
             EditorGUI.BeginChangeCheck();
+
+            EditorGUILayout.LabelField("実行設定", EditorStyles.boldLabel);
+            GUILayout.BeginVertical(GUI.skin.box);
+            {
+                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("実行タイミング"));
+                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
+                EditorGUILayout.HelpBox("Timeline再生時には設定に関係なく実行されます", MessageType.Info);
+            }
+            GUILayout.EndVertical();
+
+            EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("目のボーンの設定", EditorStyles.boldLabel);
             EditorGUI.BeginDisabledGroup(Application.isPlaying);
@@ -152,6 +179,12 @@ namespace UniEyeController.Editor
             
             _eyelidSettingEditor.Draw();
             EditorGUILayout.Space();
+
+            foreach (var processEditor in _processEditors)
+            {
+                processEditor.Draw();
+                EditorGUILayout.Space();
+            }
 
             _debugFoldout = EditorGUILayout.Foldout(_debugFoldout, "デバッグ用");
             if (_debugFoldout)

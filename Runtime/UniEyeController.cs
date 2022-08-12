@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UniEyeController.Core;
 using UniEyeController.Core.Constants;
 using UniEyeController.Core.Extensions;
@@ -16,6 +14,12 @@ namespace UniEyeController
     [DisallowMultipleComponent]
     public class UniEyeController : MonoBehaviour
     {
+        public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
+        
+        public bool executeAlways;
+        
+        public bool CanExecute => Application.isPlaying || executeAlways;
+        
         public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
         public Animator animator;
@@ -32,8 +36,10 @@ namespace UniEyeController
         public Transform CurrentEyeR => _defaultStatus.EyeR.Bone;
 
         private DoubleEyeDefaultStatus _defaultStatus;
-
-        private List<UniEyeProcessBase> _processes = new List<UniEyeProcessBase>();
+        
+        public UniEyeLookAt lookAt;
+        public UniEyeMicroMove microMove;
+        public UniEyeBlink blink;
 
         private void Start()
         {
@@ -52,11 +58,14 @@ namespace UniEyeController
             
             var eyeController = new DoubleEyeController(_defaultStatus, setting);
             var eyelidController = new EyelidController(eyelidSetting);
-            foreach (var process in _processes)
-            {
-                process.EyeController = eyeController;
-                process.EyelidController = eyelidController;
-            }
+            
+            lookAt.EyeController = eyeController;
+            microMove.EyeController = eyeController;
+            blink.EyeController = eyeController;
+            
+            lookAt.EyelidController = eyelidController;
+            microMove.EyelidController = eyelidController;
+            blink.EyelidController = eyelidController;
         }
 
         private DoubleEyeDefaultStatus GetEyeDefaultStatusBones()
@@ -77,47 +86,37 @@ namespace UniEyeController
             }
         }
 
-        private void UpdateInternal(UpdateMethod updateMethod)
+        private void UpdateInternal()
         {
-            var processes =
-                _processes
-                    .Where(x => x.updateMethod == updateMethod)
-                    .Where(x => x.CanExecute)
-                    .OrderBy(x => x.executionOrder);
-            
-            foreach (var process in processes)
+            if (CanExecute)
             {
-                process.Progress(Time.time, false);
+                lookAt.Progress(Time.time, false);
+                microMove.Progress(Time.time, false);
+                blink.Progress(Time.time, false);
             }
         }
 
         private void Update()
         {
-            // 一度Updateのタイミングで回転を0にする
-            foreach (var process in _processes)
-            {
-                if (process.CanExecute)
-                {
-                    process.EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
-                }
-            }
-            
-            UpdateInternal(UpdateMethod.Update);
+            UpdateInternal();
         }
 
         private void LateUpdate()
         {
-            UpdateInternal(UpdateMethod.LateUpdate);
+            if (updateMethod == UpdateMethod.LateUpdate)
+            {
+                UpdateInternal();
+            }
         }
 
         private void FixedUpdate()
         {
-            UpdateInternal(UpdateMethod.FixedUpdate);
+            UpdateInternal();
         }
 
         public void ManualUpdate()
         {
-            UpdateInternal(UpdateMethod.Manual);
+            UpdateInternal();
         }
 
         private void Reset()
@@ -131,8 +130,6 @@ namespace UniEyeController
             {
                 animator = gameObject.GetOrAddComponent<Animator>();
             }
-
-            _processes = GetComponents<UniEyeProcessBase>().ToList();
         }
     }
 }

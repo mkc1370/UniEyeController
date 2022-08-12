@@ -4,41 +4,25 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    [CustomEditor(typeof(UniEyeProcessBase))]
-    public abstract class UniEyeProcessBaseEditor : UnityEditor.Editor
+    public abstract class UniEyeProcessBaseEditor
     {
-        private SerializedProperty _executeAlways;
-        private SerializedProperty _updateMethod;
-        private SerializedProperty _executionOrder;
-
-        private bool _footerFoldout;
-        private bool _footerFoldoutDetail;
-
-        protected virtual void OnEnable()
+        private SerializedProperty _enabled;
+        
+        public UniEyeProcessBaseEditor(SerializedProperty property)
         {
-            _executeAlways = serializedObject.FindProperty(nameof(UniEyeProcessBase.executeAlways));
-            _updateMethod = serializedObject.FindProperty(nameof(UniEyeProcessBase.updateMethod));
-            _executionOrder = serializedObject.FindProperty(nameof(UniEyeProcessBase.executionOrder));
+            _enabled = property.FindPropertyRelative(nameof(UniEyeProcessBase.enabled));
+            
+            GetProperties(property);
         }
 
-        public override void OnInspectorGUI()
+        public void Draw()
         {
-            serializedObject.Update();
-
-            _footerFoldout = EditorGUILayout.Foldout(_footerFoldout, "実行方法");
-            if (_footerFoldout)
-            {
-                GUILayout.BeginVertical(GUI.skin.box);
-                EditorGUILayout.PropertyField(_updateMethod, new GUIContent("実行タイミング"));
-                EditorGUILayout.PropertyField(_executeAlways, new GUIContent("Playしていない状態でも実行する"));
-                EditorGUILayout.PropertyField(_executionOrder, new GUIContent("実行順（小さい順に実行）"));
-                EditorGUILayout.HelpBox("Timeline再生時には設定に関係なく実行されます", MessageType.Info);
-                GUILayout.EndVertical();
-            }
-
-            EditorGUILayout.Space();
-
-            serializedObject.ApplyModifiedProperties();
+            EditorGUILayout.PropertyField(_enabled, new GUIContent("機能の有効化"));
+            
+            DrawProperties();
         }
+
+        protected abstract void GetProperties(SerializedProperty property);
+        protected abstract void DrawProperties();
     }
 }

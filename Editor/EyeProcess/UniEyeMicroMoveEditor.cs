@@ -4,31 +4,27 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniEyeMicroMove))]
     public class UniEyeMicroMoveEditor : UniEyeProcessBaseEditor
     {
         private SerializedProperty _weight;
         private SerializedProperty _eyeMoveMultiplier;
         private SerializedProperty _eyeMoveStopTimeMin;
         private SerializedProperty _eyeMoveStopTimeMax;
-        
-        protected override void OnEnable()
+
+        public UniEyeMicroMoveEditor(SerializedProperty property) : base(property)
         {
-            base.OnEnable();
-            
-            _weight = serializedObject.FindProperty(nameof(UniEyeMicroMove.weight));
-            _eyeMoveMultiplier = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveMultiplier));
-            _eyeMoveStopTimeMin = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveStopTimeMin));
-            _eyeMoveStopTimeMax = serializedObject.FindProperty(nameof(UniEyeMicroMove.eyeMoveStopTimeMax));
         }
 
-        public override void OnInspectorGUI()
+        protected override void GetProperties(SerializedProperty property)
         {
-            base.OnInspectorGUI();
-            
-            serializedObject.Update();
-            
+            _weight = property.FindPropertyRelative(nameof(UniEyeMicroMove.weight));
+            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(UniEyeMicroMove.eyeMoveMultiplier));
+            _eyeMoveStopTimeMin = property.FindPropertyRelative(nameof(UniEyeMicroMove.eyeMoveStopTimeMin));
+            _eyeMoveStopTimeMax = property.FindPropertyRelative(nameof(UniEyeMicroMove.eyeMoveStopTimeMax));
+        }
+
+        protected override void DrawProperties()
+        {
             EditorGUILayout.LabelField("眼球微細運動の設定", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
             {
@@ -43,8 +39,6 @@ namespace UniEyeController.Editor.EyeProcess
                 EditorGUI.indentLevel--;
             }
             GUILayout.EndVertical();
-
-            serializedObject.ApplyModifiedProperties();
         }
     }
 }

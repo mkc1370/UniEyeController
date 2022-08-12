@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    [CanEditMultipleObjects]
-    [CustomEditor(typeof(UniEyeBlink))]
     public class UniEyeBlinkEditor : UniEyeProcessBaseEditor
     {
         private SerializedProperty _weight;
@@ -16,25 +14,23 @@ namespace UniEyeController.Editor.EyeProcess
         private SerializedProperty _timeToCloseEyelid;
         private SerializedProperty _timeToOpenEyelid;
 
-        protected override void OnEnable()
+        public UniEyeBlinkEditor(SerializedProperty property) : base(property)
         {
-            base.OnEnable();
-            
-            _weight = serializedObject.FindProperty(nameof(UniEyeBlink.weight));
-            _eyeMoveMultiplier = serializedObject.FindProperty(nameof(UniEyeBlink.eyeMoveMultiplier));
-            _eyeBlinkStopTimeMin = serializedObject.FindProperty(nameof(UniEyeBlink.eyeBlinkStopTimeMin));
-            _eyeBlinkStopTimeMax = serializedObject.FindProperty(nameof(UniEyeBlink.eyeBlinkStopTimeMax));
-            _moveEyeWithBlink = serializedObject.FindProperty(nameof(UniEyeBlink.moveEyeWithBlink));
-            _timeToCloseEyelid = serializedObject.FindProperty(nameof(UniEyeBlink.timeToCloseEyelid));
-            _timeToOpenEyelid = serializedObject.FindProperty(nameof(UniEyeBlink.timeToOpenEyelid));
         }
 
-        public override void OnInspectorGUI()
+        protected override void GetProperties(SerializedProperty property)
         {
-            base.OnInspectorGUI();
+            _weight = property.FindPropertyRelative(nameof(UniEyeBlink.weight));
+            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(UniEyeBlink.eyeMoveMultiplier));
+            _eyeBlinkStopTimeMin = property.FindPropertyRelative(nameof(UniEyeBlink.eyeBlinkStopTimeMin));
+            _eyeBlinkStopTimeMax = property.FindPropertyRelative(nameof(UniEyeBlink.eyeBlinkStopTimeMax));
+            _moveEyeWithBlink = property.FindPropertyRelative(nameof(UniEyeBlink.moveEyeWithBlink));
+            _timeToCloseEyelid = property.FindPropertyRelative(nameof(UniEyeBlink.timeToCloseEyelid));
+            _timeToOpenEyelid = property.FindPropertyRelative(nameof(UniEyeBlink.timeToOpenEyelid));
+        }
 
-            serializedObject.Update();
-
+        protected override void DrawProperties()
+        {
             EditorGUILayout.LabelField("まばたきの設定", EditorStyles.boldLabel);
             GUILayout.BeginVertical(GUI.skin.box);
             {
@@ -57,8 +53,6 @@ namespace UniEyeController.Editor.EyeProcess
                 EditorGUI.indentLevel--;
             }
             GUILayout.EndVertical();
-
-            serializedObject.ApplyModifiedProperties();
         }
     }
 }
