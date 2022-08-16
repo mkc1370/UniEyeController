@@ -12,8 +12,8 @@ namespace UniEyeController.EyeProcess
     public abstract class UniEyeProcessBase : MonoBehaviour
     {
         public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
-        
-        public bool CanExecute => Application.isPlaying || executeAlways;
+
+        public bool CanExecute => enabled && (Application.isPlaying || executeAlways);
         
         public bool executeAlways;
 
