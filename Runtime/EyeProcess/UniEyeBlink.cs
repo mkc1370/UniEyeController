@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UniEyeController.Core.Constants;
+using UniEyeController.Core.Status;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -46,7 +47,7 @@ namespace UniEyeController.EyeProcess
             StartCoroutine(EyeBlinkLoop());
         }
         
-        public override void Progress(double time, bool controlFromTimeline)
+        public override void Progress(double time, IEyeStatus statusFromTimeline)
         {
         }
 

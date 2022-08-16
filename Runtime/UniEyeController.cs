@@ -87,7 +87,7 @@ namespace UniEyeController
             
             foreach (var process in processes)
             {
-                process.Progress(Time.time, false);
+                process.Progress(Time.time, null);
             }
         }
 
