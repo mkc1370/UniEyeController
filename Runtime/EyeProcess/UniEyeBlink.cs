@@ -54,9 +54,21 @@ namespace UniEyeController.EyeProcess
         
         public override void Progress(double time, IEyeStatus statusFromTimeline)
         {
-            if (!CanExecute && statusFromTimeline == null) return;
+            if (!CanExecute) return;
             if (EyeController == null) return;
             if (EyelidController == null) return;
+            
+            // TODO : これも無理やりなので修正する
+            if (statusFromTimeline != null)
+            {
+                if (((UniEyeBlinkStatus)statusFromTimeline).ForceBlinkOff)
+                {
+                    Blink(0);
+                    _eyeBlinkState = EyeBlinkState.Idle;
+                }
+                
+                return;
+            }
             
             _eyeTime -= Time.deltaTime;
             
