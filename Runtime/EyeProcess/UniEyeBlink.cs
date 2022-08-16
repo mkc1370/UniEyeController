@@ -51,9 +51,17 @@ namespace UniEyeController.EyeProcess
         }
         
         private float _eyeTime;
+
+        private void Start()
+        {
+            // TODO : これも無理やりなので修正する
+            updateMethod = UpdateMethod.Update;
+        }
         
         public override void Progress(double time, IEyeStatus statusFromTimeline)
         {
+            // TODO : これも無理やりなので修正する
+            moveEyeWithBlink = false;
             if (!CanExecute) return;
             if (EyeController == null) return;
             if (EyelidController == null) return;
@@ -65,6 +73,7 @@ namespace UniEyeController.EyeProcess
                 {
                     Blink(0);
                     _eyeBlinkState = EyeBlinkState.Idle;
+                    _eyeTime = eyeBlinkStopTimeMax;
                 }
                 
                 return;
@@ -109,7 +118,7 @@ namespace UniEyeController.EyeProcess
             EyelidController.Blink(value * weight, OnBlink);
             if (moveEyeWithBlink)
             {
-                EyeController.NormalizedRotate(Vector2.down * value * eyeMoveMultiplier, weight, RotationApplyMethod.Append);
+                EyeController.NormalizedRotate(Vector2.up * value * eyeMoveMultiplier, weight, RotationApplyMethod.Append);
             }
         }
     }
