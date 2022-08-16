@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UniEyeController.Core.Constants;
 using UniEyeController.Core.Status;
 using UnityEngine;
@@ -41,53 +40,55 @@ namespace UniEyeController.EyeProcess
         /// EyelidTypeがManualの場合に使用される
         /// </summary>
         public Action<float> OnBlink;
+
+        private EyeBlinkState _eyeBlinkState;
         
-        private void Start()
+        private enum EyeBlinkState
         {
-            StartCoroutine(EyeBlinkLoop());
+            Idle,
+            Closing,
+            Opening
         }
+        
+        private float _eyeTime;
         
         public override void Progress(double time, IEyeStatus statusFromTimeline)
         {
-        }
-
-        private IEnumerator EyeBlinkLoop()
-        {
-            while (true)
+            if (!CanExecute && statusFromTimeline == null) return;
+            if (EyeController == null) return;
+            if (EyelidController == null) return;
+            
+            _eyeTime -= Time.deltaTime;
+            
+            switch (_eyeBlinkState)
             {
-                // まばたきを始めるまで待つ
-                yield return new WaitForSeconds(Random.Range(eyeBlinkStopTimeMin, eyeBlinkStopTimeMax));
-                
-                // 閉じ始める
-                var closeTime = timeToCloseEyelid;
-                while (closeTime > 0)
-                {
-                    if (enabled)
+                case EyeBlinkState.Idle:
+                    if (_eyeTime <= 0)
                     {
-                        Blink(1f - closeTime / timeToCloseEyelid);
+                        _eyeBlinkState = EyeBlinkState.Closing;
+                        _eyeTime = timeToCloseEyelid;
                     }
-                    closeTime -= Time.deltaTime;
-                    yield return null;
-                }
-                
-                // 完全に閉じる
-                Blink(1);
-                yield return null;
-                
-                var openTime = timeToOpenEyelid;
-                while (openTime > 0)
-                {
-                    if (enabled)
+                    break;
+                case EyeBlinkState.Closing:
+                    Blink(1f - _eyeTime / timeToCloseEyelid);
+                    if (_eyeTime <= 0)
                     {
-                        Blink(openTime / timeToOpenEyelid);
+                        _eyeBlinkState = EyeBlinkState.Opening;
+                        _eyeTime = timeToOpenEyelid;
+                        // 完全に閉じる
+                        Blink(1);
                     }
-                    openTime -= Time.deltaTime;
-                    yield return null;
-                }
-                
-                // 完全に開く
-                Blink(0);
-                yield return null;
+                    break;
+                case EyeBlinkState.Opening:
+                    Blink(_eyeTime / timeToOpenEyelid);
+                    if (_eyeTime <= 0)
+                    {
+                        _eyeBlinkState = EyeBlinkState.Idle;
+                        _eyeTime = Random.Range(eyeBlinkStopTimeMin, eyeBlinkStopTimeMax);
+                        // 完全に開く
+                        Blink(0);
+                    }
+                    break;
             }
         }
 
