@@ -34,7 +34,7 @@ namespace UniEyeController.EyeProcess
 
         public override void Progress(double time, bool controlFromTimeline)
         {
-            if (!enabled) return;
+            if (!CanExecute && !controlFromTimeline) return;
             
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)

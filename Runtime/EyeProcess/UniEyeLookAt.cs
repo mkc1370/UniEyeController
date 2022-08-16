@@ -26,7 +26,7 @@ namespace UniEyeController.EyeProcess
 
         public override void Progress(double time, bool controlFromTimeline)
         {
-            if (!enabled) return;
+            if (!CanExecute && !controlFromTimeline) return;
             if (EyeController == null) return;
             
             var rotationApplyMethod = controlFromTimeline ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
