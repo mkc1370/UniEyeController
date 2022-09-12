@@ -1,17 +1,16 @@
-﻿using UniEyeController.Core.Constants;
-using UniEyeController.Core.Status;
 ﻿using System;
 using UniEyeController.Core.Constants;
+using UniEyeController.Core.EyeProcess.EyeStatus;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace UniEyeController.EyeProcess
+namespace UniEyeController.Core.EyeProcess
 {
     /// <summary>
     /// 眼球微細運動を再現する
     /// </summary>
     [Serializable]
-    public class UniEyeMicroMove : UniEyeProcessBase
+    public class EyeMicroMove : EyeProcessBase<EyeMicroMoveStatus>
     {
         [Range(0f, 1f)]
         public float weight = 1f;
@@ -26,12 +25,11 @@ namespace UniEyeController.EyeProcess
         
         private float _eyeMoveTimer;
 
-
         private Vector2 _currentNormalizedEulerAngles;
 
-        public override void Progress(double time, IEyeStatus? status)
+        protected override void ProgressInternal(double time, EyeMicroMoveStatus status, bool controlFromTileLine)
         {
-            if (!CanExecute && status == null) return;
+            if (!CanExecute) return;
             
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)

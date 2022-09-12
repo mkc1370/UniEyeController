@@ -1,16 +1,15 @@
-﻿using UniEyeController.EyeProcess;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    public abstract class UniEyeProcessBaseEditor
+    public abstract class EyeProcessBaseEditor
     {
         private SerializedProperty _enabled;
         
-        public UniEyeProcessBaseEditor(SerializedProperty property)
+        public EyeProcessBaseEditor(SerializedProperty property)
         {
-            _enabled = property.FindPropertyRelative(nameof(UniEyeProcessBase.enabled));
+            _enabled = property.FindPropertyRelative("enabled");
             
             GetProperties(property);
         }

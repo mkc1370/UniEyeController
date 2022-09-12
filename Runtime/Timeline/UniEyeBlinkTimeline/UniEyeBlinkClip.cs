@@ -1,5 +1,4 @@
-﻿using UniEyeController.Core.Status;
-using UniEyeController.Timeline.UniEyeBlinkTimeline;
+﻿using UniEyeController.Core.EyeProcess.EyeStatus;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -8,7 +7,7 @@ namespace UniEyeController.Timeline.UniEyeBlinkTimeline
 {
     public class UniEyeBlinkClip : PlayableAsset, ITimelineClipAsset
     {
-        public UniEyeBlinkStatus status;
+        public EyeBlinkStatus status;
 
         public ClipCaps clipCaps =>
             ClipCaps.ClipIn |

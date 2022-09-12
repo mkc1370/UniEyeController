@@ -1,10 +1,10 @@
-﻿using UniEyeController.EyeProcess;
+﻿using UniEyeController.Core.EyeProcess;
 using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    public class UniEyeBlinkEditor : UniEyeProcessBaseEditor
+    public class EyeBlinkEditor : EyeProcessBaseEditor
     {
         private SerializedProperty _weight;
         private SerializedProperty _eyeMoveMultiplier;
@@ -14,19 +14,19 @@ namespace UniEyeController.Editor.EyeProcess
         private SerializedProperty _timeToCloseEyelid;
         private SerializedProperty _timeToOpenEyelid;
 
-        public UniEyeBlinkEditor(SerializedProperty property) : base(property)
+        public EyeBlinkEditor(SerializedProperty property) : base(property)
         {
         }
 
         protected override void GetProperties(SerializedProperty property)
         {
-            _weight = property.FindPropertyRelative(nameof(UniEyeBlink.weight));
-            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(UniEyeBlink.eyeMoveMultiplier));
-            _eyeBlinkStopTimeMin = property.FindPropertyRelative(nameof(UniEyeBlink.eyeBlinkStopTimeMin));
-            _eyeBlinkStopTimeMax = property.FindPropertyRelative(nameof(UniEyeBlink.eyeBlinkStopTimeMax));
-            _moveEyeWithBlink = property.FindPropertyRelative(nameof(UniEyeBlink.moveEyeWithBlink));
-            _timeToCloseEyelid = property.FindPropertyRelative(nameof(UniEyeBlink.timeToCloseEyelid));
-            _timeToOpenEyelid = property.FindPropertyRelative(nameof(UniEyeBlink.timeToOpenEyelid));
+            _weight = property.FindPropertyRelative(nameof(EyeBlink.weight));
+            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(EyeBlink.eyeMoveMultiplier));
+            _eyeBlinkStopTimeMin = property.FindPropertyRelative(nameof(EyeBlink.eyeBlinkStopTimeMin));
+            _eyeBlinkStopTimeMax = property.FindPropertyRelative(nameof(EyeBlink.eyeBlinkStopTimeMax));
+            _moveEyeWithBlink = property.FindPropertyRelative(nameof(EyeBlink.moveEyeWithBlink));
+            _timeToCloseEyelid = property.FindPropertyRelative(nameof(EyeBlink.timeToCloseEyelid));
+            _timeToOpenEyelid = property.FindPropertyRelative(nameof(EyeBlink.timeToOpenEyelid));
         }
 
         protected override void DrawProperties()

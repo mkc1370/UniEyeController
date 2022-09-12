@@ -2,7 +2,7 @@
 using UniEyeController.Core.Constants;
 using UniEyeController.Core.Setting;
 
-namespace UniEyeController.Core
+namespace UniEyeController.Core.Controller.Eyelid
 {
     public class EyelidController
     {

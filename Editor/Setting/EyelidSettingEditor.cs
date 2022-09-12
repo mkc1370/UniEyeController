@@ -1,7 +1,7 @@
 ﻿using System;
 using UniEyeController.Core.Constants;
+using UniEyeController.Core.EyeProcess;
 using UniEyeController.Core.Setting;
-using UniEyeController.EyeProcess;
 using UnityEditor;
 using UnityEngine;
 
@@ -44,7 +44,7 @@ namespace UniEyeController.Editor.Setting
                         break;
                     case EyelidType.Manual:
                         EditorGUILayout.HelpBox(
-                            $"スクリプトから{nameof(UniEyeBlink)}.{nameof(UniEyeBlink.OnBlink)}にイベントを登録してください。",
+                            $"スクリプトから{nameof(EyeBlink)}.{nameof(EyeBlink.OnBlink)}にイベントを登録してください。",
                             MessageType.Info);
                         break;
                     default:

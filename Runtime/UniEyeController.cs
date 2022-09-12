@@ -1,11 +1,11 @@
 using System;
 using UniEyeController.Core;
 using UniEyeController.Core.Constants;
+using UniEyeController.Core.Controller.Eye;
+using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Core.Extensions;
-using UniEyeController.Core.Rotator;
+using UniEyeController.Core.EyeProcess;
 using UniEyeController.Core.Setting;
-using UniEyeController.Core.Status;
-using UniEyeController.EyeProcess;
 using UnityEngine;
 
 namespace UniEyeController
@@ -37,9 +37,9 @@ namespace UniEyeController
 
         private DoubleEyeDefaultStatus _defaultStatus;
         
-        public UniEyeLookAt lookAt;
-        public UniEyeMicroMove microMove;
-        public UniEyeBlink blink;
+        public EyeLookAt lookAt;
+        public EyeMicroMove microMove;
+        public EyeBlink blink;
 
         private void Start()
         {
@@ -90,9 +90,9 @@ namespace UniEyeController
         {
             if (CanExecute)
             {
-                lookAt.Progress(Time.time, false);
-                microMove.Progress(Time.time, false);
-                blink.Progress(Time.time, false);
+                lookAt.Progress(Time.time);
+                microMove.Progress(Time.time);
+                blink.Progress(Time.time);
             }
         }
 

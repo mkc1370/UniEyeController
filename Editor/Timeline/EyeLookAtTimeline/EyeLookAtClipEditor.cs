@@ -1,18 +1,18 @@
 ﻿using System;
 using UniEyeController.Core.Constants;
-using UniEyeController.Timeline.EyeLookAtTimeline;
+using UniEyeController.Timeline.UniEyeLookAtTimeline;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
 
 namespace UniEyeController.Editor.Timeline.EyeLookAtTimeline
 {
-    [CustomTimelineEditor(typeof(EyeLookAtClip))]
+    [CustomTimelineEditor(typeof(UniEyeLookAtClip))]
     public class EyeLookAtClipEditor : ClipEditor
     {
         public override ClipDrawOptions GetClipOptions(TimelineClip clip)
         {
-            var asset = clip.asset as EyeLookAtClip;
+            var asset = clip.asset as UniEyeLookAtClip;
             var options = base.GetClipOptions(clip);
             Color color;
             switch (asset.status.method)

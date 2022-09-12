@@ -1,26 +1,26 @@
-﻿using UniEyeController.EyeProcess;
+﻿using UniEyeController.Core.EyeProcess;
 using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    public class UniEyeMicroMoveEditor : UniEyeProcessBaseEditor
+    public class EyeMicroMoveEditor : EyeProcessBaseEditor
     {
         private SerializedProperty _weight;
         private SerializedProperty _eyeMoveMultiplier;
         private SerializedProperty _eyeMoveStopTimeMin;
         private SerializedProperty _eyeMoveStopTimeMax;
 
-        public UniEyeMicroMoveEditor(SerializedProperty property) : base(property)
+        public EyeMicroMoveEditor(SerializedProperty property) : base(property)
         {
         }
 
         protected override void GetProperties(SerializedProperty property)
         {
-            _weight = property.FindPropertyRelative(nameof(UniEyeMicroMove.weight));
-            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(UniEyeMicroMove.eyeMoveMultiplier));
-            _eyeMoveStopTimeMin = property.FindPropertyRelative(nameof(UniEyeMicroMove.eyeMoveStopTimeMin));
-            _eyeMoveStopTimeMax = property.FindPropertyRelative(nameof(UniEyeMicroMove.eyeMoveStopTimeMax));
+            _weight = property.FindPropertyRelative(nameof(EyeMicroMove.weight));
+            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(EyeMicroMove.eyeMoveMultiplier));
+            _eyeMoveStopTimeMin = property.FindPropertyRelative(nameof(EyeMicroMove.eyeMoveStopTimeMin));
+            _eyeMoveStopTimeMax = property.FindPropertyRelative(nameof(EyeMicroMove.eyeMoveStopTimeMax));
         }
 
         protected override void DrawProperties()

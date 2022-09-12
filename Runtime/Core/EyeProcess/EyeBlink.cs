@@ -1,13 +1,12 @@
 ﻿using System;
 using UniEyeController.Core.Constants;
-using UniEyeController.Core.Status;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace UniEyeController.EyeProcess
+namespace UniEyeController.Core.EyeProcess
 {
     [Serializable]
-    public class UniEyeBlink : UniEyeProcessBase
+    public class EyeBlink : EyeProcessBase<EyeStatus.EyeBlinkStatus>
     {
         [Range(0f, 1f)]
         public float weight = 1f;
@@ -47,14 +46,8 @@ namespace UniEyeController.EyeProcess
         }
         
         private float _eyeTime;
-
-        private void Start()
-        {
-            // TODO : これも無理やりなので修正する
-            updateMethod = UpdateMethod.Update;
-        }
         
-        public override void Progress(double time, IEyeStatus statusFromTimeline)
+        protected override void ProgressInternal(double time, EyeStatus.EyeBlinkStatus status, bool controlFromTileLine)
         {
             // TODO : これも無理やりなので修正する
             moveEyeWithBlink = false;
@@ -63,15 +56,11 @@ namespace UniEyeController.EyeProcess
             if (EyelidController == null) return;
             
             // TODO : これも無理やりなので修正する
-            if (statusFromTimeline != null)
+            if (status.ForceBlinkOff)
             {
-                if (((UniEyeBlinkStatus)statusFromTimeline).ForceBlinkOff)
-                {
-                    Blink(0);
-                    _eyeBlinkState = EyeBlinkState.Idle;
-                    _eyeTime = eyeBlinkStopTimeMax;
-                }
-                
+                Blink(0);
+                _eyeBlinkState = EyeBlinkState.Idle;
+                _eyeTime = eyeBlinkStopTimeMax;
                 return;
             }
             
@@ -117,5 +106,6 @@ namespace UniEyeController.EyeProcess
                 EyeController.NormalizedRotate(Vector2.up * value * eyeMoveMultiplier, weight, RotationApplyMethod.Append);
             }
         }
+
     }
 }

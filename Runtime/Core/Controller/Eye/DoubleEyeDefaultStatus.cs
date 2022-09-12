@@ -2,7 +2,7 @@
 using UniEyeController.Core.Extensions;
 using UnityEngine;
 
-namespace UniEyeController.Core.Status
+namespace UniEyeController.Core.Controller.Eye
 {
     /// <summary>
     /// 目のボーンの初期状態を保持するクラス

@@ -1,17 +1,17 @@
-﻿using UniEyeController.Editor.Status;
-using UniEyeController.EyeProcess;
+﻿using UniEyeController.Core.EyeProcess;
+using UniEyeController.Editor.Status;
 using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController.Editor.EyeProcess
 {
-    public class UniEyeLookAtEditor : UniEyeProcessBaseEditor
+    public class EyeLookAtEditor : EyeProcessBaseEditor
     {
         private EyeLookAtStatusEditor _statusEditor;
 
         protected override void GetProperties(SerializedProperty property)
         {
-            var status = property.FindPropertyRelative(nameof(UniEyeLookAt.status));
+            var status = property.FindPropertyRelative(nameof(EyeLookAt.statusMonoBehaviour));
             _statusEditor = new EyeLookAtStatusEditor(status);
         }
 
@@ -25,7 +25,7 @@ namespace UniEyeController.Editor.EyeProcess
             GUILayout.EndVertical();
         }
 
-        public UniEyeLookAtEditor(SerializedProperty property) : base(property)
+        public EyeLookAtEditor(SerializedProperty property) : base(property)
         {
         }
     }

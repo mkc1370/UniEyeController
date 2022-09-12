@@ -1,5 +1,4 @@
-﻿using UniEyeController.Core.Status;
-using UniEyeController.EyeProcess;
+﻿using UniEyeController.Core.EyeProcess;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -13,9 +12,9 @@ namespace UniEyeController.Timeline.UniEyeBlinkTimeline
 
         public PlayableDirector Director;
         
-        private UniEyeBlink _target;
+        private EyeBlink _target;
 
-        private UniEyeBlinkStatus _status;
+        private Core.EyeProcess.EyeStatus.EyeBlinkStatus _status;
 
         public override void OnPlayableDestroy(Playable playable)
         {
@@ -26,7 +25,7 @@ namespace UniEyeController.Timeline.UniEyeBlinkTimeline
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as UniEyeBlink;
+            _target = playerData as EyeBlink;
             Debug.Log(_target);
             if (_target == null) return;
 

@@ -1,18 +1,18 @@
 ﻿using System.Linq;
-using UniEyeController.EyeProcess;
+using UniEyeController.Core.EyeProcess;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace UniEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.UniEyeLookAtTimeline
 {
-    [TrackClipType(typeof(EyeLookAtClip))]
-    [TrackBindingType(typeof(UniEyeLookAt))]
-    public class EyeLookAtTrack : TrackAsset
+    [TrackClipType(typeof(UniEyeLookAtClip))]
+    [TrackBindingType(typeof(EyeLookAt))]
+    public class UniEyeLookAtTrack : TrackAsset
     {
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
         {
-            var playable = ScriptPlayable<EyeLookAtMixer>.Create(graph, inputCount);
+            var playable = ScriptPlayable<UniEyeLookAtMixer>.Create(graph, inputCount);
             var mixer = playable.GetBehaviour();
             mixer.Clips = GetClips().ToArray();
 

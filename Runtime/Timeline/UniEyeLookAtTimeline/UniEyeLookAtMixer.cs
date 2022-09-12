@@ -1,16 +1,15 @@
-﻿using UniEyeController.EyeProcess;
-using UnityEngine;
+﻿using UniEyeController.Core.EyeProcess;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace UniEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.UniEyeLookAtTimeline
 {
-    public class EyeLookAtMixer : PlayableBehaviour
+    public class UniEyeLookAtMixer : PlayableBehaviour
     {
-        public EyeLookAtTrack Track { get; set; }
+        public UniEyeLookAtTrack Track { get; set; }
         public TimelineClip[] Clips { get; set; }
         
-        private UniEyeLookAt _target;
+        private EyeLookAt _target;
 
         private bool _wasPrevFrameControlled;
 
@@ -23,7 +22,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as UniEyeLookAt;
+            _target = playerData as EyeLookAt;
             if (_target == null) return;
             
             // 1個でもWeightが0より大きいものがあれば一度目の回転をリセットする
@@ -48,7 +47,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
             for (var i = 0; i < Clips.Length; i++)
             {
                 var clip = Clips[i];
-                var asset = clip.asset as EyeLookAtClip;
+                var asset = clip.asset as UniEyeLookAtClip;
                 if (asset == null) continue;
                 
                 var weight = playable.GetInputWeight(i);
@@ -56,7 +55,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
                 {
                     asset.status.targetTransform =
                         asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
-                    _target.status.weight *= weight;
+                    _target.statusMonoBehaviour.weight *= weight;
                     _target.Progress(playable.GetTime(), asset.status);
                     _wasPrevFrameControlled = true;
                 }

@@ -1,30 +1,25 @@
 ﻿using System;
 using UniEyeController.Core.Constants;
-using UniEyeController.Core.Status;
+using UniEyeController.Core.EyeProcess.EyeStatus;
 using UnityEngine;
 
-namespace UniEyeController.EyeProcess
+namespace UniEyeController.Core.EyeProcess
 {
     [Serializable]
-    public class UniEyeLookAt : UniEyeProcessBase
+    public class EyeLookAt : EyeProcessBase<EyeLookAtStatus>
     {
-        public EyeLookAtStatus status = EyeLookAtStatus.Default;
-
         public void ResetEyeRotation()
         {
-            if (!enabled) return;
             if (EyeController == null) return;
             
             EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
-        public override void Progress(double time, IEyeStatus statusFromTimeline)
+        protected override void ProgressInternal(double time, EyeLookAtStatus status, bool controlFromTileLine)
         {
-            if (!CanExecute && statusFromTimeline == null) return;
+            if (!CanExecute) return;
             if (EyeController == null) return;
-            
-            var rotationApplyMethod = statusFromTimeline != null ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
-            var status = statusFromTimeline != null ? (EyeLookAtStatus)statusFromTimeline : this.status;
+            var rotationApplyMethod = RotationApplyMethod.Direct;
             
             switch (status.method)
             {

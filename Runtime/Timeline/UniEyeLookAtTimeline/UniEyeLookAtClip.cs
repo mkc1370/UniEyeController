@@ -1,11 +1,11 @@
-﻿using UniEyeController.Core.Status;
+﻿using UniEyeController.Core.EyeProcess.EyeStatus;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace UniEyeController.Timeline.EyeLookAtTimeline
+namespace UniEyeController.Timeline.UniEyeLookAtTimeline
 {
-    public class EyeLookAtClip : PlayableAsset, ITimelineClipAsset
+    public class UniEyeLookAtClip : PlayableAsset, ITimelineClipAsset
     {
         public EyeLookAtStatus status = EyeLookAtStatus.Default;
 
@@ -16,7 +16,7 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject go)
         {
-            var playable = ScriptPlayable<EyeLookAtBehaviour>.Create(graph);
+            var playable = ScriptPlayable<UniEyeLookAtBehaviour>.Create(graph);
             return playable;
         }
     }

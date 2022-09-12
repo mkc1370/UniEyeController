@@ -26,7 +26,7 @@ namespace UniEyeController.Editor
         
         private bool _debugFoldout;
 
-        private List<UniEyeProcessBaseEditor> _processEditors = new List<UniEyeProcessBaseEditor>();
+        private List<EyeProcessBaseEditor> _processEditors = new List<EyeProcessBaseEditor>();
 
         private void OnEnable()
         {
@@ -48,9 +48,9 @@ namespace UniEyeController.Editor
             var lookAt = serializedObject.FindProperty(nameof(UniEyeController.lookAt));
             var microMove = serializedObject.FindProperty(nameof(UniEyeController.microMove));
             var blink = serializedObject.FindProperty(nameof(UniEyeController.blink));
-            _processEditors.Add(new UniEyeLookAtEditor(lookAt));
-            _processEditors.Add(new UniEyeMicroMoveEditor(microMove));
-            _processEditors.Add(new UniEyeBlinkEditor(blink));
+            _processEditors.Add(new EyeLookAtEditor(lookAt));
+            _processEditors.Add(new EyeMicroMoveEditor(microMove));
+            _processEditors.Add(new EyeBlinkEditor(blink));
             
             var script = target as UniEyeController;
             if (script == null) return;
