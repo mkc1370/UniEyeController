@@ -16,17 +16,14 @@ namespace UniEyeController.Core.Process.Core
         public TEyeStatus serializedStatus;
         
         public bool executeAlways;
-        
-        protected DoubleEyeController EyeController => _eyeController;
-        protected EyelidController EyelidController => _eyelidController;
-        
-        private DoubleEyeController _eyeController;
-        private EyelidController _eyelidController;
 
-        protected EyeProcessBase(DoubleEyeController eyeController, EyelidController eyelidController)
+        protected DoubleEyeController EyeController;
+        protected EyelidController EyelidController;
+        
+        public void SetControllers(DoubleEyeController eyeController, EyelidController eyelidController)
         {
-            _eyeController = eyeController;
-            _eyelidController = eyelidController;
+            EyeController = eyeController;
+            EyelidController = eyelidController;
         }
 
         private bool CanExecute => enabled && (Application.isPlaying || executeAlways);
@@ -35,15 +32,15 @@ namespace UniEyeController.Core.Process.Core
         {
             if (!CanExecute) return;
             
-            if (_eyeController == null)
+            if (EyeController == null)
             {
-                Debug.LogError($"{nameof(_eyeController)} is null");
+                Debug.LogError($"{nameof(EyeController)} is null");
                 return;
             }
 
-            if (_eyelidController == null)
+            if (EyelidController == null)
             {
-                Debug.LogError($"{nameof(_eyelidController)} is null");
+                Debug.LogError($"{nameof(EyelidController)} is null");
                 return;
             }
 

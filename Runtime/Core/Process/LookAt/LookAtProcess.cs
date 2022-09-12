@@ -10,10 +10,6 @@ namespace UniEyeController.Core.Process.LookAt
     [Serializable]
     public class LookAtProcess : EyeProcessBase<LookAtProcessSetting, LookAtProcessStatus>
     {
-        public LookAtProcess(DoubleEyeController eyeController, EyelidController eyelidController) : base(eyeController, eyelidController)
-        {
-        }
-        
         public void ResetEyeRotation()
         {
             EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);

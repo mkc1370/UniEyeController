@@ -14,10 +14,6 @@ namespace UniEyeController.Core.Process.MicroMove
     [Serializable]
     public class MicroMoveProcess : EyeProcessBase<MicroMoveProcessSetting, MicroMoveProcessStatus>
     {
-        public MicroMoveProcess(DoubleEyeController eyeController, EyelidController eyelidController) : base(eyeController, eyelidController)
-        {
-        }
-        
         private float _eyeMoveTimer;
 
         private Vector2 _currentNormalizedEulerAngles;

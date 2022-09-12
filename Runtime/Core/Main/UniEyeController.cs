@@ -35,9 +35,9 @@ namespace UniEyeController.Core.Main
 
         private DoubleEyeDefaultStatus _defaultStatus;
         
-        public LookAtProcess lookAtProcess;
-        public MicroMoveProcess microMoveProcess;
-        public BlinkProcess blinkProcess;
+        public LookAtProcess lookAtProcess = new LookAtProcess();
+        public MicroMoveProcess microMoveProcess = new MicroMoveProcess();
+        public BlinkProcess blinkProcess = new BlinkProcess();
 
         private void Start()
         {
@@ -57,9 +57,9 @@ namespace UniEyeController.Core.Main
             var eyeController = new DoubleEyeController(_defaultStatus, setting);
             var eyelidController = new EyelidController(eyelidSetting);
             
-            lookAtProcess = new LookAtProcess(eyeController, eyelidController);
-            microMoveProcess = new MicroMoveProcess(eyeController, eyelidController);
-            blinkProcess = new BlinkProcess(eyeController, eyelidController);
+            lookAtProcess.SetControllers(eyeController, eyelidController);
+            microMoveProcess.SetControllers(eyeController, eyelidController);
+            blinkProcess.SetControllers(eyeController, eyelidController);
         }
 
         private DoubleEyeDefaultStatus GetEyeDefaultStatusBones()

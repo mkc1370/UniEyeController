@@ -11,10 +11,6 @@ namespace UniEyeController.Core.Process.Blink
     [Serializable]
     public class BlinkProcess : EyeProcessBase<BlinkProcessSetting ,BlinkProcessStatus>
     {
-        public BlinkProcess(DoubleEyeController eyeController, EyelidController eyelidController) : base(eyeController, eyelidController)
-        {
-        }
-        
         /// <summary>
         /// 目を閉じるときのイベント
         /// EyelidTypeがManualの場合に使用される
