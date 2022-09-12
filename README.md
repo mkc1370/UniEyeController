@@ -25,3 +25,6 @@ Unityで視線制御をしたいときに使うアセット
 
 ## ToDo List
 [Project](https://github.com/users/mkc1370/projects/3)
+
+## バグ報告等
+[Issue](https://github.com/mkc1370/UniEyeController/issues)や[Twitter](https://twitter.com/mkc1370)宛にお願いします

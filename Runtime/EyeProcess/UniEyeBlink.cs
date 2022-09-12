@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using UniEyeController.Core.Constants;
+using UniEyeController.Core.Status;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,53 +36,76 @@ namespace UniEyeController.EyeProcess
         /// EyelidTypeがManualの場合に使用される
         /// </summary>
         public Action<float> OnBlink;
+
+        private EyeBlinkState _eyeBlinkState;
         
+        private enum EyeBlinkState
+        {
+            Idle,
+            Closing,
+            Opening
+        }
+        
+        private float _eyeTime;
+
         private void Start()
         {
-            // StartCoroutine(EyeBlinkLoop());
+            // TODO : これも無理やりなので修正する
+            updateMethod = UpdateMethod.Update;
         }
         
-        public override void Progress(double time, bool controlFromTimeline)
+        public override void Progress(double time, IEyeStatus statusFromTimeline)
         {
-        }
-
-        private IEnumerator EyeBlinkLoop()
-        {
-            while (true)
+            // TODO : これも無理やりなので修正する
+            moveEyeWithBlink = false;
+            if (!CanExecute) return;
+            if (EyeController == null) return;
+            if (EyelidController == null) return;
+            
+            // TODO : これも無理やりなので修正する
+            if (statusFromTimeline != null)
             {
-                // まばたきを始めるまで待つ
-                yield return new WaitForSeconds(Random.Range(eyeBlinkStopTimeMin, eyeBlinkStopTimeMax));
-                
-                // 閉じ始める
-                var closeTime = timeToCloseEyelid;
-                while (closeTime > 0)
+                if (((UniEyeBlinkStatus)statusFromTimeline).ForceBlinkOff)
                 {
-                    if (enabled)
-                    {
-                        Blink(1f - closeTime / timeToCloseEyelid);
-                    }
-                    closeTime -= Time.deltaTime;
-                    yield return null;
+                    Blink(0);
+                    _eyeBlinkState = EyeBlinkState.Idle;
+                    _eyeTime = eyeBlinkStopTimeMax;
                 }
                 
-                // 完全に閉じる
-                Blink(1);
-                yield return null;
-                
-                var openTime = timeToOpenEyelid;
-                while (openTime > 0)
-                {
-                    if (enabled)
+                return;
+            }
+            
+            _eyeTime -= Time.deltaTime;
+            
+            switch (_eyeBlinkState)
+            {
+                case EyeBlinkState.Idle:
+                    if (_eyeTime <= 0)
                     {
-                        Blink(openTime / timeToOpenEyelid);
+                        _eyeBlinkState = EyeBlinkState.Closing;
+                        _eyeTime = timeToCloseEyelid;
                     }
-                    openTime -= Time.deltaTime;
-                    yield return null;
-                }
-                
-                // 完全に開く
-                Blink(0);
-                yield return null;
+                    break;
+                case EyeBlinkState.Closing:
+                    Blink(1f - _eyeTime / timeToCloseEyelid);
+                    if (_eyeTime <= 0)
+                    {
+                        _eyeBlinkState = EyeBlinkState.Opening;
+                        _eyeTime = timeToOpenEyelid;
+                        // 完全に閉じる
+                        Blink(1);
+                    }
+                    break;
+                case EyeBlinkState.Opening:
+                    Blink(_eyeTime / timeToOpenEyelid);
+                    if (_eyeTime <= 0)
+                    {
+                        _eyeBlinkState = EyeBlinkState.Idle;
+                        _eyeTime = Random.Range(eyeBlinkStopTimeMin, eyeBlinkStopTimeMax);
+                        // 完全に開く
+                        Blink(0);
+                    }
+                    break;
             }
         }
 
@@ -91,7 +114,7 @@ namespace UniEyeController.EyeProcess
             EyelidController.Blink(value * weight, OnBlink);
             if (moveEyeWithBlink)
             {
-                EyeController.NormalizedRotate(Vector2.down * value * eyeMoveMultiplier, weight, RotationApplyMethod.Append);
+                EyeController.NormalizedRotate(Vector2.up * value * eyeMoveMultiplier, weight, RotationApplyMethod.Append);
             }
         }
     }

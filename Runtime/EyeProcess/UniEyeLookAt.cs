@@ -18,12 +18,13 @@ namespace UniEyeController.EyeProcess
             EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
-        public override void Progress(double time, bool controlFromTimeline)
+        public override void Progress(double time, IEyeStatus statusFromTimeline)
         {
-            if (!enabled) return;
+            if (!CanExecute && statusFromTimeline == null) return;
             if (EyeController == null) return;
             
-            var rotationApplyMethod = controlFromTimeline ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
+            var rotationApplyMethod = statusFromTimeline != null ? RotationApplyMethod.Append : RotationApplyMethod.Direct;
+            var status = statusFromTimeline != null ? (EyeLookAtStatus)statusFromTimeline : this.status;
             
             switch (status.method)
             {

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Status
 {
     [Serializable]
-    public struct EyeLookAtStatus
+    public struct EyeLookAtStatus : IEyeStatus
     {
         [Range(0f, 1f)]
         public float weight;

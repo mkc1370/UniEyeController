@@ -86,7 +86,7 @@ namespace UniEyeController.Core.Rotator
             // 向くのをやめはじめる距離
             // 向くのを完全にやめる距離
             var localPosition = GetLocalPosition(worldPosition);
-            var distanceWeight = 1 - Mathf.InverseLerp(0.5f, 0f, localPosition.magnitude);
+            var distanceWeight = 1 - Mathf.InverseLerp(0.2f, 0f, localPosition.magnitude);
 
             // 角度が大きすぎる場合は向くのをやめる
             var eulerAngles = GetEyeEulerAngles(worldPosition);
