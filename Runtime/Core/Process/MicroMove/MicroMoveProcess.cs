@@ -12,7 +12,7 @@ namespace UniEyeController.Core.Process.MicroMove
     /// 眼球微細運動を再現する
     /// </summary>
     [Serializable]
-    public class MicroMoveProcess : EyeProcessBase<MicroMoveStatus>
+    public class MicroMoveProcess : EyeProcessBase<MicroMoveProcessSetting, MicroMoveProcessStatus>
     {
         public MicroMoveProcess(DoubleEyeController eyeController, EyelidController eyelidController) : base(eyeController, eyelidController)
         {
@@ -22,16 +22,16 @@ namespace UniEyeController.Core.Process.MicroMove
 
         private Vector2 _currentNormalizedEulerAngles;
 
-        protected override void ProgressInternal(double time, MicroMoveStatus status)
+        protected override void ProgressInternal(double time, MicroMoveProcessStatus status)
         {
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)
             {
                 var x = Random.Range(-1, 1);
                 var y = Random.Range(-1, 1);
-                _currentNormalizedEulerAngles = new Vector2(x, y) * status.eyeMoveMultiplier;
+                _currentNormalizedEulerAngles = new Vector2(x, y) * setting.eyeMoveMultiplier;
                 
-                _eyeMoveTimer = Random.Range(status.eyeMoveStopTimeMin, status.eyeMoveStopTimeMax);
+                _eyeMoveTimer = Random.Range(setting.eyeMoveStopTimeMin, setting.eyeMoveStopTimeMax);
             }
             
             EyeController.NormalizedRotate(_currentNormalizedEulerAngles, status.weight, RotationApplyMethod.Append);

@@ -7,7 +7,7 @@ namespace UniEyeController.Timeline.Blink
 {
     public class UniEyeBlinkClip : PlayableAsset, ITimelineClipAsset
     {
-        public BlinkStatus status;
+        public BlinkProcessStatus processStatus;
 
         public ClipCaps clipCaps =>
             ClipCaps.ClipIn |

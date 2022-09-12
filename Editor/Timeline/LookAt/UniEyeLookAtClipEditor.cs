@@ -15,7 +15,7 @@ namespace UniEyeController.Editor.Timeline.LookAt
             var asset = clip.asset as UniEyeLookAtClip;
             var options = base.GetClipOptions(clip);
             Color color;
-            switch (asset.status.method)
+            switch (asset.processStatus.method)
             {
                 case LookAtMethod.Transform:
                     color = Color.red;
@@ -36,8 +36,8 @@ namespace UniEyeController.Editor.Timeline.LookAt
                     throw new ArgumentOutOfRangeException();
             }
 
-            clip.displayName = asset.status.ToString();
-            options.errorText = asset.status.ErrorMessage;
+            clip.displayName = asset.processStatus.ToString();
+            options.errorText = asset.processStatus.ErrorMessage;
             options.highlightColor = color;
             return options;
         }

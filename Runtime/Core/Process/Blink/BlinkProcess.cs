@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 namespace UniEyeController.Core.Process.Blink
 {
     [Serializable]
-    public class BlinkProcess : EyeProcessBase<BlinkStatus>
+    public class BlinkProcess : EyeProcessBase<BlinkProcessSetting ,BlinkProcessStatus>
     {
         public BlinkProcess(DoubleEyeController eyeController, EyelidController eyelidController) : base(eyeController, eyelidController)
         {
@@ -32,7 +32,7 @@ namespace UniEyeController.Core.Process.Blink
         
         private float _eyeTime;
         
-        protected override void ProgressInternal(double time, BlinkStatus status)
+        protected override void ProgressInternal(double time, BlinkProcessStatus status)
         {
             _eyeTime -= Time.deltaTime;
             
@@ -42,25 +42,25 @@ namespace UniEyeController.Core.Process.Blink
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Closing;
-                        _eyeTime = status.timeToCloseEyelid;
+                        _eyeTime = setting.timeToCloseEyelid;
                     }
                     break;
                 case EyeBlinkState.Closing:
-                    Blink(1f - _eyeTime / status.timeToCloseEyelid, status);
+                    Blink(1f - _eyeTime / setting.timeToCloseEyelid, status);
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Opening;
-                        _eyeTime = status.timeToOpenEyelid;
+                        _eyeTime = setting.timeToOpenEyelid;
                         // 完全に閉じる
                         Blink(1, status);
                     }
                     break;
                 case EyeBlinkState.Opening:
-                    Blink(_eyeTime / status.timeToOpenEyelid, status);
+                    Blink(_eyeTime / setting.timeToOpenEyelid, status);
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Idle;
-                        _eyeTime = Random.Range(status.eyeBlinkStopTimeMin, status.eyeBlinkStopTimeMax);
+                        _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
                         // 完全に開く
                         Blink(0, status);
                     }
@@ -68,12 +68,12 @@ namespace UniEyeController.Core.Process.Blink
             }
         }
 
-        private void Blink(float value, BlinkStatus status)
+        private void Blink(float value, BlinkProcessStatus status)
         {
             EyelidController.Blink(value * status.weight, OnBlink);
-            if (status.moveEyeWithBlink)
+            if (setting.moveEyeWithBlink)
             {
-                EyeController.NormalizedRotate(Vector2.up * value * status.eyeMoveMultiplier, status.weight, RotationApplyMethod.Append);
+                EyeController.NormalizedRotate(Vector2.up * (value * setting.eyeMoveMultiplier), status.weight, RotationApplyMethod.Append);
             }
         }
     }

@@ -6,12 +6,14 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public abstract class EyeProcessBase<TEyeStatus> : EyeProcessBase where TEyeStatus : EyeStatusBase
+    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> : EyeProcessBase where TEyeSetting : EyeProcessSettingBase where TEyeStatus : EyeProcessStatusBase
     {
+        public TEyeSetting setting;
+        
         /// <summary>
         /// インスペクターから操作する用
         /// </summary>
-        public TEyeStatus statusMonoBehaviour;
+        public TEyeStatus serializedStatus;
         
         public bool executeAlways;
         
@@ -46,7 +48,7 @@ namespace UniEyeController.Core.Process.Core
             }
 
             // 引数からStatusが指定されていない場合は、MonoBehaviour側のStatusを使用する
-            ProgressInternal(time, status ?? statusMonoBehaviour);
+            ProgressInternal(time, status ?? serializedStatus);
         }
 
         protected abstract void ProgressInternal(double time, TEyeStatus status);

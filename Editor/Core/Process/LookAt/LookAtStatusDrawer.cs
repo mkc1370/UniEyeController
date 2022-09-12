@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniEyeController.Core.Process.LookAt;
+using UniEyeController.Editor.Core.Extensions;
 using UniEyeController.Editor.Core.Process.Core;
 using UnityEditor;
 using UnityEngine;
@@ -19,13 +20,13 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         
         public LookAtStatusDrawer(SerializedProperty property) : base(property)
         {
-            _method = property.FindPropertyRelative(nameof(LookAtStatus.method));
-            _targetTransform = property.FindPropertyRelative(nameof(LookAtStatus.targetTransform));
-            _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtStatus.targetTransformTimeline));
-            _worldPosition = property.FindPropertyRelative(nameof(LookAtStatus.worldPosition));
-            _normalizedYaw = property.FindPropertyRelative(nameof(LookAtStatus.normalizedYaw));
-            _normalizedPitch = property.FindPropertyRelative(nameof(LookAtStatus.normalizedPitch));
-            _direction = property.FindPropertyRelative(nameof(LookAtStatus.direction));
+            _method = property.FindPropertyRelative(nameof(LookAtProcessStatus.method));
+            _targetTransform = property.FindPropertyRelative(nameof(LookAtProcessStatus.targetTransform));
+            _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtProcessStatus.targetTransformTimeline));
+            _worldPosition = property.FindPropertyRelative(nameof(LookAtProcessStatus.worldPosition));
+            _normalizedYaw = property.FindPropertyRelative(nameof(LookAtProcessStatus.normalizedYaw));
+            _normalizedPitch = property.FindPropertyRelative(nameof(LookAtProcessStatus.normalizedPitch));
+            _direction = property.FindPropertyRelative(nameof(LookAtProcessStatus.direction));
         }
 
         public override void Draw(bool isTimeline)
@@ -48,10 +49,10 @@ namespace UniEyeController.Editor.Core.Process.LookAt
                             errorMessages.Add($"ターゲットが設定されていません");
                         }
 
-                        BeginErrorColor(errorMessages.Count > 0);
+                        EditorExtensions.BeginErrorColor(errorMessages.Count > 0);
                         EditorGUILayout.PropertyField(_targetTransformTimeline, new GUIContent("対象"));
-                        EndErrorColor();
-                        DrawErrorMessages(errorMessages);
+                        EditorExtensions.EndErrorColor();
+                        EditorExtensions.DrawErrorMessages(errorMessages);
                     }
                     else
                     {
@@ -61,10 +62,10 @@ namespace UniEyeController.Editor.Core.Process.LookAt
                             errorMessages.Add($"ターゲットが設定されていません");
                         }
 
-                        BeginErrorColor(errorMessages.Count > 0);
+                        EditorExtensions.BeginErrorColor(errorMessages.Count > 0);
                         EditorGUILayout.PropertyField(_targetTransform, new GUIContent("対象"));
-                        EndErrorColor();
-                        DrawErrorMessages(errorMessages);
+                        EditorExtensions.EndErrorColor();
+                        EditorExtensions.DrawErrorMessages(errorMessages);
                     }
 
                     break;

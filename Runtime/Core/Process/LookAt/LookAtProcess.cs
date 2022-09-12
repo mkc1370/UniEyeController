@@ -8,7 +8,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.LookAt
 {
     [Serializable]
-    public class LookAtProcess : EyeProcessBase<LookAtStatus>
+    public class LookAtProcess : EyeProcessBase<LookAtProcessSetting, LookAtProcessStatus>
     {
         public LookAtProcess(DoubleEyeController eyeController, EyelidController eyelidController) : base(eyeController, eyelidController)
         {
@@ -21,7 +21,7 @@ namespace UniEyeController.Core.Process.LookAt
             EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
-        protected override void ProgressInternal(double time, LookAtStatus status)
+        protected override void ProgressInternal(double time, LookAtProcessStatus status)
         {
             var rotationApplyMethod = RotationApplyMethod.Direct;
             

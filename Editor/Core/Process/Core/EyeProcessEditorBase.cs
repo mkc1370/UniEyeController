@@ -6,6 +6,9 @@ namespace UniEyeController.Editor.Core.Process.Core
 {
     public abstract class EyeProcessEditorBase
     {
+        public abstract string Title { get; protected set; }
+        
+        protected EyeSettingDrawerBase SettingDrawer;
         protected EyeStatusDrawerBase StatusDrawer;
         
         private SerializedProperty _enabled;
@@ -13,27 +16,28 @@ namespace UniEyeController.Editor.Core.Process.Core
         public EyeProcessEditorBase(SerializedProperty property)
         {
             _enabled = property.FindPropertyRelative(nameof(EyeProcessBase.enabled));
-            
-            GetProperties(property);
         }
 
         public void Draw()
         {
-            EditorGUILayout.PropertyField(_enabled, new GUIContent("機能の有効化"));
-            
-            DrawProperties();
-        }
+            EditorGUILayout.PropertyField(_enabled, new GUIContent(Title));
 
-        protected abstract void GetProperties(SerializedProperty property);
-
-        protected void DrawProperties()
-        {
-            EditorGUILayout.LabelField("注視点の設定", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("設定");
+            EditorGUI.indentLevel++;
             GUILayout.BeginVertical(GUI.skin.box);
             {
                 StatusDrawer.Draw(false);
             }
             GUILayout.EndVertical();
+            EditorGUI.indentLevel--;
+
+            EditorGUI.indentLevel++;
+            GUILayout.BeginVertical(GUI.skin.box);
+            {
+                SettingDrawer.Draw();
+            }
+            GUILayout.EndVertical();
+            EditorGUI.indentLevel--;
         }
     }
 }

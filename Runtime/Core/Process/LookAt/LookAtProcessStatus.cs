@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.LookAt
 {
     [Serializable]
-    public class LookAtStatus : EyeStatusBase
+    public class LookAtProcessStatus : EyeProcessStatusBase
     {
         public LookAtDirection direction = LookAtDirection.Front;
         public LookAtMethod method = LookAtMethod.Rotation;

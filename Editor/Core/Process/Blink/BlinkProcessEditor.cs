@@ -6,13 +6,14 @@ namespace UniEyeController.Editor.Core.Process.Blink
 {
     public class BlinkProcessEditor : EyeProcessEditorBase
     {
+        public override string Title { get; protected set; } = "まばたき";
+        
         public BlinkProcessEditor(SerializedProperty property) : base(property)
         {
-        }
+            var setting = property.FindPropertyRelative(nameof(BlinkProcess.setting));
+            var status = property.FindPropertyRelative(nameof(BlinkProcess.serializedStatus));
 
-        protected override void GetProperties(SerializedProperty property)
-        {
-            var status = property.FindPropertyRelative(nameof(BlinkProcess.statusMonoBehaviour));
+            SettingDrawer = new BlinkSettingDrawer(setting);
             StatusDrawer = new BlinkStatusDrawer(status);
         }
     }
