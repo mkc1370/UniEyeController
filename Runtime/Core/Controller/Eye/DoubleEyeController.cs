@@ -1,5 +1,4 @@
-﻿using UniEyeController.Core.Constants;
-using UniEyeController.Core.Setting;
+﻿using UniEyeController.Core.Controller.Eye.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Controller.Eye

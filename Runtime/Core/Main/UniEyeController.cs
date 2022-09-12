@@ -1,0 +1,126 @@
+using System;
+using UniEyeController.Core.Controller.Eye;
+using UniEyeController.Core.Controller.Eyelid;
+using UniEyeController.Core.Extensions;
+using UniEyeController.Core.Main.Constants;
+using UniEyeController.Core.Process.Blink;
+using UniEyeController.Core.Process.LookAt;
+using UniEyeController.Core.Process.MicroMove;
+using UnityEngine;
+
+namespace UniEyeController.Core.Main
+{
+    [ExecuteAlways]
+    [DisallowMultipleComponent]
+    public class UniEyeController : MonoBehaviour
+    {
+        public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
+        
+        public bool executeAlways;
+        
+        public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
+        
+        public Animator animator;
+
+        public GameObject prefabForGenericAvatar;
+        
+        public Transform manualEyeL;
+        public Transform manualEyeR;
+        
+        public EyeSetting setting;
+        public EyelidSetting eyelidSetting;
+
+        public Transform CurrentEyeL => _defaultStatus.EyeL.Bone;
+        public Transform CurrentEyeR => _defaultStatus.EyeR.Bone;
+
+        private DoubleEyeDefaultStatus _defaultStatus;
+        
+        public LookAtProcess lookAtProcess;
+        public MicroMoveProcess microMoveProcess;
+        public BlinkProcess blinkProcess;
+
+        private void Start()
+        {
+            Init();
+        }
+
+        public void Init()
+        {
+            GetRequiredComponents();
+            ChangeEyeBones();
+        }
+
+        public void ChangeEyeBones()
+        {
+            _defaultStatus = GetEyeDefaultStatusBones();
+            
+            var eyeController = new DoubleEyeController(_defaultStatus, setting);
+            var eyelidController = new EyelidController(eyelidSetting);
+            
+            lookAtProcess = new LookAtProcess(eyeController, eyelidController);
+            microMoveProcess = new MicroMoveProcess(eyeController, eyelidController);
+            blinkProcess = new BlinkProcess(eyeController, eyelidController);
+        }
+
+        private DoubleEyeDefaultStatus GetEyeDefaultStatusBones()
+        {
+            switch (assignMethod)
+            {
+                case EyeAssignMethod.Humanoid:
+                    return DoubleEyeDefaultStatus.CreateFromHumanoid(animator);
+                case EyeAssignMethod.Generic:
+                    return DoubleEyeDefaultStatus.CreateFromGeneric(
+                        transform,
+                        manualEyeL,
+                        manualEyeR,
+                        prefabForGenericAvatar
+                    );
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void UpdateInternal()
+        {
+            lookAtProcess.Progress(Time.time);
+            microMoveProcess.Progress(Time.time);
+            blinkProcess.Progress(Time.time);
+        }
+
+        private void Update()
+        {
+            UpdateInternal();
+        }
+
+        private void LateUpdate()
+        {
+            if (updateMethod == UpdateMethod.LateUpdate)
+            {
+                UpdateInternal();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            UpdateInternal();
+        }
+
+        public void ManualUpdate()
+        {
+            UpdateInternal();
+        }
+
+        private void Reset()
+        {
+            GetRequiredComponents();
+        }
+
+        private void GetRequiredComponents()
+        {
+            if (animator == null)
+            {
+                animator = gameObject.GetOrAddComponent<Animator>();
+            }
+        }
+    }
+}

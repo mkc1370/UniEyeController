@@ -1,4 +1,4 @@
-﻿using UniEyeController.Core.Constants;
+﻿using UniEyeController.Core.Controller.Eye.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Controller.Eye

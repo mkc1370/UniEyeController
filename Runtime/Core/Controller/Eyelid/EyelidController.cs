@@ -1,6 +1,5 @@
 ﻿using System;
-using UniEyeController.Core.Constants;
-using UniEyeController.Core.Setting;
+using UniEyeController.Core.Controller.Eyelid.Constants;
 
 namespace UniEyeController.Core.Controller.Eyelid
 {
