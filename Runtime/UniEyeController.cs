@@ -87,7 +87,7 @@ namespace UniEyeController
             
             foreach (var process in processes)
             {
-                process.Progress(Time.time, false);
+                process.Progress(Time.time, null);
             }
         }
 
@@ -98,6 +98,12 @@ namespace UniEyeController
             {
                 if (process.CanExecute)
                 {
+                    // TODO : これは雑すぎるので直す
+                    if (process.EyeController == null)
+                    {
+                        Init();
+                        return;
+                    }
                     process.EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using UniEyeController.Core.Constants;
+using UniEyeController.Core.Status;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,9 +33,9 @@ namespace UniEyeController.EyeProcess
 
         private Vector2 _currentNormalizedEulerAngles;
 
-        public override void Progress(double time, bool controlFromTimeline)
+        public override void Progress(double time, IEyeStatus? status)
         {
-            if (!enabled) return;
+            if (!CanExecute && status == null) return;
             
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)

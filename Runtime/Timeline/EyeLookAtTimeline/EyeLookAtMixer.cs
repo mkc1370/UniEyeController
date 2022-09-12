@@ -1,4 +1,5 @@
 ﻿using UniEyeController.EyeProcess;
+using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -10,6 +11,8 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
         public TimelineClip[] Clips { get; set; }
         
         private UniEyeLookAt _target;
+
+        private bool _wasPrevFrameControlled;
 
         public override void OnPlayableDestroy(Playable playable)
         {
@@ -35,6 +38,13 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
                 }
             }
 
+            if (_wasPrevFrameControlled)
+            {
+                _target.ResetEyeRotation();
+            }
+
+            _wasPrevFrameControlled = false;
+
             for (var i = 0; i < Clips.Length; i++)
             {
                 var clip = Clips[i];
@@ -46,9 +56,9 @@ namespace UniEyeController.Timeline.EyeLookAtTimeline
                 {
                     asset.status.targetTransform =
                         asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
-                    _target.status = asset.status;
                     _target.status.weight *= weight;
-                    _target.Progress(playable.GetTime(), true);
+                    _target.Progress(playable.GetTime(), asset.status);
+                    _wasPrevFrameControlled = true;
                 }
             }
         }
