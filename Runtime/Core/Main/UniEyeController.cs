@@ -80,34 +80,43 @@ namespace UniEyeController.Core.Main
             }
         }
 
-        private void UpdateInternal()
+        private void UpdateInternal(double time)
         {
-            lookAtProcess.Progress(Time.time);
-            microMoveProcess.Progress(Time.time);
-            blinkProcess.Progress(Time.time);
+            lookAtProcess.Progress(time);
+            microMoveProcess.Progress(time);
+            blinkProcess.Progress(time);
         }
 
         private void Update()
         {
-            UpdateInternal();
+            if (updateMethod == UpdateMethod.Update)
+            {
+                UpdateInternal(Time.time);
+            }
         }
 
         private void LateUpdate()
         {
             if (updateMethod == UpdateMethod.LateUpdate)
             {
-                UpdateInternal();
+                UpdateInternal(Time.time);
             }
         }
 
         private void FixedUpdate()
         {
-            UpdateInternal();
+            if (updateMethod == UpdateMethod.FixedUpdate)
+            {
+                UpdateInternal(Time.time);
+            }
         }
 
-        public void ManualUpdate()
+        public void ManualUpdate(double time)
         {
-            UpdateInternal();
+            if (updateMethod == UpdateMethod.Manual)
+            {
+                UpdateInternal(time);
+            }
         }
 
         private void Reset()

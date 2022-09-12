@@ -16,8 +16,6 @@ namespace UniEyeController.Core.Process.LookAt
         
         public void ResetEyeRotation()
         {
-            if (EyeController == null) return;
-            
             EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UniEyeController.Core.Main.Constants;
 using UniEyeController.Editor.Core.Controller.Eye;
 using UniEyeController.Editor.Core.Controller.Eyelid;
+using UniEyeController.Editor.Core.Extensions;
 using UniEyeController.Editor.Core.Process.Blink;
-using UniEyeController.Editor.Core.Process.Core;
 using UniEyeController.Editor.Core.Process.LookAt;
 using UniEyeController.Editor.Core.Process.MicroMove;
 using UnityEditor;
@@ -106,9 +106,9 @@ namespace UniEyeController.Editor.Core.Main
                 {
                     case EyeAssignMethod.Humanoid:
                         var animator = (Animator)_animator.objectReferenceValue;
-                        BeginErrorColor(animator == null || !animator.isHuman);
+                        EditorExtensions.BeginErrorColor(animator == null || !animator.isHuman);
                         EditorGUILayout.PropertyField(_animator);
-                        EndErrorColor();
+                        EditorExtensions.EndErrorColor();
                         if (animator == null)
                         {
                             errorMessages.Add("Animatorが設定されていません");
@@ -122,9 +122,9 @@ namespace UniEyeController.Editor.Core.Main
 
                         break;
                     case EyeAssignMethod.Generic:
-                        BeginErrorColor(_prefabForGenericAvatar.objectReferenceValue == null);
+                        EditorExtensions.BeginErrorColor(_prefabForGenericAvatar.objectReferenceValue == null);
                         EditorGUILayout.PropertyField(_prefabForGenericAvatar, new GUIContent("基準となるPrefab"));
-                        EndErrorColor();
+                        EditorExtensions.EndErrorColor();
                         if (_prefabForGenericAvatar.objectReferenceValue == null)
                         {
                             errorMessages.Add("基準となるPrefabが指定されていません");
@@ -141,17 +141,17 @@ namespace UniEyeController.Editor.Core.Main
 
                         EditorGUILayout.Space();
 
-                        BeginErrorColor(_manualEyeL.objectReferenceValue == null);
+                        EditorExtensions.BeginErrorColor(_manualEyeL.objectReferenceValue == null);
                         EditorGUILayout.PropertyField(_manualEyeL, new GUIContent("左目"));
-                        EndErrorColor();
+                        EditorExtensions.EndErrorColor();
                         if (_manualEyeL.objectReferenceValue == null)
                         {
                             errorMessages.Add("左目のTransformが設定されていません");
                         }
 
-                        BeginErrorColor(_manualEyeR.objectReferenceValue == null);
+                        EditorExtensions.BeginErrorColor(_manualEyeR.objectReferenceValue == null);
                         EditorGUILayout.PropertyField(_manualEyeR, new GUIContent("右目"));
-                        EndErrorColor();
+                        EditorExtensions.EndErrorColor();
                         if (_manualEyeR.objectReferenceValue == null)
                         {
                             errorMessages.Add("右目のTransformが設定されていません");
@@ -167,7 +167,7 @@ namespace UniEyeController.Editor.Core.Main
 
                 EditorGUILayout.Space();
                 
-                DrawErrorMessages(errorMessages);
+                EditorExtensions.DrawErrorMessages(errorMessages);
 
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -183,10 +183,16 @@ namespace UniEyeController.Editor.Core.Main
             GUILayout.EndVertical();
             EditorGUI.EndDisabledGroup();
             EditorGUILayout.Space();
+            
+            serializedObject.Update();
+            
+            EditorGUI.BeginChangeCheck();
 
+            // 目の設定
             _eyeSettingEditor.Draw();
             EditorGUILayout.Space();
             
+            // まぶたの設定
             _eyelidSettingEditor.Draw();
             EditorGUILayout.Space();
 
@@ -210,27 +216,9 @@ namespace UniEyeController.Editor.Core.Main
                 EditorGUI.EndDisabledGroup();
             }
 
-            serializedObject.ApplyModifiedProperties();
-        }
-        
-        private void BeginErrorColor(bool isError)
-        {
-            if (isError)
+            if (EditorGUI.EndChangeCheck())
             {
-                GUI.color = Color.red;
-            }
-        }
-
-        private void EndErrorColor()
-        {
-            GUI.color = Color.white;
-        }
-
-        private void DrawErrorMessages(List<string> errorMessages)
-        {
-            foreach (var errorMessage in errorMessages)
-            {
-                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                serializedObject.ApplyModifiedProperties();
             }
         }
     }

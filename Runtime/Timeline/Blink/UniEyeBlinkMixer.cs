@@ -25,7 +25,6 @@ namespace UniEyeController.Timeline.Blink
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             _target = playerData as BlinkProcess;
-            Debug.Log(_target);
             if (_target == null) return;
 
             var anyWeight = false;

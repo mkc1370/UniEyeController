@@ -8,7 +8,7 @@ namespace UniEyeController.Core.Process.LookAt
     public class LookAtProcessStatus : EyeProcessStatusBase
     {
         public LookAtDirection direction = LookAtDirection.Front;
-        public LookAtMethod method = LookAtMethod.Rotation;
+        public LookAtMethod method = LookAtMethod.Transform;
         public Transform targetTransform;
         public ExposedReference<Transform> targetTransformTimeline;
         
