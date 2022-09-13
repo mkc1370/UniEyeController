@@ -8,7 +8,7 @@ namespace UniEyeController.Timeline.LookAt
     {
         public UniEyeLookAtTrack Track { get; set; }
         public TimelineClip[] Clips { get; set; }
-        
+
         private LookAtProcess _process;
 
         /// <summary>
@@ -17,19 +17,17 @@ namespace UniEyeController.Timeline.LookAt
         /// 自前でキャッシュを用意しています
         /// </summary>
         private LookAtStatus? _statusCache;
-
-        public override void OnPlayableDestroy(Playable playable)
-        {
-            if (_process == null) return;
-                
-            _process.ResetEyeRotation();
-        }
         
         public override void OnGraphStop(Playable playable)
         {
             // 再生する前の状態を復元する
             if (_statusCache.HasValue)
             {
+                // 目を正面を向いた状態に戻す
+                _process.status = LookAtStatus.LookForward;
+                _process.Progress();
+                
+                // キャッシュから復元する
                 _process.status = _statusCache.Value;
             }
             
@@ -49,9 +47,8 @@ namespace UniEyeController.Timeline.LookAt
             {
                 _statusCache = _process.status;
             }
-            
-            // 一度、正面を向いた状態にする
-            _process.status = LookAtStatus.LookForward;
+
+            _process.status = _statusCache.Value;
 
             for (var i = 0; i < Clips.Length; i++)
             {
@@ -72,8 +69,8 @@ namespace UniEyeController.Timeline.LookAt
                     break;
                 }
             }
-            
-            _process.Progress(playable.GetTime());
+
+            _process.Progress();
         }
     }
 }

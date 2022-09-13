@@ -23,13 +23,35 @@ namespace UniEyeController.Core.Process.Blink
             Closing,
             Opening
         }
-        
+
+        private float _prevTime;
         private float _eyeTime;
+
+        /// <summary>
+        /// 強制的に目を開けた状態に戻す
+        /// </summary>
+        public void ForceReset()
+        {
+            Blink(0);
+        }
         
         protected override void ProgressInternal(double time)
         {
-            _eyeTime -= Time.deltaTime;
+            var deltaTime = (float) (time - _prevTime);
+            _prevTime = (float)time;
+            if (deltaTime < 0)
+            {
+                deltaTime = 0;
+            }
+
+            if (status.blinkOffFromTimeline)
+            {
+                Blink(0);
+                return;
+            }
             
+            _eyeTime -= deltaTime;
+
             switch (_eyeBlinkState)
             {
                 case EyeBlinkState.Idle:
@@ -40,29 +62,29 @@ namespace UniEyeController.Core.Process.Blink
                     }
                     break;
                 case EyeBlinkState.Closing:
-                    Blink(1f - _eyeTime / setting.timeToCloseEyelid, status);
+                    Blink(1f - _eyeTime / setting.timeToCloseEyelid);
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Opening;
                         _eyeTime = setting.timeToOpenEyelid;
                         // 完全に閉じる
-                        Blink(1, status);
+                        Blink(1);
                     }
                     break;
                 case EyeBlinkState.Opening:
-                    Blink(_eyeTime / setting.timeToOpenEyelid, status);
+                    Blink(_eyeTime / setting.timeToOpenEyelid);
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Idle;
                         _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
                         // 完全に開く
-                        Blink(0, status);
+                        Blink(0);
                     }
                     break;
             }
         }
 
-        private void Blink(float value, BlinkStatus status)
+        private void Blink(float value)
         {
             EyelidController.Blink(value * setting.weight, OnBlink);
             if (setting.moveEyeWithBlink)

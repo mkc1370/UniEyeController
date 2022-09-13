@@ -28,15 +28,15 @@ namespace UniEyeController.Editor.Core.Process.Core
             EditorGUI.indentLevel++;
             GUILayout.BeginVertical(GUI.skin.box);
             {
-                StatusDrawer.Draw(false);
+                SettingDrawer.Draw();
             }
             GUILayout.EndVertical();
             EditorGUI.indentLevel--;
-
+            
             EditorGUI.indentLevel++;
             GUILayout.BeginVertical(GUI.skin.box);
             {
-                SettingDrawer.Draw();
+                StatusDrawer.Draw(false);
             }
             GUILayout.EndVertical();
             EditorGUI.indentLevel--;

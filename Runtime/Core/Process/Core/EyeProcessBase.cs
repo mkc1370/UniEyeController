@@ -23,7 +23,7 @@ namespace UniEyeController.Core.Process.Core
             EyelidController = eyelidController;
         }
 
-        public void Progress(double time)
+        public void Progress()
         {
             if (!enabled) return;
             
@@ -40,7 +40,7 @@ namespace UniEyeController.Core.Process.Core
             }
 
             // 引数からStatusが指定されていない場合は、MonoBehaviour側のStatusを使用する
-            ProgressInternal(time);
+            ProgressInternal(Time.time);
         }
 
         protected abstract void ProgressInternal(double time);

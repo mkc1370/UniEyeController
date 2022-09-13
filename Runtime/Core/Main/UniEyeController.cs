@@ -80,18 +80,18 @@ namespace UniEyeController.Core.Main
             }
         }
 
-        private void UpdateInternal(double time)
+        private void UpdateInternal()
         {
-            lookAtProcess.Progress(time);
-            microMoveProcess.Progress(time);
-            blinkProcess.Progress(time);
+            lookAtProcess.Progress();
+            microMoveProcess.Progress();
+            blinkProcess.Progress();
         }
 
-        private void AutoUpdate(double time)
+        private void AutoUpdate()
         {
             if (Application.isPlaying || executeAlways)
             {
-                UpdateInternal(time);
+                UpdateInternal();
             }
         }
 
@@ -99,7 +99,7 @@ namespace UniEyeController.Core.Main
         {
             if (updateMethod == UpdateMethod.Update)
             {
-                AutoUpdate(Time.time);
+                AutoUpdate();
             }
         }
 
@@ -107,7 +107,7 @@ namespace UniEyeController.Core.Main
         {
             if (updateMethod == UpdateMethod.LateUpdate)
             {
-                AutoUpdate(Time.time);
+                AutoUpdate();
             }
         }
 
@@ -115,7 +115,7 @@ namespace UniEyeController.Core.Main
         {
             if (updateMethod == UpdateMethod.FixedUpdate)
             {
-                AutoUpdate(Time.time);
+                AutoUpdate();
             }
         }
 
@@ -123,12 +123,11 @@ namespace UniEyeController.Core.Main
         /// 手動でのアップデート
         /// Application.isPlayingやexecuteAlwaysの設定に関わらず、UpdateInternalを呼び出す
         /// </summary>
-        /// <param name="time"></param>
-        public void ManualUpdate(double time)
+        public void ManualUpdate()
         {
             if (updateMethod == UpdateMethod.Manual)
             {
-                UpdateInternal(time);
+                UpdateInternal();
             }
         }
 
