@@ -13,8 +13,6 @@ namespace UniEyeController.Core.Process.Core
         public TEyeSetting setting;
         
         public TEyeStatus status;
-        
-        public bool executeAlways;
 
         protected DoubleEyeController EyeController;
         protected EyelidController EyelidController;
@@ -25,11 +23,9 @@ namespace UniEyeController.Core.Process.Core
             EyelidController = eyelidController;
         }
 
-        private bool CanExecute => enabled && (Application.isPlaying || executeAlways);
-
         public void Progress(double time)
         {
-            if (!CanExecute) return;
+            if (!enabled) return;
             
             if (EyeController == null)
             {

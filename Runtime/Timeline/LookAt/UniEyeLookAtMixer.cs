@@ -1,4 +1,5 @@
-﻿using UnityEngine.Playables;
+﻿using UniEyeController.Core.Process.LookAt;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 namespace UniEyeController.Timeline.LookAt
@@ -8,40 +9,50 @@ namespace UniEyeController.Timeline.LookAt
         public UniEyeLookAtTrack Track { get; set; }
         public TimelineClip[] Clips { get; set; }
         
-        private Core.Main.UniEyeController _target;
+        private LookAtProcess _process;
 
-        private bool _wasPrevFrameControlled;
+        /// <summary>
+        /// 目の状態を元に戻す
+        /// GatherPropertiesの仕様上、メンテナンスが難しくなってしまうため
+        /// 自前でキャッシュを用意しています
+        /// </summary>
+        private LookAtStatus? _statusCache;
 
         public override void OnPlayableDestroy(Playable playable)
         {
-            if (_target == null) return;
+            if (_process == null) return;
                 
-            _target.lookAtProcess.ResetEyeRotation();
+            _process.ResetEyeRotation();
+        }
+        
+        public override void OnGraphStop(Playable playable)
+        {
+            // 再生する前の状態を復元する
+            if (_statusCache.HasValue)
+            {
+                _process.status = _statusCache.Value;
+            }
+            
+            _statusCache = null;
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as Core.Main.UniEyeController;
-            if (_target == null) return;
+            var controller = playerData as Core.Main.UniEyeController;
+            if (controller == null) return;
+
+            _process = controller.lookAtProcess;
+            if (_process == null) return;
             
-            // 1個でもWeightが0より大きいものがあれば一度目の回転をリセットする
-            // タイムラインは回転を加算していく形になるため
-            var inputCount = playable.GetInputCount();
-            for (var i = 0; i < inputCount; i++)
+            // 再生する前の状態をキャッシュする
+            if (_statusCache == null)
             {
-                if (playable.GetInputWeight(i) > 0)
-                {
-                    _target.lookAtProcess.ResetEyeRotation();
-                    break;
-                }
+                _statusCache = _process.status;
             }
-
-            if (_wasPrevFrameControlled)
-            {
-                _target.lookAtProcess.ResetEyeRotation();
-            }
-
-            _wasPrevFrameControlled = false;
+            
+            // 一度、再生する前の状態を入れる
+            // 再生位置にクリップがある場合は、この後の処理で上書きされる
+            _process.status = _statusCache.Value;
 
             for (var i = 0; i < Clips.Length; i++)
             {
@@ -52,13 +63,18 @@ namespace UniEyeController.Timeline.LookAt
                 var weight = playable.GetInputWeight(i);
                 if (weight > 0)
                 {
-                    asset.status.targetTransform =
+                    var status = asset.status;
+                    status.weight *= weight;
+                    status.targetTransform =
                         asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
-                    _target.lookAtProcess.status.weight = weight;
-                    _target.lookAtProcess.Progress(playable.GetTime());
-                    _wasPrevFrameControlled = true;
+                    
+                    _process.status = status;
+                    // TODO : ブレンドに対応させる
+                    break;
                 }
             }
+            
+            _process.Progress(playable.GetTime());
         }
     }
 }
