@@ -4,7 +4,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public abstract class EyeProcessStatusBase
+    public class EyeSettingBase
     {
         /// <summary>
         /// 適用度合い

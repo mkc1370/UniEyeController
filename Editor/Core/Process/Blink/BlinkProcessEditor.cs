@@ -11,7 +11,7 @@ namespace UniEyeController.Editor.Core.Process.Blink
         public BlinkProcessEditor(SerializedProperty property) : base(property)
         {
             var setting = property.FindPropertyRelative(nameof(BlinkProcess.setting));
-            var status = property.FindPropertyRelative(nameof(BlinkProcess.serializedStatus));
+            var status = property.FindPropertyRelative(nameof(BlinkProcess.status));
 
             SettingDrawer = new BlinkSettingDrawer(setting);
             StatusDrawer = new BlinkStatusDrawer(status);

@@ -1,11 +1,11 @@
-﻿namespace UniEyeController.Core.Process.LookAt
+﻿namespace UniEyeController.Core.Process.LookAt.Constants
 {
     /// <summary>
     /// 注視する方向
     /// </summary>
     public enum LookAtDirection
     {
-        Front,
+        Forward,
         Left,
         Right,
         Up,

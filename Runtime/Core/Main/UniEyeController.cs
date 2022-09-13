@@ -39,7 +39,7 @@ namespace UniEyeController.Core.Main
         public MicroMoveProcess microMoveProcess = new MicroMoveProcess();
         public BlinkProcess blinkProcess = new BlinkProcess();
 
-        private void Start()
+        private void OnEnable()
         {
             Init();
         }
@@ -80,18 +80,26 @@ namespace UniEyeController.Core.Main
             }
         }
 
-        private void UpdateInternal(double time)
+        private void UpdateInternal()
         {
-            lookAtProcess.Progress(time);
-            microMoveProcess.Progress(time);
-            blinkProcess.Progress(time);
+            lookAtProcess.Progress();
+            microMoveProcess.Progress();
+            blinkProcess.Progress();
+        }
+
+        private void AutoUpdate()
+        {
+            if (Application.isPlaying || executeAlways)
+            {
+                UpdateInternal();
+            }
         }
 
         private void Update()
         {
             if (updateMethod == UpdateMethod.Update)
             {
-                UpdateInternal(Time.time);
+                AutoUpdate();
             }
         }
 
@@ -99,7 +107,7 @@ namespace UniEyeController.Core.Main
         {
             if (updateMethod == UpdateMethod.LateUpdate)
             {
-                UpdateInternal(Time.time);
+                AutoUpdate();
             }
         }
 
@@ -107,15 +115,19 @@ namespace UniEyeController.Core.Main
         {
             if (updateMethod == UpdateMethod.FixedUpdate)
             {
-                UpdateInternal(Time.time);
+                AutoUpdate();
             }
         }
 
-        public void ManualUpdate(double time)
+        /// <summary>
+        /// 手動でのアップデート
+        /// Application.isPlayingやexecuteAlwaysの設定に関わらず、UpdateInternalを呼び出す
+        /// </summary>
+        public void ManualUpdate()
         {
             if (updateMethod == UpdateMethod.Manual)
             {
-                UpdateInternal(time);
+                UpdateInternal();
             }
         }
 

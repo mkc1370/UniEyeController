@@ -1,9 +1,9 @@
-﻿namespace UniEyeController.Core.Process.LookAt
+﻿namespace UniEyeController.Core.Process.LookAt.Constants
 {
     public enum LookAtMethod
     {
-        Direction,
         Transform,
+        Direction,
         MainCamera,
         WorldPosition,
         Rotation,

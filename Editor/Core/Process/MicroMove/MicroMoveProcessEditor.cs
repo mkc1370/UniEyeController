@@ -11,7 +11,7 @@ namespace UniEyeController.Editor.Core.Process.MicroMove
         public MicroMoveProcessEditor(SerializedProperty property) : base(property)
         {
             var setting = property.FindPropertyRelative(nameof(MicroMoveProcess.setting));
-            var status = property.FindPropertyRelative(nameof(MicroMoveProcess.serializedStatus));
+            var status = property.FindPropertyRelative(nameof(MicroMoveProcess.status));
             
             SettingDrawer = new MicroMoveSettingDrawer(setting);
             StatusDrawer = new MicroMoveStatusDrawer(status);

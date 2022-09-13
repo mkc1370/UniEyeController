@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using UniEyeController.Core.Process.LookAt;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -7,7 +6,7 @@ using UnityEngine.Timeline;
 namespace UniEyeController.Timeline.LookAt
 {
     [TrackClipType(typeof(UniEyeLookAtClip))]
-    [TrackBindingType(typeof(LookAtProcess))]
+    [TrackBindingType(typeof(Core.Main.UniEyeController))]
     public class UniEyeLookAtTrack : TrackAsset
     {
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

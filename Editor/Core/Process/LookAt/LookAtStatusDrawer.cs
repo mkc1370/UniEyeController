@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniEyeController.Core.Process.LookAt;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UniEyeController.Editor.Core.Extensions;
 using UniEyeController.Editor.Core.Process.Core;
 using UnityEditor;
@@ -10,6 +11,7 @@ namespace UniEyeController.Editor.Core.Process.LookAt
 {
     public class LookAtStatusDrawer : EyeStatusDrawerBase
     {
+        private SerializedProperty _weight;
         private SerializedProperty _method;
         private SerializedProperty _targetTransform;
         private SerializedProperty _targetTransformTimeline;
@@ -20,19 +22,22 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         
         public LookAtStatusDrawer(SerializedProperty property) : base(property)
         {
-            _method = property.FindPropertyRelative(nameof(LookAtProcessStatus.method));
-            _targetTransform = property.FindPropertyRelative(nameof(LookAtProcessStatus.targetTransform));
-            _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtProcessStatus.targetTransformTimeline));
-            _worldPosition = property.FindPropertyRelative(nameof(LookAtProcessStatus.worldPosition));
-            _normalizedYaw = property.FindPropertyRelative(nameof(LookAtProcessStatus.normalizedYaw));
-            _normalizedPitch = property.FindPropertyRelative(nameof(LookAtProcessStatus.normalizedPitch));
-            _direction = property.FindPropertyRelative(nameof(LookAtProcessStatus.direction));
+            _weight = property.FindPropertyRelative(nameof(LookAtStatus.weight));
+            _method = property.FindPropertyRelative(nameof(LookAtStatus.method));
+            _targetTransform = property.FindPropertyRelative(nameof(LookAtStatus.targetTransform));
+            _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtStatus.targetTransformTimeline));
+            _worldPosition = property.FindPropertyRelative(nameof(LookAtStatus.worldPosition));
+            _normalizedYaw = property.FindPropertyRelative(nameof(LookAtStatus.normalizedYaw));
+            _normalizedPitch = property.FindPropertyRelative(nameof(LookAtStatus.normalizedPitch));
+            _direction = property.FindPropertyRelative(nameof(LookAtStatus.direction));
         }
 
         public override void Draw(bool isTimeline)
         {
             base.Draw(isTimeline);
             
+            EditorGUILayout.PropertyField(_weight, new GUIContent("適用度"));
+            EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_method, new GUIContent("注視点の指定方法"));
             EditorGUI.indentLevel++;
             switch ((LookAtMethod)_method.enumValueIndex)

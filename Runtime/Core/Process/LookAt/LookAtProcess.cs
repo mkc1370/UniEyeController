@@ -1,23 +1,28 @@
 ﻿using System;
-using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eye.Constants;
-using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Core.Process.Core;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.LookAt
 {
     [Serializable]
-    public class LookAtProcess : EyeProcessBase<LookAtProcessSetting, LookAtProcessStatus>
+    public class LookAtProcess : EyeProcessBase<LookAtSetting, LookAtStatus>
     {
+        public LookAtProcess()
+        {
+            status = LookAtStatus.Default;
+        }
+        
         public void ResetEyeRotation()
         {
             EyeController.Rotate(Vector2.zero, 1, RotationApplyMethod.Direct);
         }
 
-        protected override void ProgressInternal(double time, LookAtProcessStatus status)
+        protected override void ProgressInternal(double time)
         {
             var rotationApplyMethod = RotationApplyMethod.Direct;
+            var weight = setting.weight * status.weight;
             
             switch (status.method)
             {
@@ -25,34 +30,34 @@ namespace UniEyeController.Core.Process.LookAt
                     if (status.targetTransform == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
-                        EyeController.Rotate(Vector2.zero, status.weight, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, weight, RotationApplyMethod.Direct);
                         return;
                     }
 
-                    EyeController.LookAt(status.targetTransform.position, status.weight, rotationApplyMethod);
+                    EyeController.LookAt(status.targetTransform.position, weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
                     if (mainCamera == null)
                     {
                         Debug.LogError($"MainCamera is not found.");
-                        EyeController.Rotate(Vector2.zero, status.weight, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, weight, RotationApplyMethod.Direct);
                         return;
                     }
 
-                    EyeController.LookAt(mainCamera.transform.position, status.weight, rotationApplyMethod);
+                    EyeController.LookAt(mainCamera.transform.position, weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.WorldPosition:
-                    EyeController.LookAt(status.worldPosition, status.weight, rotationApplyMethod);
+                    EyeController.LookAt(status.worldPosition, weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Rotation:
-                    EyeController.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch), status.weight, rotationApplyMethod);
+                    EyeController.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch), weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Direction:
                     Vector2 direction;
                     switch (status.direction)
                     {
-                        case LookAtDirection.Front:
+                        case LookAtDirection.Forward:
                             direction = Vector2.zero;
                             break;
                         case LookAtDirection.Left:
@@ -71,7 +76,7 @@ namespace UniEyeController.Core.Process.LookAt
                             throw new ArgumentOutOfRangeException();
                     }
 
-                    EyeController.NormalizedRotate(direction, status.weight, rotationApplyMethod);
+                    EyeController.NormalizedRotate(direction, weight, rotationApplyMethod);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

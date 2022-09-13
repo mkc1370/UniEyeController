@@ -1,4 +1,5 @@
 ﻿using UniEyeController.Core.Process.Core;
+using UniEyeController.Core.Process.LookAt;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,7 +16,8 @@ namespace UniEyeController.Editor.Core.Process.Core
         
         public EyeProcessEditorBase(SerializedProperty property)
         {
-            _enabled = property.FindPropertyRelative(nameof(EyeProcessBase.enabled));
+            // TODO : あまりきれいではないので直す
+            _enabled = property.FindPropertyRelative(nameof(EyeProcessBase<LookAtSetting, LookAtStatus>.enabled));
         }
 
         public void Draw()
@@ -26,15 +28,15 @@ namespace UniEyeController.Editor.Core.Process.Core
             EditorGUI.indentLevel++;
             GUILayout.BeginVertical(GUI.skin.box);
             {
-                StatusDrawer.Draw(false);
+                SettingDrawer.Draw();
             }
             GUILayout.EndVertical();
             EditorGUI.indentLevel--;
-
+            
             EditorGUI.indentLevel++;
             GUILayout.BeginVertical(GUI.skin.box);
             {
-                SettingDrawer.Draw();
+                StatusDrawer.Draw(false);
             }
             GUILayout.EndVertical();
             EditorGUI.indentLevel--;

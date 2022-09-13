@@ -1,14 +1,17 @@
 ﻿using System;
 using UniEyeController.Core.Process.Core;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.LookAt
 {
     [Serializable]
-    public class LookAtProcessStatus : EyeProcessStatusBase
+    public struct LookAtStatus : IEyeStatusBase
     {
-        public LookAtDirection direction = LookAtDirection.Front;
-        public LookAtMethod method = LookAtMethod.Transform;
+        [Range(0f, 1f)]
+        public float weight;
+        public LookAtDirection direction;
+        public LookAtMethod method;
         public Transform targetTransform;
         public ExposedReference<Transform> targetTransformTimeline;
         
@@ -19,6 +22,28 @@ namespace UniEyeController.Core.Process.LookAt
         
         [Range(-1f, 1f)]
         public float normalizedPitch;
+
+        public static LookAtStatus Default
+        {
+            get
+            {
+                var status = new LookAtStatus();
+                status.weight = 1f;
+                return status;
+            }
+        }
+
+        public static LookAtStatus LookForward
+        {
+            get
+            {
+                var status = new LookAtStatus();
+                status.weight = 1f;
+                status.method = LookAtMethod.Direction;
+                status.direction = LookAtDirection.Forward;
+                return status;
+            }
+        }
 
         public override string ToString()
         {

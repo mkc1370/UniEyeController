@@ -1,7 +1,5 @@
 ﻿using System;
-using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eye.Constants;
-using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Core.Process.Core;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,13 +10,13 @@ namespace UniEyeController.Core.Process.MicroMove
     /// 眼球微細運動を再現する
     /// </summary>
     [Serializable]
-    public class MicroMoveProcess : EyeProcessBase<MicroMoveProcessSetting, MicroMoveProcessStatus>
+    public class MicroMoveProcess : EyeProcessBase<MicroMoveSetting, MicroMoveStatus>
     {
         private float _eyeMoveTimer;
 
         private Vector2 _currentNormalizedEulerAngles;
 
-        protected override void ProgressInternal(double time, MicroMoveProcessStatus status)
+        protected override void ProgressInternal(double time)
         {
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)
@@ -30,7 +28,7 @@ namespace UniEyeController.Core.Process.MicroMove
                 _eyeMoveTimer = Random.Range(setting.eyeMoveStopTimeMin, setting.eyeMoveStopTimeMax);
             }
             
-            EyeController.NormalizedRotate(_currentNormalizedEulerAngles, status.weight, RotationApplyMethod.Append);
+            EyeController.NormalizedRotate(_currentNormalizedEulerAngles, setting.weight, RotationApplyMethod.Append);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace UniEyeController.Editor.Core.Process.MicroMove
         
         public MicroMoveSettingDrawer(SerializedProperty property) : base(property)
         {
-            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(MicroMoveProcessSetting.eyeMoveMultiplier));
-            _eyeMoveStopTimeMin = property.FindPropertyRelative(nameof(MicroMoveProcessSetting.eyeMoveStopTimeMin));
-            _eyeMoveStopTimeMax = property.FindPropertyRelative(nameof(MicroMoveProcessSetting.eyeMoveStopTimeMax));
+            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(MicroMoveSetting.eyeMoveMultiplier));
+            _eyeMoveStopTimeMin = property.FindPropertyRelative(nameof(MicroMoveSetting.eyeMoveStopTimeMin));
+            _eyeMoveStopTimeMax = property.FindPropertyRelative(nameof(MicroMoveSetting.eyeMoveStopTimeMax));
         }
 
         public override void Draw()
