@@ -89,7 +89,7 @@ namespace UniEyeController.Core.Process.Blink
             EyelidController.Blink(value * setting.weight, OnBlink);
             if (setting.moveEyeWithBlink)
             {
-                EyeController.NormalizedRotate(Vector2.up * (value * setting.eyeMoveMultiplier), setting.weight, RotationApplyMethod.Append);
+                EyeController.NormalizedRotate(Vector2.down * (value * setting.eyeMoveMultiplier), setting.weight, RotationApplyMethod.Append);
             }
         }
     }
