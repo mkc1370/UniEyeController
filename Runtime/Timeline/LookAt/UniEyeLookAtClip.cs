@@ -7,7 +7,7 @@ namespace UniEyeController.Timeline.LookAt
 {
     public class UniEyeLookAtClip : PlayableAsset, ITimelineClipAsset
     {
-        public LookAtStatus status;
+        public LookAtStatus status = LookAtStatus.Default;
 
         public ClipCaps clipCaps =>
             ClipCaps.ClipIn |

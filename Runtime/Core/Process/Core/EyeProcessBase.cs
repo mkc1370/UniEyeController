@@ -6,16 +6,13 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> where TEyeSetting : EyeSettingBase where TEyeStatus : EyeStatusBase
+    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> where TEyeSetting : EyeSettingBase where TEyeStatus : IEyeStatusBase
     {
         public bool enabled = true;
         
         public TEyeSetting setting;
         
-        /// <summary>
-        /// インスペクターから操作する用
-        /// </summary>
-        public TEyeStatus serializedStatus;
+        public TEyeStatus status;
         
         public bool executeAlways;
 
@@ -30,7 +27,7 @@ namespace UniEyeController.Core.Process.Core
 
         private bool CanExecute => enabled && (Application.isPlaying || executeAlways);
 
-        public void Progress(double time, TEyeStatus status = null)
+        public void Progress(double time)
         {
             if (!CanExecute) return;
             
@@ -47,9 +44,9 @@ namespace UniEyeController.Core.Process.Core
             }
 
             // 引数からStatusが指定されていない場合は、MonoBehaviour側のStatusを使用する
-            ProgressInternal(time, status ?? serializedStatus);
+            ProgressInternal(time);
         }
 
-        protected abstract void ProgressInternal(double time, TEyeStatus status);
+        protected abstract void ProgressInternal(double time);
     }
 }

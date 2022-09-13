@@ -10,6 +10,7 @@ namespace UniEyeController.Editor.Core.Process.LookAt
 {
     public class LookAtStatusDrawer : EyeStatusDrawerBase
     {
+        private SerializedProperty _weight;
         private SerializedProperty _method;
         private SerializedProperty _targetTransform;
         private SerializedProperty _targetTransformTimeline;
@@ -20,6 +21,7 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         
         public LookAtStatusDrawer(SerializedProperty property) : base(property)
         {
+            _weight = property.FindPropertyRelative(nameof(LookAtStatus.weight));
             _method = property.FindPropertyRelative(nameof(LookAtStatus.method));
             _targetTransform = property.FindPropertyRelative(nameof(LookAtStatus.targetTransform));
             _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtStatus.targetTransformTimeline));
@@ -33,6 +35,8 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         {
             base.Draw(isTimeline);
             
+            EditorGUILayout.PropertyField(_weight, new GUIContent("適用度"));
+            EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_method, new GUIContent("注視点の指定方法"));
             EditorGUI.indentLevel++;
             switch ((LookAtMethod)_method.enumValueIndex)

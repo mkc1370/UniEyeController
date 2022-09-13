@@ -1,7 +1,5 @@
 ﻿using System;
-using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eye.Constants;
-using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Core.Process.Core;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -28,7 +26,7 @@ namespace UniEyeController.Core.Process.Blink
         
         private float _eyeTime;
         
-        protected override void ProgressInternal(double time, BlinkStatus status)
+        protected override void ProgressInternal(double time)
         {
             _eyeTime -= Time.deltaTime;
             
@@ -66,10 +64,10 @@ namespace UniEyeController.Core.Process.Blink
 
         private void Blink(float value, BlinkStatus status)
         {
-            EyelidController.Blink(value * status.weight, OnBlink);
+            EyelidController.Blink(value * setting.weight, OnBlink);
             if (setting.moveEyeWithBlink)
             {
-                EyeController.NormalizedRotate(Vector2.up * (value * setting.eyeMoveMultiplier), status.weight, RotationApplyMethod.Append);
+                EyeController.NormalizedRotate(Vector2.up * (value * setting.eyeMoveMultiplier), setting.weight, RotationApplyMethod.Append);
             }
         }
     }

@@ -5,10 +5,12 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.LookAt
 {
     [Serializable]
-    public class LookAtStatus : EyeStatusBase
+    public struct LookAtStatus : IEyeStatusBase
     {
-        public LookAtDirection direction = LookAtDirection.Front;
-        public LookAtMethod method = LookAtMethod.Transform;
+        [Range(0f, 1f)]
+        public float weight;
+        public LookAtDirection direction;
+        public LookAtMethod method;
         public Transform targetTransform;
         public ExposedReference<Transform> targetTransformTimeline;
         
@@ -19,6 +21,16 @@ namespace UniEyeController.Core.Process.LookAt
         
         [Range(-1f, 1f)]
         public float normalizedPitch;
+
+        public static LookAtStatus Default
+        {
+            get
+            {
+                var status = new LookAtStatus();
+                status.weight = 1f;
+                return status;
+            }
+        }
 
         public override string ToString()
         {

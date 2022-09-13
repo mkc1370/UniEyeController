@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using UniEyeController.Core.Process.Blink;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -7,7 +6,7 @@ using UnityEngine.Timeline;
 namespace UniEyeController.Timeline.Blink
 {
     [TrackClipType(typeof(UniEyeBlinkClip))]
-    [TrackBindingType(typeof(BlinkProcess))]
+    [TrackBindingType(typeof(Core.Main.UniEyeController))]
     public class UniEyeBlinkTrack : TrackAsset
     {
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

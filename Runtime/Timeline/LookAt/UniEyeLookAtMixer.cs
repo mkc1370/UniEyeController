@@ -1,5 +1,4 @@
-﻿using UniEyeController.Core.Process.LookAt;
-using UnityEngine.Playables;
+﻿using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 namespace UniEyeController.Timeline.LookAt
@@ -9,7 +8,7 @@ namespace UniEyeController.Timeline.LookAt
         public UniEyeLookAtTrack Track { get; set; }
         public TimelineClip[] Clips { get; set; }
         
-        private LookAtProcess _target;
+        private Core.Main.UniEyeController _target;
 
         private bool _wasPrevFrameControlled;
 
@@ -17,12 +16,12 @@ namespace UniEyeController.Timeline.LookAt
         {
             if (_target == null) return;
                 
-            _target.ResetEyeRotation();
+            _target.lookAtProcess.ResetEyeRotation();
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as LookAtProcess;
+            _target = playerData as Core.Main.UniEyeController;
             if (_target == null) return;
             
             // 1個でもWeightが0より大きいものがあれば一度目の回転をリセットする
@@ -32,14 +31,14 @@ namespace UniEyeController.Timeline.LookAt
             {
                 if (playable.GetInputWeight(i) > 0)
                 {
-                    _target.ResetEyeRotation();
+                    _target.lookAtProcess.ResetEyeRotation();
                     break;
                 }
             }
 
             if (_wasPrevFrameControlled)
             {
-                _target.ResetEyeRotation();
+                _target.lookAtProcess.ResetEyeRotation();
             }
 
             _wasPrevFrameControlled = false;
@@ -55,8 +54,8 @@ namespace UniEyeController.Timeline.LookAt
                 {
                     asset.status.targetTransform =
                         asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
-                    _target.serializedStatus.weight *= weight;
-                    _target.Progress(playable.GetTime(), asset.status);
+                    _target.lookAtProcess.status.weight = weight;
+                    _target.lookAtProcess.Progress(playable.GetTime());
                     _wasPrevFrameControlled = true;
                 }
             }

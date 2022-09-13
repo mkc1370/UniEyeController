@@ -1,5 +1,4 @@
 ﻿using UniEyeController.Core.Process.Blink;
-using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -12,19 +11,11 @@ namespace UniEyeController.Timeline.Blink
 
         public PlayableDirector Director;
         
-        private BlinkProcess _target;
-
-        private BlinkStatus _status = new BlinkStatus();
-
-        public override void OnPlayableDestroy(Playable playable)
-        {
-            if (_target == null) return;
-            _target.Progress(Time.time, _status);
-        }
+        private Core.Main.UniEyeController _target;
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            _target = playerData as BlinkProcess;
+            _target = playerData as Core.Main.UniEyeController;
             if (_target == null) return;
 
             var anyWeight = false;
@@ -42,8 +33,10 @@ namespace UniEyeController.Timeline.Blink
                 }
             }
 
-            _status.weight = anyWeight ? 1 : 0;
-            _target.Progress(playable.GetTime(), _status);
+            var status = new BlinkStatus();
+            status.blinkOffFromTimeline = anyWeight;
+            _target.blinkProcess.status = status;
+            _target.blinkProcess.Progress(playable.GetTime());
         }
     }
 }

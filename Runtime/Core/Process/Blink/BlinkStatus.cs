@@ -1,10 +1,13 @@
 ﻿using System;
 using UniEyeController.Core.Process.Core;
+using UnityEngine;
 
 namespace UniEyeController.Core.Process.Blink
 {
     [Serializable]
-    public class BlinkStatus : EyeStatusBase
+    public struct BlinkStatus : IEyeStatusBase
     {
+        [HideInInspector]
+        public bool blinkOffFromTimeline;
     }
 }
