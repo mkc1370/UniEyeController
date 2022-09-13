@@ -6,8 +6,10 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> : EyeProcessBase where TEyeSetting : EyeSettingBase where TEyeStatus : EyeStatusBase
+    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> where TEyeSetting : EyeSettingBase where TEyeStatus : EyeStatusBase
     {
+        public bool enabled = true;
+        
         public TEyeSetting setting;
         
         /// <summary>
@@ -49,11 +51,5 @@ namespace UniEyeController.Core.Process.Core
         }
 
         protected abstract void ProgressInternal(double time, TEyeStatus status);
-    }
-
-    [Serializable]
-    public abstract class EyeProcessBase
-    {
-        public bool enabled;
     }
 }
