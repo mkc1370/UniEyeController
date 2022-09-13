@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.Blink
 {
     [Serializable]
-    public class BlinkProcessSetting : EyeProcessSettingBase
+    public class BlinkSetting : EyeSettingBase
     {
         [Range(0f, 1f)]
         public float eyeMoveMultiplier = 0.8f;

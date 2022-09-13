@@ -3,7 +3,7 @@
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public class EyeProcessSettingBase
+    public class EyeSettingBase
     {
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.MicroMove
 {
     [Serializable]
-    public class MicroMoveProcessSetting : EyeProcessSettingBase
+    public class MicroMoveSetting : EyeSettingBase
     {
         [Range(0f, 1f)]
         public float eyeMoveMultiplier = 0.1f;

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> : EyeProcessBase where TEyeSetting : EyeProcessSettingBase where TEyeStatus : EyeProcessStatusBase
+    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> : EyeProcessBase where TEyeSetting : EyeSettingBase where TEyeStatus : EyeStatusBase
     {
         public TEyeSetting setting;
         

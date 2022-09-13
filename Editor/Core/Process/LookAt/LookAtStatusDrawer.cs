@@ -20,13 +20,13 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         
         public LookAtStatusDrawer(SerializedProperty property) : base(property)
         {
-            _method = property.FindPropertyRelative(nameof(LookAtProcessStatus.method));
-            _targetTransform = property.FindPropertyRelative(nameof(LookAtProcessStatus.targetTransform));
-            _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtProcessStatus.targetTransformTimeline));
-            _worldPosition = property.FindPropertyRelative(nameof(LookAtProcessStatus.worldPosition));
-            _normalizedYaw = property.FindPropertyRelative(nameof(LookAtProcessStatus.normalizedYaw));
-            _normalizedPitch = property.FindPropertyRelative(nameof(LookAtProcessStatus.normalizedPitch));
-            _direction = property.FindPropertyRelative(nameof(LookAtProcessStatus.direction));
+            _method = property.FindPropertyRelative(nameof(LookAtStatus.method));
+            _targetTransform = property.FindPropertyRelative(nameof(LookAtStatus.targetTransform));
+            _targetTransformTimeline = property.FindPropertyRelative(nameof(LookAtStatus.targetTransformTimeline));
+            _worldPosition = property.FindPropertyRelative(nameof(LookAtStatus.worldPosition));
+            _normalizedYaw = property.FindPropertyRelative(nameof(LookAtStatus.normalizedYaw));
+            _normalizedPitch = property.FindPropertyRelative(nameof(LookAtStatus.normalizedPitch));
+            _direction = property.FindPropertyRelative(nameof(LookAtStatus.direction));
         }
 
         public override void Draw(bool isTimeline)

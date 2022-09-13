@@ -10,7 +10,7 @@ namespace UniEyeController.Editor.Core.Process.Core
         
         public EyeStatusDrawerBase(SerializedProperty property)
         {
-            _weight = property.FindPropertyRelative(nameof(EyeProcessStatusBase.weight));
+            _weight = property.FindPropertyRelative(nameof(EyeStatusBase.weight));
         }
 
         public virtual void Draw(bool isTimeline)

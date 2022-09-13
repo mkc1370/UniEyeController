@@ -11,7 +11,7 @@ namespace UniEyeController.Editor.Timeline.LookAt
 
         private void OnEnable()
         {
-            var status = serializedObject.FindProperty(nameof(UniEyeLookAtClip.processStatus));
+            var status = serializedObject.FindProperty(nameof(UniEyeLookAtClip.status));
             _statusDrawer = new LookAtStatusDrawer(status);
 
             var script = target as UniEyeLookAtClip;

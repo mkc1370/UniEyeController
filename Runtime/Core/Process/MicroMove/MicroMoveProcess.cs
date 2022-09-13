@@ -12,13 +12,13 @@ namespace UniEyeController.Core.Process.MicroMove
     /// 眼球微細運動を再現する
     /// </summary>
     [Serializable]
-    public class MicroMoveProcess : EyeProcessBase<MicroMoveProcessSetting, MicroMoveProcessStatus>
+    public class MicroMoveProcess : EyeProcessBase<MicroMoveSetting, MicroMoveStatus>
     {
         private float _eyeMoveTimer;
 
         private Vector2 _currentNormalizedEulerAngles;
 
-        protected override void ProgressInternal(double time, MicroMoveProcessStatus status)
+        protected override void ProgressInternal(double time, MicroMoveStatus status)
         {
             _eyeMoveTimer -= Time.deltaTime;
             if (_eyeMoveTimer < 0)

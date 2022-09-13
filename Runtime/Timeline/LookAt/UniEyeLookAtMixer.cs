@@ -53,10 +53,10 @@ namespace UniEyeController.Timeline.LookAt
                 var weight = playable.GetInputWeight(i);
                 if (weight > 0)
                 {
-                    asset.processStatus.targetTransform =
-                        asset.processStatus.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
+                    asset.status.targetTransform =
+                        asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
                     _target.serializedStatus.weight *= weight;
-                    _target.Progress(playable.GetTime(), asset.processStatus);
+                    _target.Progress(playable.GetTime(), asset.status);
                     _wasPrevFrameControlled = true;
                 }
             }

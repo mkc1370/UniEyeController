@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 namespace UniEyeController.Core.Process.Blink
 {
     [Serializable]
-    public class BlinkProcess : EyeProcessBase<BlinkProcessSetting ,BlinkProcessStatus>
+    public class BlinkProcess : EyeProcessBase<BlinkSetting ,BlinkStatus>
     {
         /// <summary>
         /// 目を閉じるときのイベント
@@ -28,7 +28,7 @@ namespace UniEyeController.Core.Process.Blink
         
         private float _eyeTime;
         
-        protected override void ProgressInternal(double time, BlinkProcessStatus status)
+        protected override void ProgressInternal(double time, BlinkStatus status)
         {
             _eyeTime -= Time.deltaTime;
             
@@ -64,7 +64,7 @@ namespace UniEyeController.Core.Process.Blink
             }
         }
 
-        private void Blink(float value, BlinkProcessStatus status)
+        private void Blink(float value, BlinkStatus status)
         {
             EyelidController.Blink(value * status.weight, OnBlink);
             if (setting.moveEyeWithBlink)

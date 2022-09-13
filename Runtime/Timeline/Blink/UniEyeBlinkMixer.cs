@@ -14,12 +14,12 @@ namespace UniEyeController.Timeline.Blink
         
         private BlinkProcess _target;
 
-        private BlinkProcessStatus _processStatus = new BlinkProcessStatus();
+        private BlinkStatus _status = new BlinkStatus();
 
         public override void OnPlayableDestroy(Playable playable)
         {
             if (_target == null) return;
-            _target.Progress(Time.time, _processStatus);
+            _target.Progress(Time.time, _status);
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
@@ -42,8 +42,8 @@ namespace UniEyeController.Timeline.Blink
                 }
             }
 
-            _processStatus.weight = anyWeight ? 1 : 0;
-            _target.Progress(playable.GetTime(), _processStatus);
+            _status.weight = anyWeight ? 1 : 0;
+            _target.Progress(playable.GetTime(), _status);
         }
     }
 }

@@ -16,12 +16,12 @@ namespace UniEyeController.Editor.Core.Process.Blink
         
         public BlinkSettingDrawer(SerializedProperty property) : base(property)
         {
-            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(BlinkProcessSetting.eyeMoveMultiplier));
-            _eyeBlinkStopTimeMin = property.FindPropertyRelative(nameof(BlinkProcessSetting.eyeBlinkStopTimeMin));
-            _eyeBlinkStopTimeMax = property.FindPropertyRelative(nameof(BlinkProcessSetting.eyeBlinkStopTimeMax));
-            _timeToCloseEyelid = property.FindPropertyRelative(nameof(BlinkProcessSetting.timeToCloseEyelid));
-            _timeToOpenEyelid = property.FindPropertyRelative(nameof(BlinkProcessSetting.timeToOpenEyelid));
-            _moveEyeWithBlink = property.FindPropertyRelative(nameof(BlinkProcessSetting.moveEyeWithBlink));
+            _eyeMoveMultiplier = property.FindPropertyRelative(nameof(BlinkSetting.eyeMoveMultiplier));
+            _eyeBlinkStopTimeMin = property.FindPropertyRelative(nameof(BlinkSetting.eyeBlinkStopTimeMin));
+            _eyeBlinkStopTimeMax = property.FindPropertyRelative(nameof(BlinkSetting.eyeBlinkStopTimeMax));
+            _timeToCloseEyelid = property.FindPropertyRelative(nameof(BlinkSetting.timeToCloseEyelid));
+            _timeToOpenEyelid = property.FindPropertyRelative(nameof(BlinkSetting.timeToOpenEyelid));
+            _moveEyeWithBlink = property.FindPropertyRelative(nameof(BlinkSetting.moveEyeWithBlink));
         }
 
         public override void Draw()

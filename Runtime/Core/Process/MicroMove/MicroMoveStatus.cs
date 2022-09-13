@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Process.MicroMove
 {
     [Serializable]
-    public class MicroMoveProcessStatus : EyeProcessStatusBase
+    public class MicroMoveStatus : EyeStatusBase
     {
     }
 }
