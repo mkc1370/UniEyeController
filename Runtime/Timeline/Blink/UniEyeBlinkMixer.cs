@@ -46,7 +46,7 @@ namespace UniEyeController.Timeline.Blink
                 }
             }
 
-            _status.blinkOffFromTimeline = anyWeight;
+            _status.blinkOffFromOutside = anyWeight;
             _process.status = _status;
             _process.Progress();
         }

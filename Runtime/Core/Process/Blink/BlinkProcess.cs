@@ -44,7 +44,7 @@ namespace UniEyeController.Core.Process.Blink
                 deltaTime = 0;
             }
 
-            if (status.blinkOffFromTimeline)
+            if (status.blinkOffFromOutside)
             {
                 Blink(0);
                 return;
