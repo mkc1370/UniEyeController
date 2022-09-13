@@ -1,5 +1,6 @@
 ﻿using System;
 using UniEyeController.Core.Process.LookAt;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UniEyeController.Timeline.LookAt;
 using UnityEditor.Timeline;
 using UnityEngine;

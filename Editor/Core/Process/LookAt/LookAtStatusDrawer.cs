@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniEyeController.Core.Process.LookAt;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UniEyeController.Editor.Core.Extensions;
 using UniEyeController.Editor.Core.Process.Core;
 using UnityEditor;

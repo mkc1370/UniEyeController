@@ -50,9 +50,8 @@ namespace UniEyeController.Timeline.LookAt
                 _statusCache = _process.status;
             }
             
-            // 一度、再生する前の状態を入れる
-            // 再生位置にクリップがある場合は、この後の処理で上書きされる
-            _process.status = _statusCache.Value;
+            // 一度、正面を向いた状態にする
+            _process.status = LookAtStatus.LookForward;
 
             for (var i = 0; i < Clips.Length; i++)
             {

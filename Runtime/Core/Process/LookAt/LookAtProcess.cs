@@ -1,6 +1,7 @@
 ﻿using System;
 using UniEyeController.Core.Controller.Eye.Constants;
 using UniEyeController.Core.Process.Core;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.LookAt
@@ -56,7 +57,7 @@ namespace UniEyeController.Core.Process.LookAt
                     Vector2 direction;
                     switch (status.direction)
                     {
-                        case LookAtDirection.Front:
+                        case LookAtDirection.Forward:
                             direction = Vector2.zero;
                             break;
                         case LookAtDirection.Left:

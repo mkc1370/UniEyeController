@@ -1,5 +1,6 @@
 ﻿using System;
 using UniEyeController.Core.Process.Core;
+using UniEyeController.Core.Process.LookAt.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.LookAt
@@ -28,6 +29,18 @@ namespace UniEyeController.Core.Process.LookAt
             {
                 var status = new LookAtStatus();
                 status.weight = 1f;
+                return status;
+            }
+        }
+
+        public static LookAtStatus LookForward
+        {
+            get
+            {
+                var status = new LookAtStatus();
+                status.weight = 1f;
+                status.method = LookAtMethod.Direction;
+                status.direction = LookAtDirection.Forward;
                 return status;
             }
         }
