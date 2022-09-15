@@ -1,18 +1,26 @@
 ﻿using System;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
+using UniEyeController.Core.Main.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.Core
 {
     [Serializable]
-    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> where TEyeSetting : EyeSettingBase where TEyeStatus : IEyeStatusBase
+    public abstract class EyeProcessBase<TEyeSetting, TEyeStatus> : EyeProcessBase where TEyeSetting : EyeSettingBase where TEyeStatus : IEyeStatusBase
     {
-        public bool enabled = true;
-        
         public TEyeSetting setting;
-        
         public TEyeStatus status;
+    }
+
+    [Serializable]
+    public abstract class EyeProcessBase
+    {
+        public bool executeAlways;
+        
+        public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
+        
+        public bool enabled = true;
 
         protected DoubleEyeController EyeController;
         protected EyelidController EyelidController;
@@ -22,10 +30,17 @@ namespace UniEyeController.Core.Process.Core
             EyeController = eyeController;
             EyelidController = eyelidController;
         }
-
-        public void Progress()
+        
+        public void Progress(UpdateMethod currentUpdateMethod)
         {
             if (!enabled) return;
+            
+            if (!Application.isPlaying && !executeAlways) return;
+            
+            if (
+                updateMethod != UpdateMethod.Timeline &&
+                updateMethod != currentUpdateMethod
+            ) return;
             
             if (EyeController == null)
             {
