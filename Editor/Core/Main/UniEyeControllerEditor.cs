@@ -97,7 +97,6 @@ namespace UniEyeController.Editor.Core.Main
             GUILayout.BeginVertical(GUI.skin.box);
             {
                 var errorMessages = new List<string>();
-                EditorGUI.BeginChangeCheck();
                 
                 EditorGUILayout.PropertyField(_assignMethod, new GUIContent("キャラクターの種類"));
                 EditorGUILayout.Space();
