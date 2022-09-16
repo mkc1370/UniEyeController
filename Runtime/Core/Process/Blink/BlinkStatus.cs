@@ -8,6 +8,6 @@ namespace UniEyeController.Core.Process.Blink
     public struct BlinkStatus : IEyeStatusBase
     {
         [HideInInspector]
-        public bool blinkOffFromTimeline;
+        public bool blinkOffFromOutside;
     }
 }

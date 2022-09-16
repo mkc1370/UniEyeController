@@ -1,4 +1,5 @@
-﻿using UniEyeController.Core.Process.LookAt;
+﻿using UniEyeController.Core.Main.Constants;
+using UniEyeController.Core.Process.LookAt;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -25,7 +26,7 @@ namespace UniEyeController.Timeline.LookAt
             {
                 // 目を正面を向いた状態に戻す
                 _process.status = LookAtStatus.LookForward;
-                _process.Progress();
+                _process.Progress(UpdateMethod.Timeline);
                 
                 // キャッシュから復元する
                 _process.status = _statusCache.Value;
@@ -70,7 +71,7 @@ namespace UniEyeController.Timeline.LookAt
                 }
             }
 
-            _process.Progress();
+            _process.Progress(UpdateMethod.Timeline);
         }
     }
 }

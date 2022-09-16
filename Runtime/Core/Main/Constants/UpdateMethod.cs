@@ -5,6 +5,7 @@
         Update,
         LateUpdate,
         FixedUpdate,
+        Timeline,
         Manual
     }
 }

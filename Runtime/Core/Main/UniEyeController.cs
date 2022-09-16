@@ -14,10 +14,6 @@ namespace UniEyeController.Core.Main
     [DisallowMultipleComponent]
     public class UniEyeController : MonoBehaviour
     {
-        public UpdateMethod updateMethod = UpdateMethod.LateUpdate;
-        
-        public bool executeAlways;
-        
         public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
         public Animator animator;
@@ -80,43 +76,26 @@ namespace UniEyeController.Core.Main
             }
         }
 
-        private void UpdateInternal()
+        private void UpdateInternal(UpdateMethod updateMethod)
         {
-            lookAtProcess.Progress();
-            microMoveProcess.Progress();
-            blinkProcess.Progress();
-        }
-
-        private void AutoUpdate()
-        {
-            if (Application.isPlaying || executeAlways)
-            {
-                UpdateInternal();
-            }
+            lookAtProcess.Progress(updateMethod);
+            microMoveProcess.Progress(updateMethod);
+            blinkProcess.Progress(updateMethod);
         }
 
         private void Update()
         {
-            if (updateMethod == UpdateMethod.Update)
-            {
-                AutoUpdate();
-            }
+            UpdateInternal(UpdateMethod.Update);
         }
 
         private void LateUpdate()
         {
-            if (updateMethod == UpdateMethod.LateUpdate)
-            {
-                AutoUpdate();
-            }
+            UpdateInternal(UpdateMethod.LateUpdate);
         }
 
         private void FixedUpdate()
         {
-            if (updateMethod == UpdateMethod.FixedUpdate)
-            {
-                AutoUpdate();
-            }
+            UpdateInternal(UpdateMethod.FixedUpdate);
         }
 
         /// <summary>
@@ -125,10 +104,7 @@ namespace UniEyeController.Core.Main
         /// </summary>
         public void ManualUpdate()
         {
-            if (updateMethod == UpdateMethod.Manual)
-            {
-                UpdateInternal();
-            }
+            UpdateInternal(UpdateMethod.Manual);
         }
 
         private void Reset()

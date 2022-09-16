@@ -1,4 +1,5 @@
-﻿using UniEyeController.Core.Process.Blink;
+﻿using UniEyeController.Core.Main.Constants;
+using UniEyeController.Core.Process.Blink;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -46,9 +47,9 @@ namespace UniEyeController.Timeline.Blink
                 }
             }
 
-            _status.blinkOffFromTimeline = anyWeight;
+            _status.blinkOffFromOutside = anyWeight;
             _process.status = _status;
-            _process.Progress();
+            _process.Progress(UpdateMethod.Timeline);
         }
     }
 }
