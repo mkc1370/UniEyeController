@@ -1,7 +1,7 @@
 ﻿using System;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
-using UniEyeController.Core.Main.Constants;
+using UniEyeController.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.Core

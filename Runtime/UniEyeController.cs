@@ -1,14 +1,14 @@
 using System;
+using UniEyeController.Constants;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Core.Extensions;
-using UniEyeController.Core.Main.Constants;
 using UniEyeController.Core.Process.Blink;
 using UniEyeController.Core.Process.LookAt;
 using UniEyeController.Core.Process.MicroMove;
 using UnityEngine;
 
-namespace UniEyeController.Core.Main
+namespace UniEyeController
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
