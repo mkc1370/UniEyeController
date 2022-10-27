@@ -1,4 +1,4 @@
-﻿namespace UniEyeController.Core.Main.Constants
+﻿namespace UniEyeController.Constants
 {
     public enum UpdateMethod
     {

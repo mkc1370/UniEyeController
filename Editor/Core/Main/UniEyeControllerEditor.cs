@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniEyeController.Core.Main.Constants;
+using UniEyeController.Constants;
 using UniEyeController.Editor.Core.Controller.Eye;
 using UniEyeController.Editor.Core.Controller.Eyelid;
 using UniEyeController.Editor.Core.Extensions;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.Core.Main
 {
-    using  UniEyeController = UniEyeController.Core.Main.UniEyeController;
+    using  UniEyeController = UniEyeController;
     
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UniEyeController))]
