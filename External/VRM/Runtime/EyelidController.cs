@@ -1,4 +1,5 @@
-﻿using UniVRM10;
+﻿#if USE_VRM1
+using UniVRM10;
 
 namespace UniEyeController.Core.Controller.Eyelid
 {
@@ -9,5 +10,5 @@ namespace UniEyeController.Core.Controller.Eyelid
             _setting.vrm10Instance.Runtime.Expression.SetWeight(ExpressionKey.Blink, value);
         }
     }
-
 }
+#endif

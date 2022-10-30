@@ -1,4 +1,5 @@
-﻿using UniEyeController.Core.Controller.Eyelid;
+﻿#if USE_VRM1
+using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Editor.Core.Extensions;
 using UnityEditor;
 using UniVRM10;
@@ -27,3 +28,4 @@ namespace UniEyeController.Editor.Core.Controller.Eyelid
         }
     }
 }
+#endif

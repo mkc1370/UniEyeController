@@ -1,3 +1,4 @@
+#if USE_VRM1
 using UniVRM10;
 
 namespace UniEyeController.Core.Controller.Eyelid
@@ -7,3 +8,4 @@ namespace UniEyeController.Core.Controller.Eyelid
         public Vrm10Instance vrm10Instance;
     }
 }
+#endif
