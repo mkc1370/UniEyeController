@@ -28,20 +28,21 @@ namespace UniEyeController.Editor.Core.Process.Blink
         {
             base.Draw();
 
-            EditorGUILayout.PropertyField(_eyeMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
-            EditorGUILayout.Space();
             EditorGUILayout.LabelField("まばたきを止める時間 [s]");
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(_eyeBlinkStopTimeMin, new GUIContent("最短"));
             EditorGUILayout.PropertyField(_eyeBlinkStopTimeMax, new GUIContent("最長"));
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(_moveEyeWithBlink, new GUIContent("まばたきと同時に目を動かす"));
-            EditorGUILayout.Space();
             EditorGUILayout.LabelField("まばたきの時間 [s]");
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(_timeToCloseEyelid, new GUIContent("閉じる時間"));
             EditorGUILayout.PropertyField(_timeToOpenEyelid, new GUIContent("開く時間"));
+            EditorGUI.indentLevel--;
+            EditorGUILayout.Space();
+            EditorGUILayout.PropertyField(_moveEyeWithBlink, new GUIContent("まばたきと同時に目を動かす"));
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(_eyeMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
             EditorGUI.indentLevel--;
         }
     }
