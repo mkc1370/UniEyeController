@@ -34,13 +34,12 @@ namespace UniEyeController.Core.Process.Core
         public void Progress(UpdateMethod currentUpdateMethod)
         {
             if (!enabled) return;
-            
-            if (!Application.isPlaying && !executeAlways) return;
-            
-            if (
-                updateMethod != UpdateMethod.Timeline &&
-                updateMethod != currentUpdateMethod
-            ) return;
+
+            if (currentUpdateMethod != UpdateMethod.Timeline)
+            {
+                if (updateMethod != currentUpdateMethod) return;
+                if (!Application.isPlaying && !executeAlways) return;
+            }
             
             if (EyeController == null)
             {

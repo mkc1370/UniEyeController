@@ -2,7 +2,9 @@
     "name": "UniEyeController.Runtime",
     "rootNamespace": "UniEyeController",
     "references": [
-        "GUID:f06555f75b070af458a003d92f9efb00"
+        "GUID:f06555f75b070af458a003d92f9efb00",
+        "GUID:e47c917724578cc43b5506c17a27e9a0",
+        "GUID:b7aa47b240b57de44a4b2021c143c9bf"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -11,6 +13,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.vrmc.vrm",
+            "expression": "",
+            "define": "USE_VRM1"
+        }
+    ],
     "noEngineReferences": false
 }
