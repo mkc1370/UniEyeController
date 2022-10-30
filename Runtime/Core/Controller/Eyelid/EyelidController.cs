@@ -34,7 +34,7 @@ namespace UniEyeController.Core.Controller.Eyelid
                         _setting.blendShapeMesh.SetBlendShapeWeight(index, value * 100);
                     }
                     break;
-                case EyelidType.VRM1:
+                case EyelidType.Vrm1:
                     BlinkVRM(value);
                     break;
                 default:

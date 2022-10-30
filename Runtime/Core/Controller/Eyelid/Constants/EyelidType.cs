@@ -5,6 +5,6 @@
         Manual,
         BlendShapeIndex,
         BlendShapeName,
-        VRM1,
+        Vrm1,
     }
 }

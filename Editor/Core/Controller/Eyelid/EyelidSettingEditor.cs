@@ -52,7 +52,7 @@ namespace UniEyeController.Editor.Core.Controller.Eyelid
                             $"スクリプトから{nameof(BlinkProcess)}.{nameof(BlinkProcess.OnBlink)}にイベントを登録してください。",
                             MessageType.Info);
                         break;
-                    case EyelidType.VRM1:
+                    case EyelidType.Vrm1:
                         DrawAssignMethodVrm();
                         break;
                     default:

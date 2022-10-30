@@ -11,7 +11,7 @@ namespace UniEyeController
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class UniEyeController : MonoBehaviour
+    public partial class UniEyeController : MonoBehaviour
     {
         public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
@@ -22,8 +22,8 @@ namespace UniEyeController
         public Transform manualEyeL;
         public Transform manualEyeR;
         
-        public EyeSetting setting;
-        public EyelidSetting eyelidSetting;
+        public EyeSetting setting = new EyeSetting();
+        public EyelidSetting eyelidSetting = new EyelidSetting();
 
         public Transform CurrentEyeL => _defaultStatus.EyeL.Bone;
         public Transform CurrentEyeR => _defaultStatus.EyeR.Bone;
@@ -57,6 +57,7 @@ namespace UniEyeController
             blinkProcess.SetControllers(eyeController, eyelidController);
         }
 
+        partial void GetEyeDefaultStatusBonesVRM();
 
         private void GetEyeDefaultStatusBones()
         {
@@ -72,6 +73,9 @@ namespace UniEyeController
                         manualEyeR,
                         prefabForGenericAvatar
                     );
+                    break;
+                case EyeAssignMethod.Vrm1:
+                    GetEyeDefaultStatusBonesVRM();
                     break;
             }
         }

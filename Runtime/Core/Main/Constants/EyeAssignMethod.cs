@@ -7,5 +7,6 @@
     {
         Humanoid,
         Generic,
+        Vrm1,
     }
 }
