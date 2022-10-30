@@ -1,18 +1,17 @@
-using System;
+using UniEyeController.Constants;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
 using UniEyeController.Core.Extensions;
-using UniEyeController.Core.Main.Constants;
 using UniEyeController.Core.Process.Blink;
 using UniEyeController.Core.Process.LookAt;
 using UniEyeController.Core.Process.MicroMove;
 using UnityEngine;
 
-namespace UniEyeController.Core.Main
+namespace UniEyeController
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class UniEyeController : MonoBehaviour
+    public partial class UniEyeController : MonoBehaviour
     {
         public EyeAssignMethod assignMethod = EyeAssignMethod.Humanoid;
         
@@ -23,8 +22,8 @@ namespace UniEyeController.Core.Main
         public Transform manualEyeL;
         public Transform manualEyeR;
         
-        public EyeSetting setting;
-        public EyelidSetting eyelidSetting;
+        public EyeSetting setting = new EyeSetting();
+        public EyelidSetting eyelidSetting = new EyelidSetting();
 
         public Transform CurrentEyeL => _defaultStatus.EyeL.Bone;
         public Transform CurrentEyeR => _defaultStatus.EyeR.Bone;
@@ -48,7 +47,7 @@ namespace UniEyeController.Core.Main
 
         public void ChangeEyeBones()
         {
-            _defaultStatus = GetEyeDefaultStatusBones();
+            GetEyeDefaultStatusBones();
             
             var eyeController = new DoubleEyeController(_defaultStatus, setting);
             var eyelidController = new EyelidController(eyelidSetting);
@@ -58,21 +57,26 @@ namespace UniEyeController.Core.Main
             blinkProcess.SetControllers(eyeController, eyelidController);
         }
 
-        private DoubleEyeDefaultStatus GetEyeDefaultStatusBones()
+        partial void GetEyeDefaultStatusBonesVRM();
+
+        private void GetEyeDefaultStatusBones()
         {
             switch (assignMethod)
             {
                 case EyeAssignMethod.Humanoid:
-                    return DoubleEyeDefaultStatus.CreateFromHumanoid(animator);
+                    _defaultStatus = DoubleEyeDefaultStatus.CreateFromHumanoid(animator);
+                    break;
                 case EyeAssignMethod.Generic:
-                    return DoubleEyeDefaultStatus.CreateFromGeneric(
+                    _defaultStatus = DoubleEyeDefaultStatus.CreateFromGeneric(
                         transform,
                         manualEyeL,
                         manualEyeR,
                         prefabForGenericAvatar
                     );
-                default:
-                    throw new ArgumentOutOfRangeException();
+                    break;
+                case EyeAssignMethod.Vrm1:
+                    GetEyeDefaultStatusBonesVRM();
+                    break;
             }
         }
 

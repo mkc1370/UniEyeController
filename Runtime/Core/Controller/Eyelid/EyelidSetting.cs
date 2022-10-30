@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniEyeController.Core.Controller.Eyelid
 {
     [Serializable]
-    public class EyelidSetting
+    public partial class EyelidSetting
     {
         public EyelidType eyelidType;
         public SkinnedMeshRenderer blendShapeMesh;

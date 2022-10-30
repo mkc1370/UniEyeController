@@ -1,7 +1,7 @@
 ﻿using System;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
-using UniEyeController.Core.Main.Constants;
+using UniEyeController.Constants;
 using UnityEngine;
 
 namespace UniEyeController.Core.Process.Core
@@ -34,13 +34,12 @@ namespace UniEyeController.Core.Process.Core
         public void Progress(UpdateMethod currentUpdateMethod)
         {
             if (!enabled) return;
-            
-            if (!Application.isPlaying && !executeAlways) return;
-            
-            if (
-                updateMethod != UpdateMethod.Timeline &&
-                updateMethod != currentUpdateMethod
-            ) return;
+
+            if (currentUpdateMethod != UpdateMethod.Timeline)
+            {
+                if (updateMethod != currentUpdateMethod) return;
+                if (!Application.isPlaying && !executeAlways) return;
+            }
             
             if (EyeController == null)
             {

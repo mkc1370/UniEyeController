@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniEyeController.Core.Main.Constants;
+using UniEyeController.Constants;
 using UniEyeController.Editor.Core.Controller.Eye;
 using UniEyeController.Editor.Core.Controller.Eyelid;
 using UniEyeController.Editor.Core.Extensions;
@@ -11,14 +11,13 @@ using UniEyeController.Editor.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-
-namespace UniEyeController.Editor.Core.Main
+namespace UniEyeController.Editor
 {
-    using  UniEyeController = UniEyeController.Core.Main.UniEyeController;
+    using  UniEyeController = UniEyeController;
     
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UniEyeController))]
-    public class UniEyeControllerEditor : UnityEditor.Editor
+    public partial class UniEyeControllerEditor : UnityEditor.Editor
     {
         private SerializedProperty _assignMethod;
         private SerializedProperty _animator;
@@ -37,8 +36,12 @@ namespace UniEyeController.Editor.Core.Main
         
         private bool _isFoldout = true;
 
+        partial void OnEnableVRM();
+        
         private void OnEnable()
         {
+            OnEnableVRM();
+            
             _assignMethod = serializedObject.FindProperty(nameof(UniEyeController.assignMethod));
             _animator = serializedObject.FindProperty(nameof(UniEyeController.animator));
             _prefabForGenericAvatar = serializedObject.FindProperty(nameof(UniEyeController.prefabForGenericAvatar));
@@ -69,6 +72,10 @@ namespace UniEyeController.Editor.Core.Main
             if (script == null) return;
         }
 
+        partial void DrawVrm();
+
+        private List<string> _errorMessages = new List<string>();
+        
         public override void OnInspectorGUI()
         {
             var script = target as UniEyeController;
@@ -88,7 +95,7 @@ namespace UniEyeController.Editor.Core.Main
                 EditorGUI.BeginDisabledGroup(Application.isPlaying);
                 GUILayout.BeginVertical(GUI.skin.box);
                 {
-                    var errorMessages = new List<string>();
+                    _errorMessages.Clear();
 
                     EditorGUILayout.PropertyField(_assignMethod, new GUIContent("キャラクターの種類"));
                     EditorGUILayout.Space();
@@ -102,12 +109,12 @@ namespace UniEyeController.Editor.Core.Main
                             EditorExtensions.EndErrorColor();
                             if (animator == null)
                             {
-                                errorMessages.Add("Animatorが設定されていません");
+                                _errorMessages.Add("Animatorが設定されていません");
                             }
 
                             if (animator != null && !animator.isHuman)
                             {
-                                errorMessages.Add("AnimatorがHumanoidではありません");
+                                _errorMessages.Add("AnimatorがHumanoidではありません");
                             }
 
                             EditorGUILayout.HelpBox("全てのmuscleが0の状態を基準として目の初期状態を設定します。", MessageType.Info);
@@ -119,7 +126,7 @@ namespace UniEyeController.Editor.Core.Main
                             EditorExtensions.EndErrorColor();
                             if (_prefabForGenericAvatar.objectReferenceValue == null)
                             {
-                                errorMessages.Add("基準となるPrefabが指定されていません");
+                                _errorMessages.Add("基準となるPrefabが指定されていません");
                             }
 
                             GUILayout.BeginHorizontal();
@@ -139,7 +146,7 @@ namespace UniEyeController.Editor.Core.Main
                             EditorExtensions.EndErrorColor();
                             if (_manualEyeL.objectReferenceValue == null)
                             {
-                                errorMessages.Add("左目のTransformが設定されていません");
+                                _errorMessages.Add("左目のTransformが設定されていません");
                             }
 
                             EditorExtensions.BeginErrorColor(_manualEyeR.objectReferenceValue == null);
@@ -147,7 +154,7 @@ namespace UniEyeController.Editor.Core.Main
                             EditorExtensions.EndErrorColor();
                             if (_manualEyeR.objectReferenceValue == null)
                             {
-                                errorMessages.Add("右目のTransformが設定されていません");
+                                _errorMessages.Add("右目のTransformが設定されていません");
                             }
 
                             var message =
@@ -156,18 +163,22 @@ namespace UniEyeController.Editor.Core.Main
                             EditorGUILayout.HelpBox(message, MessageType.Info);
 
                             break;
+                        
+                        case EyeAssignMethod.Vrm1:
+                            DrawVrm();
+                            break;
                     }
 
                     EditorGUILayout.Space();
 
-                    EditorExtensions.DrawErrorMessages(errorMessages);
+                    EditorExtensions.DrawErrorMessages(_errorMessages);
 
                     if (EditorGUI.EndChangeCheck())
                     {
                         // ここで更新しないと変更された内容が反映されない
                         serializedObject.ApplyModifiedProperties();
 
-                        if (errorMessages.Count == 0)
+                        if (_errorMessages.Count == 0)
                         {
                             script.ChangeEyeBones();
                         }

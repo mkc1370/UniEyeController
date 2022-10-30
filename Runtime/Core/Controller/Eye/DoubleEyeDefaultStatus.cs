@@ -7,7 +7,7 @@ namespace UniEyeController.Core.Controller.Eye
     /// <summary>
     /// 目のボーンの初期状態を保持するクラス
     /// </summary>
-    public class DoubleEyeDefaultStatus
+    public partial class DoubleEyeDefaultStatus
     {
         public SingleEyeDefaultStatus EyeL;
         public SingleEyeDefaultStatus EyeR;

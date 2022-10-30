@@ -1,4 +1,4 @@
-﻿using UniEyeController.Core.Main.Constants;
+﻿using UniEyeController.Constants;
 using UniEyeController.Core.Process.LookAt;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -37,7 +37,7 @@ namespace UniEyeController.Timeline.LookAt
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            var controller = playerData as Core.Main.UniEyeController;
+            var controller = playerData as UniEyeController;
             if (controller == null) return;
 
             _process = controller.lookAtProcess;
@@ -56,15 +56,16 @@ namespace UniEyeController.Timeline.LookAt
                 var clip = Clips[i];
                 var asset = clip.asset as UniEyeLookAtClip;
                 if (asset == null) continue;
-                
+
                 var weight = playable.GetInputWeight(i);
+                asset.status.targetTransform =
+                    asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
+
                 if (weight > 0)
                 {
                     var status = asset.status;
                     status.weight *= weight;
-                    status.targetTransform =
-                        asset.status.targetTransformTimeline.Resolve(playable.GetGraph().GetResolver());
-                    
+
                     _process.status = status;
                     // TODO : ブレンドに対応させる
                     break;

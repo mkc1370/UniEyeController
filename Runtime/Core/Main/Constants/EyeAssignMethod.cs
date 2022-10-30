@@ -1,4 +1,4 @@
-﻿namespace UniEyeController.Core.Main.Constants
+﻿namespace UniEyeController.Constants
 {
     /// <summary>
     /// 目のボーンの指定方法
@@ -6,6 +6,7 @@
     public enum EyeAssignMethod
     {
         Humanoid,
-        Generic
+        Generic,
+        Vrm1,
     }
 }

@@ -2,8 +2,9 @@
 {
     public enum EyelidType
     {
+        Manual,
         BlendShapeIndex,
         BlendShapeName,
-        Manual,
+        Vrm1,
     }
 }
