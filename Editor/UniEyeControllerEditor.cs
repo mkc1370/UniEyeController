@@ -11,14 +11,13 @@ using UniEyeController.Editor.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-
-namespace UniEyeController.Editor.Core.Main
+namespace UniEyeController.Editor
 {
     using  UniEyeController = UniEyeController;
     
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UniEyeController))]
-    public class UniEyeControllerEditor : UnityEditor.Editor
+    public partial class UniEyeControllerEditor : UnityEditor.Editor
     {
         private SerializedProperty _assignMethod;
         private SerializedProperty _animator;
@@ -37,6 +36,7 @@ namespace UniEyeController.Editor.Core.Main
         
         private bool _isFoldout = true;
 
+        
         private void OnEnable()
         {
             _assignMethod = serializedObject.FindProperty(nameof(UniEyeController.assignMethod));

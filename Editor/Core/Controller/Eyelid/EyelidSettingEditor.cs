@@ -7,15 +7,20 @@ using UnityEngine;
 
 namespace UniEyeController.Editor.Core.Controller.Eyelid
 {
-    public class EyelidSettingEditor
+    public partial class EyelidSettingEditor
     {
         private SerializedProperty _eyelidType;
         private SerializedProperty _blendShapeMesh;
         private SerializedProperty _blendShapeIndexes;
         private SerializedProperty _blendShapeNames;
         
+        partial void OnEnableVRM(SerializedProperty property);
+        partial void DrawAssignMethodVrm();
+        
         public EyelidSettingEditor(SerializedProperty property)
         {
+            OnEnableVRM(property);
+            
             _eyelidType = property.FindPropertyRelative(nameof(EyelidSetting.eyelidType));
             _blendShapeMesh = property.FindPropertyRelative(nameof(EyelidSetting.blendShapeMesh));
             _blendShapeIndexes = property.FindPropertyRelative(nameof(EyelidSetting.blendShapeIndexes));
@@ -46,6 +51,9 @@ namespace UniEyeController.Editor.Core.Controller.Eyelid
                         EditorGUILayout.HelpBox(
                             $"スクリプトから{nameof(BlinkProcess)}.{nameof(BlinkProcess.OnBlink)}にイベントを登録してください。",
                             MessageType.Info);
+                        break;
+                    case EyelidType.VRM1:
+                        DrawAssignMethodVrm();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

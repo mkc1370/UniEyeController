@@ -1,4 +1,3 @@
-using System;
 using UniEyeController.Constants;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
@@ -48,7 +47,7 @@ namespace UniEyeController
 
         public void ChangeEyeBones()
         {
-            _defaultStatus = GetEyeDefaultStatusBones();
+            GetEyeDefaultStatusBones();
             
             var eyeController = new DoubleEyeController(_defaultStatus, setting);
             var eyelidController = new EyelidController(eyelidSetting);
@@ -58,21 +57,22 @@ namespace UniEyeController
             blinkProcess.SetControllers(eyeController, eyelidController);
         }
 
-        private DoubleEyeDefaultStatus GetEyeDefaultStatusBones()
+
+        private void GetEyeDefaultStatusBones()
         {
             switch (assignMethod)
             {
                 case EyeAssignMethod.Humanoid:
-                    return DoubleEyeDefaultStatus.CreateFromHumanoid(animator);
+                    _defaultStatus = DoubleEyeDefaultStatus.CreateFromHumanoid(animator);
+                    break;
                 case EyeAssignMethod.Generic:
-                    return DoubleEyeDefaultStatus.CreateFromGeneric(
+                    _defaultStatus = DoubleEyeDefaultStatus.CreateFromGeneric(
                         transform,
                         manualEyeL,
                         manualEyeR,
                         prefabForGenericAvatar
                     );
-                default:
-                    throw new ArgumentOutOfRangeException();
+                    break;
             }
         }
 

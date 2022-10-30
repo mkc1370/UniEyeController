@@ -6,6 +6,6 @@
     public enum EyeAssignMethod
     {
         Humanoid,
-        Generic
+        Generic,
     }
 }

@@ -3,9 +3,11 @@ using UniEyeController.Core.Controller.Eyelid.Constants;
 
 namespace UniEyeController.Core.Controller.Eyelid
 {
-    public class EyelidController
+    public partial class EyelidController
     {
         private EyelidSetting _setting;
+
+        partial void BlinkVRM(float value);
 
         public EyelidController(EyelidSetting setting)
         {
@@ -16,6 +18,9 @@ namespace UniEyeController.Core.Controller.Eyelid
         {
             switch (_setting.eyelidType)
             {
+                case EyelidType.Manual:
+                    onBlink?.Invoke(value);
+                    break;
                 case EyelidType.BlendShapeIndex:
                     foreach (var blendShapeIndex in _setting.blendShapeIndexes)
                     {
@@ -29,8 +34,8 @@ namespace UniEyeController.Core.Controller.Eyelid
                         _setting.blendShapeMesh.SetBlendShapeWeight(index, value * 100);
                     }
                     break;
-                case EyelidType.Manual:
-                    onBlink?.Invoke(value);
+                case EyelidType.VRM1:
+                    BlinkVRM(value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
