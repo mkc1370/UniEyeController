@@ -115,6 +115,15 @@ namespace UniEyeController.Editor
                             if (animator != null && !animator.isHuman)
                             {
                                 _errorMessages.Add("AnimatorがHumanoidではありません");
+                                if (GUILayout.Button("Genericに切り替える"))
+                                {
+                                    _assignMethod.enumValueIndex = (int)EyeAssignMethod.Generic;
+                                }
+                            }
+
+                            if (_manualEyeL.objectReferenceValue == null || _manualEyeR.objectReferenceValue == null)
+                            {
+                                script.AutoSetEyeBonesFromAnimator();
                             }
 
                             EditorGUILayout.HelpBox("全てのmuscleが0の状態を基準として目の初期状態を設定します。", MessageType.Info);
@@ -124,17 +133,19 @@ namespace UniEyeController.Editor
                             EditorExtensions.BeginErrorColor(_prefabForGenericAvatar.objectReferenceValue == null);
                             EditorGUILayout.PropertyField(_prefabForGenericAvatar, new GUIContent("基準となるPrefab"));
                             EditorExtensions.EndErrorColor();
+                            
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Space(EditorGUIUtility.singleLineHeight * EditorGUI.indentLevel);
+
                             if (_prefabForGenericAvatar.objectReferenceValue == null)
                             {
                                 _errorMessages.Add("基準となるPrefabが指定されていません");
-                            }
 
-                            GUILayout.BeginHorizontal();
-                            GUILayout.Space(EditorGUIUtility.singleLineHeight * EditorGUI.indentLevel);
-                            if (GUILayout.Button("自動で検索する"))
-                            {
-                                var prefab = PrefabUtility.GetCorrespondingObjectFromSource(script.gameObject);
-                                _prefabForGenericAvatar.objectReferenceValue = prefab;
+                                if (GUILayout.Button("自動で検索する"))
+                                {
+                                    var prefab = PrefabUtility.GetCorrespondingObjectFromSource(script.gameObject);
+                                    _prefabForGenericAvatar.objectReferenceValue = prefab;
+                                }
                             }
 
                             GUILayout.EndHorizontal();

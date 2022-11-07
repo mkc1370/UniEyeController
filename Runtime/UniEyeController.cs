@@ -1,3 +1,4 @@
+using System;
 using UniEyeController.Constants;
 using UniEyeController.Core.Controller.Eye;
 using UniEyeController.Core.Controller.Eyelid;
@@ -57,6 +58,12 @@ namespace UniEyeController
             blinkProcess.SetControllers(eyeController, eyelidController);
         }
 
+        public void AutoSetEyeBonesFromAnimator()
+        {
+            manualEyeL = animator.GetBoneTransform(HumanBodyBones.LeftEye);
+            manualEyeR = animator.GetBoneTransform(HumanBodyBones.RightEye);
+        }
+
         partial void GetEyeDefaultStatusBonesVRM();
 
         private void GetEyeDefaultStatusBones()
@@ -82,9 +89,22 @@ namespace UniEyeController
 
         private void UpdateInternal(UpdateMethod updateMethod)
         {
-            lookAtProcess.Progress(updateMethod);
-            microMoveProcess.Progress(updateMethod);
-            blinkProcess.Progress(updateMethod);
+            switch (assignMethod)
+            {
+                case EyeAssignMethod.Humanoid:
+                case EyeAssignMethod.Generic:
+                    lookAtProcess.Progress(updateMethod);
+                    microMoveProcess.Progress(updateMethod);
+                    blinkProcess.Progress(updateMethod);
+                    break;
+                case EyeAssignMethod.Vrm1:
+                    blinkProcess.Progress(updateMethod);
+                    lookAtProcess.Progress(updateMethod);
+                    microMoveProcess.Progress(updateMethod);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void Update()

@@ -11,7 +11,7 @@ namespace UniEyeController.Editor
 
         partial void OnEnableVRM()
         {
-            _vrm10Instance = serializedObject.FindProperty(nameof(UniEyeController._vrm10Instance));
+            _vrm10Instance = serializedObject.FindProperty(nameof(UniEyeController.vrm10Instance));
         }
 
         partial void DrawVrm()
