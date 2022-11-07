@@ -28,6 +28,8 @@ namespace UniEyeController.Core.Process.LookAt
             get
             {
                 var status = new LookAtStatus();
+                status.method = LookAtMethod.Direction;
+                status.direction = LookAtDirection.Forward;
                 status.weight = 1f;
                 return status;
             }
