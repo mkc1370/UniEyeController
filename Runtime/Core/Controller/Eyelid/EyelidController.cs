@@ -1,5 +1,6 @@
 ﻿using System;
 using UniEyeController.Core.Controller.Eyelid.Constants;
+using UnityEngine;
 
 namespace UniEyeController.Core.Controller.Eyelid
 {
@@ -16,6 +17,8 @@ namespace UniEyeController.Core.Controller.Eyelid
 
         public void Blink(float value, Action<float> onBlink)
         {
+            value = Mathf.Clamp01(value);
+            
             switch (_setting.eyelidType)
             {
                 case EyelidType.Manual:
