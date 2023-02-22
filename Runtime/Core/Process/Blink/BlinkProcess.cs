@@ -27,12 +27,14 @@ namespace UniEyeController.Core.Process.Blink
         private float _prevTime;
         private float _eyeTime;
 
+        private float _blinkValueOnBlinkStart;
+
         /// <summary>
         /// 強制的に目を開けた状態に戻す
         /// </summary>
         public void ForceReset()
         {
-            Blink(0);
+            SetBlink(0);
         }
         
         protected override void ProgressInternal(double time)
@@ -46,7 +48,7 @@ namespace UniEyeController.Core.Process.Blink
 
             if (status.blinkOffFromOutside)
             {
-                Blink(0);
+                SetBlink(0);
                 return;
             }
             
@@ -59,38 +61,53 @@ namespace UniEyeController.Core.Process.Blink
                     {
                         _eyeBlinkState = EyeBlinkState.Closing;
                         _eyeTime = setting.timeToCloseEyelid;
+                        _blinkValueOnBlinkStart = EyelidController.GetBlink();
                     }
                     break;
                 case EyeBlinkState.Closing:
-                    Blink(1f - _eyeTime / setting.timeToCloseEyelid);
+                    SetBlink(Remap(1f - _eyeTime / setting.timeToCloseEyelid, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Opening;
                         _eyeTime = setting.timeToOpenEyelid;
                         // 完全に閉じる
-                        Blink(1);
+                        SetBlink(Remap(1, 0, 1, _blinkValueOnBlinkStart, 1));
                     }
                     break;
                 case EyeBlinkState.Opening:
-                    Blink(_eyeTime / setting.timeToOpenEyelid);
+                    SetBlink(Remap(_eyeTime / setting.timeToOpenEyelid, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Idle;
                         _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
                         // 完全に開く
-                        Blink(0);
+                        SetBlink(Remap(0, 0, 1, _blinkValueOnBlinkStart, 1));
                     }
                     break;
             }
         }
 
-        private void Blink(float value)
+        private void SetBlink(float value)
         {
-            EyelidController.Blink(value * setting.weight, OnBlink);
+            EyelidController.SetBlink(value * setting.weight, OnBlink);
             if (setting.moveEyeWithBlink)
             {
                 EyeController.NormalizedRotate(Vector2.down * (value * setting.eyeMoveMultiplier), setting.weight, RotationApplyMethod.Append);
             }
+        }
+        
+        /// <summary>
+        /// Remap
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="from1"></param>
+        /// <param name="to1"></param>
+        /// <param name="from2"></param>
+        /// <param name="to2"></param>
+        /// <returns></returns>
+        private static float Remap(float value, float from1, float to1, float from2, float to2)
+        {
+            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
         }
     }
 }
