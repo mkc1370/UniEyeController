@@ -35,6 +35,20 @@ namespace UniEyeController
         public MicroMoveProcess microMoveProcess = new MicroMoveProcess();
         public BlinkProcess blinkProcess = new BlinkProcess();
 
+        public bool IsSettingValid
+        {
+            get
+            {
+                if (assignMethod == EyeAssignMethod.Generic && gameObject.scene == prefabForGenericAvatar.scene)
+                {
+                    Debug.LogError("GenericAvatarの初期状態参照用のPrefabはScene上のものを使用しないでください");
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         private void OnEnable()
         {
             Init();
@@ -42,6 +56,8 @@ namespace UniEyeController
 
         public void Init()
         {
+            if (!IsSettingValid) enabled = false;
+            
             GetRequiredComponents();
             ChangeEyeBones();
         }
