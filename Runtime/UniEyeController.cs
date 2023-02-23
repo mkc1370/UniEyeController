@@ -6,6 +6,7 @@ using UniEyeController.Core.Extensions;
 using UniEyeController.Core.Process.Blink;
 using UniEyeController.Core.Process.LookAt;
 using UniEyeController.Core.Process.MicroMove;
+using UnityEditor;
 using UnityEngine;
 
 namespace UniEyeController
@@ -56,6 +57,13 @@ namespace UniEyeController
 
         public void Init()
         {
+            // TODO : 仮の対応
+            if (assignMethod == EyeAssignMethod.Generic && gameObject.scene == prefabForGenericAvatar.scene)
+            {
+                var prefab = PrefabUtility.GetCorrespondingObjectFromSource(gameObject);
+                prefabForGenericAvatar = prefab;
+            }
+            
             if (!IsSettingValid) enabled = false;
             
             GetRequiredComponents();
