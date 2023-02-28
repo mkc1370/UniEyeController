@@ -65,7 +65,8 @@ namespace UniEyeController.Core.Process.Blink
                     }
                     break;
                 case EyeBlinkState.Closing:
-                    SetBlink(Remap(1f - _eyeTime / setting.timeToCloseEyelid, 0, 1, _blinkValueOnBlinkStart, 1));
+                    var close = EaseInOutCubic(1f - _eyeTime / setting.timeToOpenEyelid);
+                    SetBlink(Remap(close, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Opening;
@@ -75,7 +76,8 @@ namespace UniEyeController.Core.Process.Blink
                     }
                     break;
                 case EyeBlinkState.Opening:
-                    SetBlink(Remap(_eyeTime / setting.timeToOpenEyelid, 0, 1, _blinkValueOnBlinkStart, 1));
+                    var open = EaseInOutCubic(_eyeTime / setting.timeToOpenEyelid);
+                    SetBlink(Remap(open, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Idle;
@@ -94,6 +96,26 @@ namespace UniEyeController.Core.Process.Blink
             {
                 EyeController.NormalizedRotate(Vector2.down * (value * setting.eyeMoveMultiplier), setting.weight, RotationApplyMethod.Append);
             }
+        }
+        
+        /// <summary>
+        /// SineInOut
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private float EaseInOutSine(float t)
+        {
+            return -(Mathf.Cos(Mathf.PI * t) - 1) / 2;
+        }
+        
+        /// <summary>
+        /// CubicInOut
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private float EaseInOutCubic(float t)
+        {
+            return t < 0.5f ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
         }
         
         /// <summary>
