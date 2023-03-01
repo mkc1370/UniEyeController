@@ -48,7 +48,6 @@ namespace UniEyeController.Core.Process.Blink
 
             if (status.blinkOffFromOutside)
             {
-                SetBlink(0);
                 return;
             }
             
