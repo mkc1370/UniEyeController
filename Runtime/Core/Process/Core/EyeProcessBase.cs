@@ -22,7 +22,7 @@ namespace UniEyeController.Core.Process.Core
         
         public bool enabled = true;
 
-        protected DoubleEyeController EyeController;
+        public DoubleEyeController EyeController;
         protected EyelidController EyelidController;
         
         public void SetControllers(DoubleEyeController eyeController, EyelidController eyelidController)
