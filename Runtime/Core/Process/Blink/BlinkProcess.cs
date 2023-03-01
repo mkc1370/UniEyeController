@@ -65,7 +65,7 @@ namespace UniEyeController.Core.Process.Blink
                     }
                     break;
                 case EyeBlinkState.Closing:
-                    var close = EaseInOutCubic(1f - _eyeTime / setting.timeToOpenEyelid);
+                    var close = EaseInOutSine(1f - _eyeTime / setting.timeToOpenEyelid);
                     SetBlink(Remap(close, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {
