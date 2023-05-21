@@ -1,4 +1,5 @@
 ﻿using System;
+using UniEyeController.Constants;
 using UniEyeController.Core.Controller.Eye.Constants;
 using UniEyeController.Core.Process.Core;
 using UniEyeController.Core.Process.LookAt.Constants;
@@ -19,6 +20,7 @@ namespace UniEyeController.Core.Process.LookAt
         public LookAtProcess()
         {
             status = LookAtStatus.Default;
+            updateMethod = UpdateMethod.Update;
         }
         
         public void ResetEyeRotation()
