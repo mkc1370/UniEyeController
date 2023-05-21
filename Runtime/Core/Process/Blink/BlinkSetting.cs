@@ -18,9 +18,15 @@ namespace UniEyeController.Core.Process.Blink
         /// <summary>
         /// 目を閉じるのにかかる時間
         /// </summary>
-        public float timeToCloseEyelid = 0.04f;
-        public float timeToOpenEyelid = 0.09f;
-        
+        [Range(0f, 2f)]
+        public float timeToCloseEyelidMin = 0.04f;
+        [Range(0f, 2f)]
+        public float timeToCloseEyelidMax = 0.04f;
+        [Range(0f, 2f)]
+        public float timeToOpenEyelidMin = 0.09f;
+        [Range(0f, 2f)]
+        public float timeToOpenEyelidMax = 0.09f;
+
         /// <summary>
         /// まばたき中に眼球を動かすかどうか
         /// </summary>
