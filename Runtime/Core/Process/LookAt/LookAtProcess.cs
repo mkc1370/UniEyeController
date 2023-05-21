@@ -46,7 +46,7 @@ namespace UniEyeController.Core.Process.LookAt
                     if (lookAtStatus.targetTransform == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
-                        EyeController.Rotate(Vector2.zero, weight, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, weight, rotationApplyMethod);
                         return;
                     }
 
@@ -57,7 +57,7 @@ namespace UniEyeController.Core.Process.LookAt
                     if (mainCamera == null)
                     {
                         Debug.LogError($"MainCamera is not found.");
-                        EyeController.Rotate(Vector2.zero, weight, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, weight, rotationApplyMethod);
                         return;
                     }
 
