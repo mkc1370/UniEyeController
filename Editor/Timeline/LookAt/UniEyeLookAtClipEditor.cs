@@ -1,5 +1,4 @@
 ﻿using System;
-using UniEyeController.Core.Process.LookAt;
 using UniEyeController.Core.Process.LookAt.Constants;
 using UniEyeController.Timeline.LookAt;
 using UnityEditor.Timeline;
@@ -37,7 +36,11 @@ namespace UniEyeController.Editor.Timeline.LookAt
                     throw new ArgumentOutOfRangeException();
             }
 
-            clip.displayName = asset.status.ToString();
+            if (asset.status.autoRenameClipName)
+            {
+                clip.displayName = asset.status.ToString();
+            }
+            
             options.errorText = asset.status.ErrorMessage;
             options.highlightColor = color;
             return options;
