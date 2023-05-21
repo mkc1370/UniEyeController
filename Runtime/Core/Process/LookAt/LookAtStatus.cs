@@ -23,6 +23,8 @@ namespace UniEyeController.Core.Process.LookAt
         [Range(-1f, 1f)]
         public float normalizedPitch;
 
+        public bool autoRenameClipName;
+
         public static LookAtStatus Default
         {
             get
@@ -31,6 +33,7 @@ namespace UniEyeController.Core.Process.LookAt
                 status.method = LookAtMethod.Direction;
                 status.direction = LookAtDirection.Forward;
                 status.weight = 1f;
+                status.autoRenameClipName = true;
                 return status;
             }
         }

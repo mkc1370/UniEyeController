@@ -11,6 +11,8 @@ namespace UniEyeController.Editor.Core.Process.LookAt
 {
     public class LookAtStatusDrawer : EyeStatusDrawerBase
     {
+        private SerializedProperty _autoRenameClipName;
+        
         private SerializedProperty _weight;
         private SerializedProperty _method;
         private SerializedProperty _targetTransform;
@@ -22,6 +24,8 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         
         public LookAtStatusDrawer(SerializedProperty property) : base(property)
         {
+            _autoRenameClipName = property.FindPropertyRelative(nameof(LookAtStatus.autoRenameClipName));
+            
             _weight = property.FindPropertyRelative(nameof(LookAtStatus.weight));
             _method = property.FindPropertyRelative(nameof(LookAtStatus.method));
             _targetTransform = property.FindPropertyRelative(nameof(LookAtStatus.targetTransform));
@@ -35,6 +39,9 @@ namespace UniEyeController.Editor.Core.Process.LookAt
         public override void Draw(bool isTimeline)
         {
             base.Draw(isTimeline);
+            
+            EditorGUILayout.PropertyField(_autoRenameClipName, new GUIContent("クリップ名を自動で変更"));
+            EditorGUILayout.Space();
             
             EditorGUILayout.PropertyField(_weight, new GUIContent("適用度"));
             EditorGUILayout.Space();
