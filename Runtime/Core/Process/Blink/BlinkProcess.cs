@@ -29,6 +29,9 @@ namespace UniEyeController.Core.Process.Blink
 
         private float _blinkValueOnBlinkStart;
 
+        private float _timeToCloseEyelid;
+        private float _timeToOpenEyelid;
+
         /// <summary>
         /// 強制的に目を開けた状態に戻す
         /// </summary>
@@ -58,24 +61,27 @@ namespace UniEyeController.Core.Process.Blink
                 case EyeBlinkState.Idle:
                     if (_eyeTime <= 0)
                     {
+                        _timeToCloseEyelid = Random.Range(setting.timeToCloseEyelidMin, setting.timeToCloseEyelidMax);
+                        _timeToOpenEyelid = Random.Range(setting.timeToOpenEyelidMin, setting.timeToOpenEyelidMax);
+                        
                         _eyeBlinkState = EyeBlinkState.Closing;
-                        _eyeTime = setting.timeToCloseEyelid;
+                        _eyeTime = _timeToCloseEyelid;
                         _blinkValueOnBlinkStart = EyelidController.GetBlink();
                     }
                     break;
                 case EyeBlinkState.Closing:
-                    var close = EaseInOutSine(1f - _eyeTime / setting.timeToOpenEyelid);
+                    var close = EaseInOutSine(1f - _eyeTime / _timeToCloseEyelid);
                     SetBlink(Remap(close, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Opening;
-                        _eyeTime = setting.timeToOpenEyelid;
+                        _eyeTime = _timeToOpenEyelid;
                         // 完全に閉じる
                         SetBlink(Remap(1, 0, 1, _blinkValueOnBlinkStart, 1));
                     }
                     break;
                 case EyeBlinkState.Opening:
-                    var open = EaseInOutCubic(_eyeTime / setting.timeToOpenEyelid);
+                    var open = EaseInOutCubic(_eyeTime / _timeToOpenEyelid);
                     SetBlink(Remap(open, 0, 1, _blinkValueOnBlinkStart, 1));
                     if (_eyeTime <= 0)
                     {

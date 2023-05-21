@@ -10,8 +10,10 @@ namespace UniEyeController.Editor.Core.Process.Blink
         private SerializedProperty _eyeMoveMultiplier;
         private SerializedProperty _eyeBlinkStopTimeMin;
         private SerializedProperty _eyeBlinkStopTimeMax;
-        private SerializedProperty _timeToCloseEyelid;
-        private SerializedProperty _timeToOpenEyelid;
+        private SerializedProperty _timeToCloseEyelidMin;
+        private SerializedProperty _timeToCloseEyelidMax;
+        private SerializedProperty _timeToOpenEyelidMin;
+        private SerializedProperty _timeToOpenEyelidMax;
         private SerializedProperty _moveEyeWithBlink;
         
         public BlinkSettingDrawer(SerializedProperty property) : base(property)
@@ -19,8 +21,10 @@ namespace UniEyeController.Editor.Core.Process.Blink
             _eyeMoveMultiplier = property.FindPropertyRelative(nameof(BlinkSetting.eyeMoveMultiplier));
             _eyeBlinkStopTimeMin = property.FindPropertyRelative(nameof(BlinkSetting.eyeBlinkStopTimeMin));
             _eyeBlinkStopTimeMax = property.FindPropertyRelative(nameof(BlinkSetting.eyeBlinkStopTimeMax));
-            _timeToCloseEyelid = property.FindPropertyRelative(nameof(BlinkSetting.timeToCloseEyelid));
-            _timeToOpenEyelid = property.FindPropertyRelative(nameof(BlinkSetting.timeToOpenEyelid));
+            _timeToCloseEyelidMin = property.FindPropertyRelative(nameof(BlinkSetting.timeToCloseEyelidMin));
+            _timeToCloseEyelidMax = property.FindPropertyRelative(nameof(BlinkSetting.timeToCloseEyelidMax));
+            _timeToOpenEyelidMin = property.FindPropertyRelative(nameof(BlinkSetting.timeToOpenEyelidMin));
+            _timeToOpenEyelidMax = property.FindPropertyRelative(nameof(BlinkSetting.timeToOpenEyelidMax));
             _moveEyeWithBlink = property.FindPropertyRelative(nameof(BlinkSetting.moveEyeWithBlink));
         }
 
@@ -28,22 +32,39 @@ namespace UniEyeController.Editor.Core.Process.Blink
         {
             base.Draw();
 
-            EditorGUILayout.LabelField("まばたきを止める時間 [s]");
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(_eyeBlinkStopTimeMin, new GUIContent("最短"));
-            EditorGUILayout.PropertyField(_eyeBlinkStopTimeMax, new GUIContent("最長"));
-            EditorGUI.indentLevel--;
+            EditorGUILayout.LabelField("次のまばたきまでの時間 [s]");
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_eyeBlinkStopTimeMin, new GUIContent("最短"));
+                EditorGUILayout.PropertyField(_eyeBlinkStopTimeMax, new GUIContent("最長"));
+                EditorGUI.indentLevel--;
+            }
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("まばたきの時間 [s]");
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(_timeToCloseEyelid, new GUIContent("閉じる時間"));
-            EditorGUILayout.PropertyField(_timeToOpenEyelid, new GUIContent("開く時間"));
-            EditorGUI.indentLevel--;
+
+            EditorGUILayout.LabelField("目を閉じる時間 [s]");
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_timeToCloseEyelidMin, new GUIContent("最短"));
+                EditorGUILayout.PropertyField(_timeToCloseEyelidMax, new GUIContent("最長"));
+                EditorGUI.indentLevel--;
+            }
             EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("目を開く時間 [s]");
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_timeToOpenEyelidMin, new GUIContent("最短"));
+                EditorGUILayout.PropertyField(_timeToOpenEyelidMax, new GUIContent("最長"));
+                EditorGUI.indentLevel--;
+            }
+            EditorGUILayout.Space();
+
             EditorGUILayout.PropertyField(_moveEyeWithBlink, new GUIContent("まばたきと同時に目を動かす"));
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(_eyeMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
-            EditorGUI.indentLevel--;
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_eyeMoveMultiplier, new GUIContent("目の可動域の何倍の範囲で動かすか"));
+                EditorGUI.indentLevel--;
+            }
         }
     }
 }
