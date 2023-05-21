@@ -1,4 +1,5 @@
 ﻿using System;
+using UniEyeController.Constants;
 using UniEyeController.Core.Controller.Eye.Constants;
 using UniEyeController.Core.Process.Core;
 using UniEyeController.Core.Process.LookAt.Constants;
@@ -9,9 +10,17 @@ namespace UniEyeController.Core.Process.LookAt
     [Serializable]
     public class LookAtProcess : EyeProcessBase<LookAtSetting, LookAtStatus>
     {
+        public bool useStatus2;
+        
+        /// <summary>
+        /// タイムラインでブレンド用のStatus
+        /// </summary>
+        public LookAtStatus status2;
+        
         public LookAtProcess()
         {
             status = LookAtStatus.Default;
+            updateMethod = UpdateMethod.Update;
         }
         
         public void ResetEyeRotation()
@@ -21,41 +30,51 @@ namespace UniEyeController.Core.Process.LookAt
 
         protected override void ProgressInternal(double time)
         {
-            var rotationApplyMethod = RotationApplyMethod.Direct;
-            var weight = setting.weight * status.weight;
+            Apply(status, RotationApplyMethod.Direct);
             
-            switch (status.method)
+            if (useStatus2)
+            {
+                Apply(status2, RotationApplyMethod.Append);
+            }
+        }
+
+        private void Apply(LookAtStatus lookAtStatus, RotationApplyMethod rotationApplyMethod)
+        {
+            var weight = setting.weight * lookAtStatus.weight;
+
+            switch (lookAtStatus.method)
             {
                 case LookAtMethod.Transform:
-                    if (status.targetTransform == null)
+                    if (lookAtStatus.targetTransform == null)
                     {
                         Debug.LogError($"Target Transform is not set.");
-                        EyeController.Rotate(Vector2.zero, weight, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, weight, rotationApplyMethod);
                         return;
                     }
 
-                    EyeController.LookAt(status.targetTransform.position, weight, rotationApplyMethod);
+                    EyeController.LookAt(lookAtStatus.targetTransform.position, weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.MainCamera:
                     var mainCamera = Camera.main;
                     if (mainCamera == null)
                     {
                         Debug.LogError($"MainCamera is not found.");
-                        EyeController.Rotate(Vector2.zero, weight, RotationApplyMethod.Direct);
+                        EyeController.Rotate(Vector2.zero, weight, rotationApplyMethod);
                         return;
                     }
 
                     EyeController.LookAt(mainCamera.transform.position, weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.WorldPosition:
-                    EyeController.LookAt(status.worldPosition, weight, rotationApplyMethod);
+                    EyeController.LookAt(lookAtStatus.worldPosition, weight, rotationApplyMethod);
                     break;
                 case LookAtMethod.Rotation:
-                    EyeController.NormalizedRotate(new Vector2(status.normalizedYaw, status.normalizedPitch), weight, rotationApplyMethod);
+                    EyeController.NormalizedRotate(new Vector2(lookAtStatus.normalizedYaw, lookAtStatus.normalizedPitch), weight,
+                        rotationApplyMethod);
                     break;
                 case LookAtMethod.Direction:
                     Vector2 direction;
-                    switch (status.direction)
+                    switch (lookAtStatus.direction)
                     {
                         case LookAtDirection.Forward:
                             direction = Vector2.zero;

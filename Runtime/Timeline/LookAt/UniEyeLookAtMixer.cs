@@ -51,6 +51,7 @@ namespace UniEyeController.Timeline.LookAt
 
             _process.status = _statusCache.Value;
 
+            var nonZeroClipCount = 0;
             for (var i = 0; i < Clips.Length; i++)
             {
                 var clip = Clips[i];
@@ -66,13 +67,22 @@ namespace UniEyeController.Timeline.LookAt
                     var status = asset.status;
                     status.weight *= weight;
 
-                    _process.status = status;
-                    // TODO : ブレンドに対応させる
-                    break;
+                    if (nonZeroClipCount == 0)
+                    {
+                        _process.status = status;
+                    }
+                    else if (nonZeroClipCount == 1)
+                    {
+                        _process.status2 = status;
+                        _process.useStatus2 = true;
+                    }
+
+                    nonZeroClipCount++;
                 }
             }
 
             _process.Progress(UpdateMethod.Timeline);
+            _process.useStatus2 = false;
         }
     }
 }
