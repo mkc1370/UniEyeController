@@ -19,6 +19,7 @@ namespace UniEyeController.Core.Process.Blink
         
         private enum EyeBlinkState
         {
+            NotInitialized,
             Idle,
             Closing,
             Opening
@@ -42,6 +43,13 @@ namespace UniEyeController.Core.Process.Blink
         
         protected override void ProgressInternal(double time)
         {
+            // 初回のまばたきまでの時間がランダムになるように
+            if (_eyeBlinkState == EyeBlinkState.NotInitialized)
+            {
+                _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
+                _eyeBlinkState = EyeBlinkState.Idle;
+            }
+            
             var deltaTime = (float) (time - _prevTime);
             _prevTime = (float)time;
             if (deltaTime < 0)
