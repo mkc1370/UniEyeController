@@ -57,7 +57,8 @@ namespace UniEyeController.Core.Process.Blink
                 deltaTime = 0;
             }
 
-            if (status.blinkOffFromOutside)
+            // TODO: DONT MERGE
+            if (true)
             {
                 return;
             }
