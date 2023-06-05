@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.mkc1370.simple-eye-controller": "file:../../",
+    "com.mkc1370.uni-eye-controller": "file:../../",
     "com.unity.ide.rider": "2.0.7",
     "com.unity.ugui": "1.0.0",
     "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.102.0",
