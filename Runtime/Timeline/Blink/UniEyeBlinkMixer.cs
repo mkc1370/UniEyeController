@@ -15,6 +15,8 @@ namespace UniEyeController.Timeline.Blink
         private BlinkProcess _process;
 
         private BlinkStatus _status;
+        
+        private bool _isPrevFrameBlinkOffFromOutside;
 
         public override void OnGraphStop(Playable playable)
         {
@@ -48,6 +50,14 @@ namespace UniEyeController.Timeline.Blink
             }
 
             _status.blinkOffFromOutside = anyWeight;
+            
+            // まばたきを止める最初のフレームのみ目を開いた状態に戻す
+            if (!_isPrevFrameBlinkOffFromOutside && anyWeight)
+            {
+                _process.ForceReset();
+            }
+            _isPrevFrameBlinkOffFromOutside = anyWeight;
+            
             _process.status = _status;
             _process.Progress(UpdateMethod.Timeline);
         }
