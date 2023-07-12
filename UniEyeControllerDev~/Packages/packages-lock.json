@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.mkc1370.simple-eye-controller": {
+    "com.mkc1370.uni-eye-controller": {
       "version": "file:../../",
       "depth": 0,
       "source": "local",
