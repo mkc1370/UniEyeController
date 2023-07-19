@@ -28,8 +28,6 @@ namespace UniEyeController.Core.Process.Blink
         private float _prevTime;
         private float _eyeTime;
 
-        private float _blinkValueOnBlinkStart;
-
         private float _timeToCloseEyelid;
         private float _timeToOpenEyelid;
 
@@ -74,29 +72,28 @@ namespace UniEyeController.Core.Process.Blink
                         
                         _eyeBlinkState = EyeBlinkState.Closing;
                         _eyeTime = _timeToCloseEyelid;
-                        _blinkValueOnBlinkStart = EyelidController.GetBlink();
                     }
                     break;
                 case EyeBlinkState.Closing:
                     var close = EaseInOutSine(1f - _eyeTime / _timeToCloseEyelid);
-                    SetBlink(Remap(close, 0, 1, _blinkValueOnBlinkStart, 1));
+                    SetBlink(close);
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Opening;
                         _eyeTime = _timeToOpenEyelid;
                         // 完全に閉じる
-                        SetBlink(Remap(1, 0, 1, _blinkValueOnBlinkStart, 1));
+                        SetBlink(1);
                     }
                     break;
                 case EyeBlinkState.Opening:
                     var open = EaseInOutCubic(_eyeTime / _timeToOpenEyelid);
-                    SetBlink(Remap(open, 0, 1, _blinkValueOnBlinkStart, 1));
+                    SetBlink(open);
                     if (_eyeTime <= 0)
                     {
                         _eyeBlinkState = EyeBlinkState.Idle;
                         _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
                         // 完全に開く
-                        SetBlink(Remap(0, 0, 1, _blinkValueOnBlinkStart, 1));
+                        SetBlink(0);
                     }
                     break;
             }
@@ -129,20 +126,6 @@ namespace UniEyeController.Core.Process.Blink
         private float EaseInOutCubic(float t)
         {
             return t < 0.5f ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-        }
-        
-        /// <summary>
-        /// Remap
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="from1"></param>
-        /// <param name="to1"></param>
-        /// <param name="from2"></param>
-        /// <param name="to2"></param>
-        /// <returns></returns>
-        private static float Remap(float value, float from1, float to1, float from2, float to2)
-        {
-            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
         }
     }
 }
