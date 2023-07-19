@@ -23,7 +23,7 @@ namespace UniEyeController.Timeline.Blink
             if (_process == null) return;
             
             // タイムラインを停止した際に目を開いた状態に戻す
-            _process.ForceReset();
+            _process.ForceOpenEyes();
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
@@ -54,7 +54,7 @@ namespace UniEyeController.Timeline.Blink
             // まばたきを止める最初のフレームのみ目を開いた状態に戻す
             if (!_isPrevFrameBlinkOffFromOutside && anyWeight)
             {
-                _process.ForceReset();
+                _process.ForceOpenEyes();
             }
             _isPrevFrameBlinkOffFromOutside = anyWeight;
             

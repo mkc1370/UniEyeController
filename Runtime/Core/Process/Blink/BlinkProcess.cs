@@ -34,18 +34,23 @@ namespace UniEyeController.Core.Process.Blink
         /// <summary>
         /// 強制的に目を開けた状態に戻す
         /// </summary>
-        public void ForceReset()
+        public void ForceOpenEyes()
         {
             SetBlink(0);
         }
-        
+
+        public void ForceResetState()
+        {
+            _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
+            _eyeBlinkState = EyeBlinkState.Idle;
+        }
+
         protected override void ProgressInternal(double time)
         {
             // 初回のまばたきまでの時間がランダムになるように
             if (_eyeBlinkState == EyeBlinkState.NotInitialized)
             {
-                _eyeTime = Random.Range(setting.eyeBlinkStopTimeMin, setting.eyeBlinkStopTimeMax);
-                _eyeBlinkState = EyeBlinkState.Idle;
+                ForceResetState();
             }
             
             var deltaTime = (float) (time - _prevTime);
@@ -57,6 +62,7 @@ namespace UniEyeController.Core.Process.Blink
 
             if (status.blinkOffFromOutside)
             {
+                ForceResetState();
                 return;
             }
             
