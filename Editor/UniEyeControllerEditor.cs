@@ -112,21 +112,30 @@ namespace UniEyeController.Editor
                                 _errorMessages.Add("Animatorが設定されていません");
                             }
 
-                            if (animator != null && !animator.isHuman)
+                            if (animator != null)
                             {
-                                _errorMessages.Add("AnimatorがHumanoidではありません");
-                                if (GUILayout.Button("Genericに切り替える"))
+                                if (animator.isHuman)
                                 {
-                                    _assignMethod.enumValueIndex = (int)EyeAssignMethod.Generic;
+                                    // AnimatorがHumanoidのときに、Genericに変わったとき用の目のボーンをキャッシュしておく
+                                    if (
+                                        _manualEyeL.objectReferenceValue == null ||
+                                        _manualEyeR.objectReferenceValue == null
+                                    )
+                                    {
+                                        script.AutoSetEyeBonesFromAnimator();
+                                    }
+                                    
+                                    EditorGUILayout.HelpBox("全てのmuscleが0の状態を基準として目の初期状態を設定します。", MessageType.Info);
+                                }
+                                else
+                                {
+                                    _errorMessages.Add("AnimatorがHumanoidではありません");
+                                    if (GUILayout.Button("Genericに切り替える"))
+                                    {
+                                        _assignMethod.enumValueIndex = (int)EyeAssignMethod.Generic;
+                                    }
                                 }
                             }
-
-                            if (_manualEyeL.objectReferenceValue == null || _manualEyeR.objectReferenceValue == null)
-                            {
-                                script.AutoSetEyeBonesFromAnimator();
-                            }
-
-                            EditorGUILayout.HelpBox("全てのmuscleが0の状態を基準として目の初期状態を設定します。", MessageType.Info);
 
                             break;
                         case EyeAssignMethod.Generic:
