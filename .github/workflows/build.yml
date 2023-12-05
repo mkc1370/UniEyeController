@@ -14,7 +14,6 @@ jobs:
         targetPlatform:
           - StandaloneWindows
           - StandaloneWindows64
-          - Android
     steps:
       - uses: actions/checkout@v3
         with:
