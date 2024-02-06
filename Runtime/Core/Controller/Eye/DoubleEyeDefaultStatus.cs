@@ -26,6 +26,12 @@ namespace UniEyeController.Core.Controller.Eye
                 Debug.LogError("AnimatorがHumanoidではありません");
                 return null;
             }
+            
+            if(!animator.GetBoneTransform(HumanBodyBones.LeftEye) || !animator.GetBoneTransform(HumanBodyBones.RightEye))
+            {
+                Debug.LogError("Animatorに目のボーンが設定されていません");
+                return null;
+            }
 
             var clonedParent = CreateTransformTreeClone(animator.transform);
             var clonedAnimator = clonedParent.gameObject.AddComponent<Animator>();
